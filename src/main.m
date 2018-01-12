@@ -1,3 +1,4 @@
+% addpath('src');
 %what to plot
 BASIC = false;
 FIR = false;
