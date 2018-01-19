@@ -4,7 +4,17 @@ function y=nrmse(tarV,preV)
 % INPUTS
 %  tarV: Vector of correct values
 %  preV: Vector of predicted values
-mx = mean(tarV);
-vartar = sum((tarV - mx).^2);
-varpre = sum((tarV - preV).^2);
-y = sqrt(varpre / vartar);
+% mx = mean(tarV);
+% vartar = sum((tarV - mx).^2);
+% varpre = sum((tarV - preV).^2);
+% y = sqrt(varpre / vartar);
+yV = preV
+xV = tarV
+
+xmean = mean(xV);
+N = length(tarV)
+a = sum((xV - yV) .* (xV-yV));
+b = sum((xV - xmean) .* (xV - xmean));
+y = sqrt(a)/sqrt(b);
+end
+
