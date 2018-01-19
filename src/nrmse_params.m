@@ -15,9 +15,13 @@ end
 % size(F)
 res = nrmse(tarV(startI:end), F');
 if(plotting)
-    figure;
+    f = figure;
     plot(F);
     hold on;
     plot(tarV(startI:end));
+    s = 'prediction_vs_truth_for_%d_order';
+    title(s);
+    saveas(f, sprintf('assets/%s.%s',s,'png'));
 end
+
 end

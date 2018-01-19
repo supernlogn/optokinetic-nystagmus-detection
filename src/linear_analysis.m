@@ -52,20 +52,25 @@ function linear_analyse(yV, name, MAX_ORDER, POLORDER, EXTREMA_PLOT, EXTREMA_SER
       % for j = 1: 1: 10
         % mod = estimate(arima(i, 0, j), AMA);
         model = ar(yV, i);
-        NRMSE(i) = nrmse_params(model, yV, i, 2 * MAX_ORDER + 1, true);
+        NRMSE(i) = nrmse_params(model, yV, i, 2 * MAX_ORDER + 1, false);
 
         A(i,1) = aic(mod);
     % end        
   end
   
-  figure;
+  f = figure;
   plot(NRMSE);
   grid on;
-  title(sprintf('NRMSE of %s',  name))
-  figure;
+  s = sprintf('NRMSE of %s',  name)
+  title(s);
+  saveas(f, sprintf('assets/%s.%s',s,'png'));
+  
+  f = figure;
   plot(A);
   grid on;
-  title(sprintf('Akike criterion of %s',  name))
+  s = sprintf('Akaike criterion of %s',  name)
+  title(s);
+  saveas(f, sprintf('assets/%s.%s',s,'png'));
 end
 
 end

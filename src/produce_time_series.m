@@ -5,6 +5,7 @@ function [AMA, AMI, AMD, TMA, TMI, TBP]=produce_time_series(X1, Ts, filterorder,
   % 10 is much more promising...
   b = ones(1,filterorder)/filterorder;
   xV = filtfilt(b,1,X1);
+  T = [1:length(X1)];
   if(FIR)
     hold on;
     plot(T, xV);

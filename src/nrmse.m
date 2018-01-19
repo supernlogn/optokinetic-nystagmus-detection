@@ -8,8 +8,8 @@ function y=nrmse(tarV,preV)
 % vartar = sum((tarV - mx).^2);
 % varpre = sum((tarV - preV).^2);
 % y = sqrt(varpre / vartar);
-yV = preV
-xV = tarV
+yV = preV;
+xV = tarV;
 
 xmean = mean(xV);
 N = length(tarV)
