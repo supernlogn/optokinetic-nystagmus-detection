@@ -61,11 +61,11 @@ function linear_analyse(yV, name, MAX_ORDER, POLORDER, EXTREMA_PLOT, EXTREMA_SER
   figure;
   plot(NRMSE);
   grid on;
-
+  title(sprintf('NRMSE of %s',  name))
   figure;
   plot(A);
   grid on;
-
+  title(sprintf('Akike criterion of %s',  name))
 end
 
 end
