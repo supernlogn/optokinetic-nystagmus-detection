@@ -49,9 +49,10 @@ function [AMA, AMI, AMD, TMA, TMI, TBP]=produce_time_series(X1, Ts, filterorder,
     extrema_series_plot(1,3,1, AMA, 'AMA');
     extrema_series_plot(1,3,2, AMI, 'AMI');
     extrema_series_plot(1,3,3, AMD, 'AMD');
-    extrema_series_plot(1,3,4, TMA, 'TMA');
-    extrema_series_plot(1,3,5, TMI, 'TMI');
-    extrema_series_plot(1,3,6, TBP, 'TBP');
+    f = figure();
+    extrema_series_plot(1,3,1, TMA, 'TMA');
+    extrema_series_plot(1,3,2, TMI, 'TMI');
+    extrema_series_plot(1,3,3, TBP, 'TBP');
   end
 
 end

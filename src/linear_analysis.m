@@ -1,4 +1,4 @@
-function linear_analyse(yV, name, MAX_ORDER, POLORDER, EXTREMA_PLOT, EXTREMA_SERIES_PLOT, REMOVES_TREND, AUTOCORR_PLOT, AKAIKE)
+function linear_analyse(yV, name, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, EXTREMA_PLOT, EXTREMA_SERIES_PLOT, REMOVES_TREND, REMOVES_TREND_PLOT, AUTOCORR_PLOT, AKAIKE)
 
   % trend test
   if(REMOVES_TREND)
@@ -43,34 +43,85 @@ function linear_analyse(yV, name, MAX_ORDER, POLORDER, EXTREMA_PLOT, EXTREMA_SER
     portmanteauLB(yV, 20, 0.05, name);
   end
 
-
-  
-  NRMSE = zeros(MAX_ORDER,1);
   if (AKAIKE)
-    A = zeros(MAX_ORDER,1);
-    for i = 1: 1: MAX_ORDER
-      % for j = 1: 1: 10
-        % mod = estimate(arima(i, 0, j), AMA);
-        model = ar(yV, i);
-        NRMSE(i) = nrmse_params(model, yV, i, 2 * MAX_ORDER + 1, false);
+    if(MAX_ORDER_AR ~= 0) % AR process
+      NRMSE = zeros(MAX_ORDER_AR,1);
+      A = zeros(MAX_ORDER_AR,1);
+      for i = 1: 1: MAX_ORDER_AR
+        % for j = 1: 1: 10
+          % mod = estimate(arima(i, 0, j), AMA);
+          [NRMSE(i), ~, ~, ~, A(i), ~, ~] = fitARMA(yV, i, 0, 1);
+      end        
+      f = figure;
+      plot(NRMSE);
+      grid on;
+      s = sprintf('NRMSE of %s for AR process',  name)
+      title(s);
+      saveas(f, sprintf('assets/%s.%s',s,'png'));
+      
+      f = figure;
+      plot(A);
+      grid on;
+      s = sprintf('Akaike criterion of %s for AR process',  name)
+      title(s);
+      saveas(f, sprintf('assets/%s.%s',s,'png'));
+    end
+    if(MAX_ORDER_MA ~= 0) % MA process
+      NRMSE = zeros(1, MAX_ORDER_MA);
+      A = zeros(1, MAX_ORDER_MA);
+      for j = 1: 1: MAX_ORDER_MA
+          [NRMSE(j), ~, ~, ~, A(j), ~, ~] = fitARMA(yV, 0, j, 1);
+      end
+      f = figure;
+      plot(NRMSE);
+      grid on;
+      s = sprintf('NRMSE of %s for MA process',  name)
+      title(s);
+      saveas(f, sprintf('assets/%s.%s',s,'png'));
+      
+      f = figure;
+      plot(A);
+      grid on;
+      s = sprintf('Akaike criterion of %s for MA process',  name)
+      title(s);
+      saveas(f, sprintf('assets/%s.%s',s,'png'));
+    end
+    if(MAX_ORDER_AR ~=0 && MAX_ORDER_MA ~= 0)
+      NRMSE = zeros(MAX_ORDER_AR, MAX_ORDER_MA);
+      A = zeros(MAX_ORDER_AR, MAX_ORDER_MA);
+      for i = 1: 1 : MAX_ORDER_AR
+        for j = 1: 1 : MAX_ORDER_MA
+          [NRMSE(i,j), ~, ~, ~, A(i,j), ~, ~] = fitARMA(yV, i, j, 1);        
+        end
+      end
+      % plot nrmse for arma
+      f = figure;
+      grid on;
+      hold on;
+      set(gca,'xtick',1:MAX_ORDER_AR);
+      xlabel('order p');
+      for j = 1: 1 : MAX_ORDER_MA
+        plot([1:MAX_ORDER_AR], NRMSE(:,j), 'DisplayName', sprintf('(p,q) =(*,%d)', j));
+      end
+      legend('show');
+      s = sprintf('NRMSE of %s for ARMA process',  name)
+      title(s);
+      saveas(f, sprintf('assets/%s.%s',s,'png'));
+      % plot aic for arma
+      f = figure;
+      grid on;
+      hold on;
+      set(gca,'xtick',1:MAX_ORDER_AR);
+      xlabel('order p');      
+      for j = 1: 1 : MAX_ORDER_MA
+        plot([1:MAX_ORDER_AR], A(:,j), 'DisplayName', sprintf('(p,q) = (*,%d)', j));
+      end
+      legend('show');
+      s = sprintf('Akaike criterion of %s for ARMA process',  name)
+      title(s);
+      saveas(f, sprintf('assets/%s.%s',s,'png'));
+    end
 
-        A(i,1) = aic(mod);
-    % end        
   end
-  
-  f = figure;
-  plot(NRMSE);
-  grid on;
-  s = sprintf('NRMSE of %s',  name)
-  title(s);
-  saveas(f, sprintf('assets/%s.%s',s,'png'));
-  
-  f = figure;
-  plot(A);
-  grid on;
-  s = sprintf('Akaike criterion of %s',  name)
-  title(s);
-  saveas(f, sprintf('assets/%s.%s',s,'png'));
-end
 
 end
