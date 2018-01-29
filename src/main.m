@@ -17,6 +17,7 @@ AKAIKE                          = true;
 SCATTER_DIAGRAMS_PLOT           = false;
 FIND_BEST_TAU                   = false;
 CALCULATE_CORRELATION_DIMENSION = true;
+PLOT_CORR_DIM                   = false;
 TRAIN_LOCAL_MODEL               = true;
 %%%%%%%%%%%%%%%% Input time Series & globals %%%%%%%%%%%%%%%%
 LENGTH                          = 6000;

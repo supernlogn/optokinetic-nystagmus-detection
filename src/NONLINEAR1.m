@@ -40,7 +40,7 @@ best_m = 3; % because when 4th and 5th dimension entered it causes catastrophy
 % calculate correlation dimension
 if(CALCULATE_CORRELATION_DIMENSION)
     mmax = 7;
-    cor_dim = corr_dim(xV, mmax, tau);
+    cor_dim = corr_dim(xV, mmax, tau, PLOT_CORR_DIM);
 end
 best_v = 3; % It could also be 2
 
