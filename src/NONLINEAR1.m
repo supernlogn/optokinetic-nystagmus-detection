@@ -48,6 +48,8 @@ best_v = 3; % It could also be 2
 % train a local model
 if(TRAIN_LOCAL_MODEL)
     k = best_v; % stands for k in k-nn
-    [nrmseV,f] = localpredictnrmse(xV, TEST_SET_LENGTH, tau, best_m, 10, best_v, q=1,'local-model-fit_1');
+    q = 1;
+    Tmax = 10;
+    [nrmseV,f] = localpredictnrmse(xV, TEST_SET_LENGTH, tau, best_m, Tmax, best_v, 1,'local-model-fit_1');
     saveas(f, sprintf('local_model_fit_%s.png', TS_NUM));
 end
