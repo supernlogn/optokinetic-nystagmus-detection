@@ -34,6 +34,9 @@ if(SCATTER_DIAGRAMS_PLOT)
     f = plotd2d3([xM(:,1) xM(:,4) xM(:,5)], sprintf('scatter-diagrams (tau=%d, m=%d) for %s time series', tau, m, TS_NUM));
     saveas(f, 'assets/scatter_with_tau_xM_1_4_5.png');    
 end
+if(FALSE_NEAREST_CALC_PLOT)
+    % [fnnM,mdistV,sddistV] = falsenearest(xV, tau, m_max);
+end
 
 best_m = 3; % because when 4th and 5th dimension entered it causes catastrophy
 
@@ -50,6 +53,6 @@ if(TRAIN_LOCAL_MODEL)
     k = best_v; % stands for k in k-nn
     q = 1;
     Tmax = 10;
-    [nrmseV,f] = localpredictnrmse(xV, TEST_SET_LENGTH, tau, best_m, Tmax, best_v, 1,'local-model-fit_1');
-    saveas(f, sprintf('local_model_fit_%s.png', TS_NUM));
+    [nrmseV,~,f] = localpredictnrmse(xV, TEST_SET_LENGTH, tau, best_m, Tmax, best_v, 1,'local-model-fit_1');
+    saveas(f, sprintf('assets/local_model_fit_%s.png', TS_NUM));
 end

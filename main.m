@@ -1,4 +1,7 @@
-% addpath('src');
+addpath('src');
+addpath('kdtree');
+addpath('kdtree/src');
+addpath('kdtree/lib');
 system('rm assets/*');
 clear all;
 close all;
@@ -15,8 +18,9 @@ AKAIKE                          = true;
 
 
 SCATTER_DIAGRAMS_PLOT           = false;
+FALSE_NEAREST_CALC_PLOT         = true;
 FIND_BEST_TAU                   = false;
-CALCULATE_CORRELATION_DIMENSION = true;
+CALCULATE_CORRELATION_DIMENSION = false;
 PLOT_CORR_DIM                   = false;
 TRAIN_LOCAL_MODEL               = true;
 %%%%%%%%%%%%%%%% Input time Series & globals %%%%%%%%%%%%%%%%

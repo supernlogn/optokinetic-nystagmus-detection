@@ -1,4 +1,4 @@
-function [nrmseV,preM] = localpredictnrmse(xV,nlast,tau,m,Tmax,nnei,q,tittxt)
+function [nrmseV,preM,f] = localpredictnrmse(xV,nlast,tau,m,Tmax,nnei,q,tittxt)
 % [nrmseV,preM] = localpredictnrmse(xV,nlast,tau,m,Tmax,nnei,q,tittxt)
 % LOCALPREDICTNRMSE makes iterative predictions with a local model of zeroth order 
 % (average mapping or nearest neighbor mappings if only one neighbor is chosen) 
@@ -104,17 +104,18 @@ nrmseV = NaN*ones(Tmax,1);
 for T=1:Tmax
     nrmseV(T) = nrmse(xV(preM(:,1)+T),preM(:,T+1));
 end
+f = [];
 if ~isempty(tittxt)
 	figno = gcf;
-	figure(figno)
+	f = figure(figno);
 	clf
-	plot([1:Tmax]',nrmseV,'k')
-	hold on
-	plot([1:Tmax]',nrmseV,'k.','markersize',sizeofmark)
-	plot([1 Tmax],[1 1],'y')
-	xlabel('prediction time T')
-	ylabel('NRMSE(T)')
+	plot([1:Tmax]',nrmseV,'k');
+	hold on;
+	plot([1:Tmax]',nrmseV,'k.','markersize',sizeofmark);
+	plot([1 Tmax],[1 1],'y');
+	xlabel('prediction time T');
+	ylabel('NRMSE(T)');
 	title([tittxt,' NRMSE(T), prediction LP(m=',int2str(m),...
             ' K=',int2str(nnei),' q=',int2str(q),'), n=',int2str(n),...
-            ' nlast=',int2str(nlast)])
+            ' nlast=',int2str(nlast)]);
 end
