@@ -18,10 +18,11 @@ AKAIKE                          = true;
 
 
 SCATTER_DIAGRAMS_PLOT           = false;
+DBSCAN_CLUSTERING               = false;
 FALSE_NEAREST_CALC_PLOT         = true;
-FIND_BEST_TAU                   = false;
-CALCULATE_CORRELATION_DIMENSION = false;
-PLOT_CORR_DIM                   = false;
+FIND_BEST_TAU                   = true;
+CALCULATE_CORRELATION_DIMENSION = true;
+PLOT_CORR_DIM                   = true;
 TRAIN_LOCAL_MODEL               = true;
 %%%%%%%%%%%%%%%% Input time Series & globals %%%%%%%%%%%%%%%%
 LENGTH                          = 6000;
@@ -42,7 +43,7 @@ T = [1:LENGTH];
 
 %%%%%%%%%%%%%%%% Time Series 1 %%%%%%%%%%%%%%%%
 % LINEAR1
-NONLINEAR1
+% NONLINEAR1
 %%%%%%%%%%%%%%%% Time Series 2 %%%%%%%%%%%%%%%%
 % LINEAR2
-% NONLINEAR2
+NONLINEAR2

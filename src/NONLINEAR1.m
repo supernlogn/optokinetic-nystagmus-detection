@@ -15,13 +15,22 @@ end
 % Noise is the same for every plot, so it is not corelated with the input time series
 % it is white noise because n --> +infty => Normalized distribution of noise.
 % Its deviation is the same through the sample time.
+if(DBSCAN_CLUSTERING)
+    epsilon=0.5;
+    MinPts=10;
+    IDX=DBSCAN(xM,epsilon,MinPts);
 
+    %% Plot Results
+    PlotClusterinResult(xM, IDX);
+    title(['DBSCAN Clustering (\epsilon = ' num2str(epsilon) ', MinPts = ' num2str(MinPts) ')']);
+end
 
 % find best tau by using mutual information criterion
 best_tau = 10;
 if(FIND_BEST_TAU)
   tmax = 100;
-  mutM = mutualinformation(xV, tmax);
+  [mutM,f] = mutualinformation(xV, tmax);
+  saveas(f, sprintf('assets/mutualinformation_%s.png', TS_NUM));
   best_tau = 10; % there is no local minimum so we choose a
                  % bending point
 end
@@ -29,30 +38,34 @@ tau = best_tau;
 
 xM = embedDelays(xV, m_max, tau);
 if(SCATTER_DIAGRAMS_PLOT)
-  f = plotd2d3(xM(:,1:3), sprintf('scatter-diagrams (tau=%d, m=%d) for %s time series', tau, m, TS_NUM));
+  m = 0;
+  f = plotd2d3(xM(:,1:3), sprintf('scatter-diagrams (tau=%d) for %s time series', tau, TS_NUM));
   saveas(f, 'assets/scatter_with_tau_xM_1-3.png');
-  f = plotd2d3([xM(:,1) xM(:,4) xM(:,5)], sprintf('scatter-diagrams (tau=%d, m=%d) for %s time series', tau, m, TS_NUM));
-  saveas(f, 'assets/scatter_with_tau_xM_1_4_5.png');    
+  % f = plotd2d3([xM(:,1) xM(:,4) xM(:,5)], sprintf('scatter-diagrams (tau=%d) for %s time series', tau, TS_NUM));
+  % saveas(f, 'assets/scatter_with_tau_xM_1_4_5.png');    
 end
 if(FALSE_NEAREST_CALC_PLOT)
-  [fnnM,mdistV,sddistV] = falsenearest(xV, tau, m_max);
+  [fnnM,mdistV,sddistV,f] = falsenearest(xV, tau, m_max);
+  saveas(f, sprintf('false_neares_calc_plot_%s.png', TS_NUM));
 end
+
+
 
 best_m = 3; % because when 4th and 5th dimension entered it causes catastrophy
 
 % calculate correlation dimension
 if(CALCULATE_CORRELATION_DIMENSION)
   mmax = 7;
-  cor_dim = corr_dim(xV, mmax, tau, PLOT_CORR_DIM);
+  [cor_dim,~,f] = corr_dim(xV, mmax, tau, PLOT_CORR_DIM);
+  saveas(f, sprintf('assets/cor_dim_plot_%s.png', TS_NUM));
 end
-best_v = 3; % It could also be 2
 
 
 % train a local model
 if(TRAIN_LOCAL_MODEL)
-  k = best_v; % stands for k in k-nn
+  k = 3; % stands for k in k-nn
   q = 1;
   Tmax = 10;
-  [nrmseV,~,f] = localpredictnrmse(xV, TEST_SET_LENGTH, tau, best_m, Tmax, best_v, 1,'local-model-fit_1');
+  [nrmseV,~,f] = localpredictnrmse(xV, TEST_SET_LENGTH, tau, best_m, Tmax, k, 1,'local-model-fit_1');
   saveas(f, sprintf('assets/local_model_fit_%s.png', TS_NUM));
 end

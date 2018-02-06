@@ -1,4 +1,4 @@
-function [v,R] = corr_dim(xV, mmax, tau, plot_enabled)
+function [v,R, fg] = corr_dim(xV, mmax, tau, plot_enabled)
 % finds the correlation dimension given an array of data, for various embedded dimensions <= mmax 
 % with delay time tau
 % INPUTS:
@@ -9,7 +9,7 @@ function [v,R] = corr_dim(xV, mmax, tau, plot_enabled)
 % OUTPUTS:
 %  v           : a [m x length(V) -(mmax-1)*tau -1 ] matrix with correlation dimension for different m and r
 %  R           : the array of distances from  0.00001 to 100
-% 
+%  fg          : a figure of the correlation dimension plot
   init_r = 0.00001;
   step_r = 1.1;
   end_r = 100;
@@ -20,8 +20,9 @@ function [v,R] = corr_dim(xV, mmax, tau, plot_enabled)
       X(:,i+1) = xV(i*tau+1:L+i*tau);
   end
   v = [];
+  fg = [];
   if(plot_enabled)
-    f = figure();
+    fg = figure();
     hold on;
   end
   for m=1:1:mmax
@@ -48,10 +49,9 @@ function [v,R] = corr_dim(xV, mmax, tau, plot_enabled)
 
   if(plot_enabled)
     xlabel('log(r)');
-    ylabel('$v=\\frac{dlog(C(r))}{dlog(r)}$');
+    ylabel('v=\\frac{dlog(C(r))}{dlog(r)}');
     title('correlation dimension');
     legend('show');
-    saveas(f, 'assets/corr_plot.png');
   end
 end
 

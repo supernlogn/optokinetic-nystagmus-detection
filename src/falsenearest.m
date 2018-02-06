@@ -1,4 +1,4 @@
-function [fnnM,mdistV,sddistV] = falsenearest(xV,tau,mmax,escape,theiler,tittxt)
+function [fnnM,mdistV,sddistV,fg] = falsenearest(xV,tau,mmax,escape,theiler,tittxt)
 % [fnnM,mdistV,sddistsV] = falsenearest(xV,tau,mmax,escape,theiler,tittxt)
 % FNN computes the percentage of false nearest neighbors for a range of
 % embedding dimensions starting from 1 to 'mmax' embedding dimensions.
@@ -149,15 +149,16 @@ while m<=mmax & nextm
     kdtreeidx([],[],TreeRoot); % Free the pointer to k-d-tree
 end
 fnnM = [[1:mmax];fnncountV']';
+fg = [];
 if ~isempty(tittxt)
 	figno = gcf;
-	figure(figno)
+	fg = figure(figno);
 	clf
-	plot([1:mmax]',fnncountV,'.-k')
-    hold on
-	plot([1 mmax],thresh*[1 1],'c--')
-	xlabel('m')
-	ylabel('FNN(m)')
+	plot([1:mmax]',fnncountV,'.-k');
+    hold on;
+	plot([1 mmax],thresh*[1 1],'c--');
+	xlabel('m');
+	ylabel('FNN(m)');
 	title([tittxt,' FNN (\tau=',int2str(tau),' w=',int2str(theiler),...
         ' f=',int2str(escape),'), n=',int2str(n)])
 end

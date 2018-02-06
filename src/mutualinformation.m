@@ -1,4 +1,4 @@
-function [mutM] = mutualinformation(xV, tmax, partitions, tittxt, type)
+function [mutM, fg] = mutualinformation(xV, tmax, partitions, tittxt, type)
 % [mutM] = mutualinformation(xV, tmax, partitions, tittxt, type)
 % MUTUALINFORMATION computes and plots the mutual information of a
 % a time series
@@ -73,19 +73,19 @@ for tau=0:tmax
   mutM(tau+1,2) = mutS;
 end
 
-figure(gcf)
+fg = figure(gcf);
 clf
 if type == 'd'
-    plot(mutM(:,1),mutM(:,2),'.')
+    plot(mutM(:,1),mutM(:,2),'.');
 elseif type == 'c'
-    plot(mutM(:,1),mutM(:,2))
+    plot(mutM(:,1),mutM(:,2));
 else
-    plot(mutM(:,1),mutM(:,2))
-    hold on
-    plot(mutM(:,1),mutM(:,2),'.','markersize',sizeofmark)
+    plot(mutM(:,1),mutM(:,2));
+    hold on;
+    plot(mutM(:,1),mutM(:,2),'.','markersize',sizeofmark);
 end
-xlabel('lag \tau')
-ylabel('I(\tau)')
-title([tittxt,' Mutual Information'])
+xlabel('lag \tau');
+ylabel('I(\tau)');
+title([tittxt,' Mutual Information']);
 
     
