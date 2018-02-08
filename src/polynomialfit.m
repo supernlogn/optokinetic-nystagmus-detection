@@ -1,4 +1,4 @@
-function muV = polynomialfit(xV,polorder) 
+function [muV, bV] = polynomialfit(xV,polorder) 
 % muV = polynomialfit(xV,polorder)
 % POLYNOMIALFIT makes a fit to a given time series with a polynomial of a
 % given order. 

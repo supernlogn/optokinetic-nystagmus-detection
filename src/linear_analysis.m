@@ -1,10 +1,11 @@
-function linear_analyse(yV, name, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, EXTREMA_PLOT, EXTREMA_SERIES_PLOT, REMOVES_TREND, REMOVES_TREND_PLOT, AUTOCORR_PLOT, AKAIKE)
+function linear_analyse(yV, name, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, EXTREMA_PLOT, EXTREMA_SERIES_PLOT, REMOVES_TREND, REMOVES_TREND_PLOT, AUTOCORR_PLOT, AKAIKE, DST_NUM)
 
   % trend test
   if(REMOVES_TREND)
     % polynomial fit
     
-    muyV = polynomialfit(yV, POLORDER);
+    [muyV, bV] = polynomialfit(yV, POLORDER);
+    save(sprintf('assets/polcoeff_%s.txt', DST_NUM), 'bV', '-ascii');
     yV_detr = yV - muyV;
     if(REMOVES_TREND_PLOT)
       f = figure();
@@ -39,8 +40,8 @@ function linear_analyse(yV, name, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, EXTREMA_
   end
   % autocorrelation & partial autocorrelation fn & Ljung-Box Portmanteau
   if(AUTOCORR_PLOT)
-    autrocor_plot(yV, name);
-    portmanteauLB(yV, 20, 0.05, name);
+    autrocor_plot(yV, MAX_ORDER_AR, name);
+    portmanteauLB(yV, MAX_ORDER_AR, 0.05, name);
   end
 
   if (AKAIKE)
@@ -62,55 +63,68 @@ function linear_analyse(yV, name, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, EXTREMA_
 end
 
 function ar_estimate(yV, name, T, MAX_ORDER_AR)
+  nlast = ceil(0.9 * length(yV));
   NRMSE = zeros(MAX_ORDER_AR,1);
   A = zeros(MAX_ORDER_AR,1);
   for i = 1: 1: MAX_ORDER_AR
-    [n, ~, ~, ~, A(i), ~, ~] = fitARMA(yV, i, 0, T);
+    [n, ~, ~, ~, A(i), ~, ~] = fitARMA(yV(1:nlast), i, 0, T);
     NRMSE(i) = n(end);
   end
   f = figure;
   plot(NRMSE);
   grid on;
-  s = sprintf('NRMSE of %s for AR process T=%d',  name, T);
+  s = sprintf('NRMSE of %s for AR process',  name);
   title(s);
-  saveas(f, sprintf('assets/%s.%s',s,'png'));
-  
+  saveas(f, sprintf('assets/AR_NRMSE_%s.%s', name, 'png'));
+
   f = figure;
   plot(A);
   grid on;
-  s = sprintf('Akaike criterion of %s for AR process T=%d',  name, T);
+  s = sprintf('Akaike criterion of %s for AR process',  name);
   title(s);
-  saveas(f, sprintf('assets/%s.%s',s,'png'));
+  saveas(f, sprintf('assets/AR_AIC_%s.%s', name, 'png'));
+  % for best MA plot nrmse prediction error for T=1, T=2
+  [m best_p] = min(A(1:15));
+  best_p = best_p(1)
+  f = predictARMAnrmse(yV, best_p, 0, 2, nlast, 'prediction error for best AR');
+  saveas(f, sprintf('assets/AR_best_pred_%s.%s', name, 'png'));
 end
 
 function ma_estimate(yV, name, T, MAX_ORDER_MA)
+  nlast = ceil(0.9 * length(yV));
   NRMSE = zeros(1, MAX_ORDER_MA);
   A = zeros(1, MAX_ORDER_MA);
   for j = 1: 1: MAX_ORDER_MA
-    [n, ~, ~, ~, A(j), ~, ~] = fitARMA(yV, 0, j, T);
+    [n, ~, ~, ~, A(j), ~, ~] = fitARMA(yV(1:nlast), 0, j, T);
     NRMSE(j) = n(end);
   end
   f = figure;
   plot(NRMSE);
   grid on;
-  s = sprintf('NRMSE of %s for MA process T=%d', name, T);
+  s = sprintf('NRMSE of %s for MA process', name);
   title(s);
-  saveas(f, sprintf('assets/%s.%s',s,'png'));
+  saveas(f, sprintf('assets/MA_NRMSE_%s.%s', name, 'png'));
   
   f = figure;
   plot(A);
   grid on;
-  s = sprintf('Akaike criterion of %s for MA process T=%d', name, T);
+  s = sprintf('Akaike criterion of %s for MA process', name);
   title(s);
-  saveas(f, sprintf('assets/%s.%s',s,'png'));
+  saveas(f, sprintf('assets/MA_AIC_%s.%s', name, 'png'));
+  % for best MA plot nrmse prediction error for T=1, T=2
+  [m best_q] = min(A(:));
+  best_q = best_q(1)
+  f = predictARMAnrmse(yV, 0, best_q, 2, nlast, 'prediction error for best MA');
+  saveas(f, sprintf('assets/MA_best_pred_%s.%s', name, 'png'));
 end
 
 function arma_estimate(yV, name, T, MAX_ORDER_AR, MAX_ORDER_MA)
+  nlast = ceil(0.9 * length(yV));
   NRMSE = zeros(MAX_ORDER_AR, MAX_ORDER_MA);
   A = zeros(MAX_ORDER_AR, MAX_ORDER_MA);
   for i = 1: 1 : MAX_ORDER_AR
     for j = 1: 1 : MAX_ORDER_MA
-      [n, ~, ~, ~, A(i,j), ~, ~] = fitARMA(yV, i, j, T);
+      [n, ~, ~, ~, A(i,j), ~, ~] = fitARMA(yV(1:nlast), i, j, T);
       NRMSE(i,j) = n(end);
     end
   end
@@ -124,9 +138,9 @@ function arma_estimate(yV, name, T, MAX_ORDER_AR, MAX_ORDER_MA)
     plot([1:MAX_ORDER_AR], NRMSE(:,j), 'DisplayName', sprintf('(p,q) =(*,%d)', j));
   end
   legend('show');
-  s = sprintf('NRMSE of %s for ARMA process T=%d', name, T);
+  s = sprintf('NRMSE of %s for ARMA process', name);
   title(s);
-  saveas(f, sprintf('assets/%s.%s',s,'png'));
+  saveas(f, sprintf('assets/ARMA_NRMSE_%s.%s', name, 'png'));
   % plot aic for arma
   f = figure;
   grid on;
@@ -137,7 +151,12 @@ function arma_estimate(yV, name, T, MAX_ORDER_AR, MAX_ORDER_MA)
     plot([1:MAX_ORDER_AR], A(:,j), 'DisplayName', sprintf('(p,q) = (*,%d)', j));
   end
   legend('show');
-  s = sprintf('Akaike criterion of %s for ARMA process T=%d', name, T);
+  s = sprintf('Akaike criterion of %s for ARMA process', name);
   title(s);
-  saveas(f, sprintf('assets/%s.%s',s,'png'));
+  saveas(f, sprintf('assets/ARMA_AIC_%s.%s', name, 'png'));
+  % for best ARMA plot nrmse prediction error for T=1, T=2
+  [m n] = min(A(1:16,:));
+  [best_p best_q] = ind2sub(size(A), n(1))
+  f = predictARMAnrmse(yV, best_p, best_q, 2, nlast, 'prediction error for best ARMA');
+  saveas(f, sprintf('assets/ARMA_best_pred_%s.%s', name, 'png'));
 end

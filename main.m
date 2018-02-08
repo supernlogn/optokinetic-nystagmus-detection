@@ -7,7 +7,7 @@ clear all;
 close all;
 
 %%%%%%%%%%%%%%%% FLAGS %%%%%%%%%%%%%%%%
-BASIC                           = true;
+BASIC_PLOT                      = true;
 FIR                             = true;
 EXTREMA_PLOT                    = true;
 EXTREMA_SERIES_PLOT             = true;
@@ -42,8 +42,13 @@ T = [1:LENGTH];
 
 
 %%%%%%%%%%%%%%%% Time Series 1 %%%%%%%%%%%%%%%%
-% LINEAR1
+LINEAR1
 % NONLINEAR1
 %%%%%%%%%%%%%%%% Time Series 2 %%%%%%%%%%%%%%%%
 % LINEAR2
-NONLINEAR2
+% NONLINEAR2
+
+
+%%%%%%%%%%%%%%%% auto crop all images %%%%%%%%%
+% requires image magic
+!mogrify -trim +repage assets/*.png

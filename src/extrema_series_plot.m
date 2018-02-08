@@ -3,4 +3,6 @@ function extrema_series_plot(ver_max_idx, hor_max_idx, idx, yV, name)
     plot(1:length(yV), yV);
     grid on;
     title(name);
+    xlabel('time-step');
+    ylabel(name);
 end
