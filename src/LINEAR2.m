@@ -17,8 +17,8 @@ end
 filterorder = 5;
 % we tested 30, 20, 10, 5
 % 5 is much more promising...
-nsam = 20;
-timesep = 13;
+nsam = 5;
+timesep = 5;
 % get EXTREMA SERIES 
 [AMA, AMI, AMD, TMA, TMI, TBP] = produce_time_series(X2, Ts, filterorder, nsam, timesep, EXTREMA_PLOT, EXTREMA_SERIES_PLOT, FIR, DST_NUM);
 

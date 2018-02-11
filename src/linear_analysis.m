@@ -5,7 +5,7 @@ function linear_analyse(yV, name, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, EXTREMA_
     % polynomial fit
     
     [muyV, bV] = polynomialfit(yV, POLORDER);
-    save(sprintf('assets/polcoeff_%s.txt', DST_NUM), 'bV', '-ascii');
+    save(sprintf('assets/polcoeff_%s_%s.txt', name, DST_NUM), 'bV', '-ascii');
     yV_detr = yV - muyV;
     if(REMOVES_TREND_PLOT)
       f = figure();
@@ -84,7 +84,7 @@ function ar_estimate(yV, name, T, MAX_ORDER_AR)
   title(s);
   saveas(f, sprintf('assets/AR_AIC_%s.%s', name, 'png'));
   % for best MA plot nrmse prediction error for T=1, T=2
-  [m best_p] = min(A(1:15));
+  [m best_p] = min(A(1:min(length(A),15)));
   best_p = best_p(1)
   f = predictARMAnrmse(yV, best_p, 0, 2, nlast, 'prediction error for best AR');
   saveas(f, sprintf('assets/AR_best_pred_%s.%s', name, 'png'));
@@ -155,8 +155,9 @@ function arma_estimate(yV, name, T, MAX_ORDER_AR, MAX_ORDER_MA)
   title(s);
   saveas(f, sprintf('assets/ARMA_AIC_%s.%s', name, 'png'));
   % for best ARMA plot nrmse prediction error for T=1, T=2
-  [m n] = min(A(1:16,:));
-  [best_p best_q] = ind2sub(size(A), n(1))
+  B = A(1:min(16, MAX_ORDER_AR),1:min(3,MAX_ORDER_MA));
+  [m n] = min(B(:));
+  [best_p best_q] = ind2sub(size(B), n(1));
   f = predictARMAnrmse(yV, best_p, best_q, 2, nlast, 'prediction error for best ARMA');
   saveas(f, sprintf('assets/ARMA_best_pred_%s.%s', name, 'png'));
 end

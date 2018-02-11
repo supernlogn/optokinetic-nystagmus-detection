@@ -17,7 +17,7 @@ function [AMA, AMI, AMD, TMA, TMI, TBP]=produce_time_series(X1, Ts, filterorder,
   extreme_time_idx = locextM(:,1);
   extrema_values = locextM(:,2);
   minimum_or_maximum = locextM(:,3);
-    
+
   if(EXTREMA_PLOT)
     jacks = zeros(1, LENGTH);
     jacks(extreme_time_idx) = 40;
@@ -30,7 +30,8 @@ function [AMA, AMI, AMD, TMA, TMI, TBP]=produce_time_series(X1, Ts, filterorder,
   AMA = AMA(minimum_or_maximum == 1);
   AMI = X1(extreme_time_idx);
   AMI = AMI(minimum_or_maximum == -1);
-  AMD = abs(AMA - AMI);
+  s = min(length(AMI), length(AMA));
+  AMD = abs(AMA(1:s) - AMI(1:s));
 
   if(minimum_or_maximum(1) == 1) % first comes the maximum
     TMI = Ts * (extreme_time_idx(2:end) - extreme_time_idx(1:end-1));
