@@ -29,7 +29,7 @@ LENGTH                          = 6000;
 TEST_SET_LENGTH                 = 500;
 POLORDER                        = 4;
 MAX_ORDER_AR                    = 20;
-MAX_ORDER_MA                    = 5;
+MAX_ORDER_MA                    = 3;
 fs                              = 100; % Hz
 Ts                              = 1.0 / fs; % seconds
 
@@ -42,13 +42,9 @@ T = [1:LENGTH];
 
 
 %%%%%%%%%%%%%%%% Time Series 1 %%%%%%%%%%%%%%%%
-MAX_ORDER_AR                    = 20;
-MAX_ORDER_MA                    = 5;
 % LINEAR1
 % NONLINEAR1
 %%%%%%%%%%%%%%%% Time Series 2 %%%%%%%%%%%%%%%%
-% MAX_ORDER_AR                    = 10;
-% MAX_ORDER_MA                    = 3;
 LINEAR2
 % NONLINEAR2
 
