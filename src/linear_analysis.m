@@ -5,6 +5,7 @@ function linear_analyse(yV, name, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, EXTREMA_
     % polynomial fit
     
     [muyV, bV] = polynomialfit(yV, POLORDER);
+    % save coefficients to a file
     save(sprintf('assets/polcoeff_%s_%s.txt', name, DST_NUM), 'bV', '-ascii');
     yV_detr = yV - muyV;
     if(REMOVES_TREND_PLOT)
@@ -17,7 +18,9 @@ function linear_analyse(yV, name, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, EXTREMA_
       plot(1:length(yV_detr), yV_detr);
       grid on;
       title(sprintf('%s_detr', name));
+      saveas(f, sprintf('rm_trend_%s_%s.png',name, DST_NUM));
     end
+    yV_detr = yV(2:end) - yV(1:end-1);
     % first differences, log returns: FAILED
 
     % AMI_1 = AMI(2:end) - AMI(1:end-1);
@@ -40,22 +43,22 @@ function linear_analyse(yV, name, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, EXTREMA_
   end
   % autocorrelation & partial autocorrelation fn & Ljung-Box Portmanteau
   if(AUTOCORR_PLOT)
-    autrocor_plot(yV, MAX_ORDER_AR, name);
-    portmanteauLB(yV, MAX_ORDER_AR, 0.05, name);
+    autrocor_plot(yV_detr, MAX_ORDER_AR, name);
+    portmanteauLB(yV_detr, MAX_ORDER_AR, 0.05, name);
   end
 
   if (AKAIKE)
     if(MAX_ORDER_AR ~= 0) % AR process
-      ar_estimate(yV, name, 1, MAX_ORDER_AR);
-      ar_estimate(yV, name, 2, MAX_ORDER_AR);
+      ar_estimate(yV_detr, name, 1, MAX_ORDER_AR);
+      ar_estimate(yV_detr, name, 2, MAX_ORDER_AR);
     end
     if(MAX_ORDER_MA ~= 0) % MA process
-      ma_estimate(yV, name, 1, MAX_ORDER_MA);
-      ma_estimate(yV, name, 2, MAX_ORDER_MA);
+      ma_estimate(yV_detr, name, 1, MAX_ORDER_MA);
+      ma_estimate(yV_detr, name, 2, MAX_ORDER_MA);
     end
     if(MAX_ORDER_AR ~=0 && MAX_ORDER_MA ~= 0)
-      arma_estimate(yV, name, 1, MAX_ORDER_AR, MAX_ORDER_MA);
-      arma_estimate(yV, name, 2, MAX_ORDER_AR, MAX_ORDER_MA);
+      arma_estimate(yV_detr, name, 1, MAX_ORDER_AR, MAX_ORDER_MA);
+      arma_estimate(yV_detr, name, 2, MAX_ORDER_AR, MAX_ORDER_MA);
     end
 
   end
@@ -155,7 +158,7 @@ function arma_estimate(yV, name, T, MAX_ORDER_AR, MAX_ORDER_MA)
   title(s);
   saveas(f, sprintf('assets/ARMA_AIC_%s.%s', name, 'png'));
   % for best ARMA plot nrmse prediction error for T=1, T=2
-  B = A(1:min(16, MAX_ORDER_AR),1:min(3,MAX_ORDER_MA));
+  B = A(1:min(10, MAX_ORDER_AR),1:min(3,MAX_ORDER_MA));
   [m n] = min(B(:));
   [best_p best_q] = ind2sub(size(B), n(1));
   f = predictARMAnrmse(yV, best_p, best_q, 2, nlast, 'prediction error for best ARMA');

@@ -2,7 +2,7 @@ addpath('src');
 addpath('kdtree');
 addpath('kdtree/src');
 addpath('kdtree/lib');
-system('rm assets/*');
+% system('rm assets/*');
 clear all;
 close all;
 
