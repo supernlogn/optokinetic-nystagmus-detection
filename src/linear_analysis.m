@@ -87,7 +87,7 @@ function ar_estimate(yV, name, T, MAX_ORDER_AR)
   title(s);
   saveas(f, sprintf('assets/AR_AIC_%s.%s', name, 'png'));
   % for best MA plot nrmse prediction error for T=1, T=2
-  [m best_p] = min(A(1:min(length(A),15)));
+  [m best_p] = min(A(1:min(MAX_ORDER_AR,10)));
   best_p = best_p(1)
   f = predictARMAnrmse(yV, best_p, 0, 2, nlast, 'prediction error for best AR');
   saveas(f, sprintf('assets/AR_best_pred_%s.%s', name, 'png'));
