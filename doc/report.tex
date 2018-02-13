@@ -1,0 +1,1559 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[11pt,]{article}
+\usepackage[]{mathpazo}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+    \setmainfont[]{CMU Serif}
+    \setsansfont[]{CMU Sans Serif}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
+\hypersetup{
+            pdftitle={Υπολογιστική Εργασία στις Χρονοσειρές},
+            pdfauthor={Ιωάννης Αθανασιάδης 7848; Σπυρίδων Αντωνιάδης 8030},
+            pdfkeywords={pandoc, r markdown, knitr},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\newenvironment{Shaded}{}{}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+% Fix footnotes in tables (requires footnote package)
+\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\renewcommand{\abstractname}{Εισαγωγή}
+
+\title{Υπολογιστική Εργασία στις Χρονοσειρές\thanks{Υπολογιστική Εργασία στις Χρονοσειρές THMMY ΑΠΘ.}}
+\author{Ιωάννης Αθανασιάδης 7848 \and Σπυρίδων Αντωνιάδης 8030}
+\date{10/2/2018}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+Η παρούσα εργασία αφορά χρονοσειρές από την κίνηση του ματιού που
+μετρήθηκαν στο Εργαστήριο του Department of Otolaryngology/Head \& Neck
+Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείραμα
+αυτό γίνεται για τη διάγνωση ιλίγγου (έλλειψη ισορροπίας στο λαβύρινθο
+του αυτιού). Παρακάτω εξετάζονται δύο χρονοσειρές. Η κάθε χρονοσειρά
+αφορά ένα τέτοιο πείραμα για ίδια φορά και ταχύτητα αλλά για διαφορετική
+κατηγορία ατόμου (υγιής / ασθενής). Κατά το πείραμα το μάτι ακολουθεί
+ανεπαίσθητα τις λωρίδες και επανέρχεται δημιουργώντας σήμα με
+συνεχόμενους σχηματισμούς, που αποτελούνται από ανοδική αργή τάση (καθώς
+το μάτι ξεγελιέται και ακολουθεί τις λωρίδες) και απότομη πτώση (στο
+σημείο που επανέρχεται το μάτι). Η κίνηση αυτή του ματιού λέγεται
+οπτοκινητικός νυσταγμός (optokinetic nystagmus, OKN)
+\end{abstract}
+
+\hypertarget{ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-1ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}{%
+\subsection{Γραμμική ανάλυση 1ης
+χρονοσειράς}\label{ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-1ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}}
+
+Η πρώτη χρονοσειρά που μας δίνεται όπως φαίνεται από το διαγραμμά της,
+δε φαίνεται να κρύβει κάποια τάση π.χ. ανοδική. Οπότε, μάλλον ο ασθενής
+είναι υγιής (αυτό θα φανεί και αργότερα, αλλά χωρίς επαρκή ανάλυση δεν
+θα μπορούσαμε να υποστηρίξουμε κάτι τέτοιο). Επίσης, δε φαίνεται να
+είναι μόνο θόρυβος. Από αυτά εκτιμάμε ότι η χρονοσειρά εμπεριέχει
+πληροφορία για τον ασθενή. Στο Σχήμα {[}1{]} φαίνονται σε χρονική σειρά
+οι 6000 τιμές του σήματος που λάβαμε από το πρώτο πείραμα.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/basic_plot_1st.png}
+\caption{Χρονοσειρά 1}
+\end{figure}
+
+Μπορούμε να δούμε ότι από το βήμα 1000 μέχρι περίπου το βήμα 1200 το
+μάτι ξεγιελιέται αρκετά, ενώ λίγο μετά επανέρχεται. Για τις άλλες
+χρονικές στιγμές δε θα μπορούσαμε να πούμε κάτι ξεκάθαρο. Για αυτό και
+θα προχωρήσουμε στην ανάλυση του πειράματος με τα εργαλεία που έχουμε
+διδαχθεί στο μάθημα. Αρχικά θα πρέπει να παρουσιάσουμε.
+
+\hypertarget{ux3b5ux3beux3b1ux3b3ux3c9ux3b3ux3ae-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2-ux3bcux3b5ux3bbux3adux3c4ux3b7ux3c2}{%
+\subsubsection{Εξαγωγή χρονοσειράς
+μελέτης}\label{ux3b5ux3beux3b1ux3b3ux3c9ux3b3ux3ae-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2-ux3bcux3b5ux3bbux3adux3c4ux3b7ux3c2}}
+
+Με βάση τη συνάρτηση \texttt{extremes.m} που μας δόθηκε εξάγαμε όλες τις
+χρονοσειρές για τα τοπικά ακρότατα και τους χρόνους τους. Εκτός από τις
+δοκιμές για τις διάφορες παραμέτρους αυτής της συνάρτησης υλοποιήσαμε
+και δικά μας εργαλεία για να δούμε πρακτικά κατά πόσο η έξοδος της
+\texttt{extremes.m} είναι αποδεκτή. Πρώτα επειδή γνωρίζουμε ότι γίνεται
+χρήση ενός FIR φίλτρου και πάνω στην έξοδό του γίνεται η εύρεση των
+ακροτάτων θελήσαμε να εξετάσουμε την τάξη του φίλτρου. Για αυτό
+δοκιμάσαμε διάφορες τιμές από 5 έως 30 με βήμα 5 και καταλήξαμε ότι η
+τάξη 10 είναι αρκετά πιο υποσχόμενη.
+
+\hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b5ux3bbux3adux3b3ux3c7ux3bfux3c5-ux3c4ux3acux3beux3b7ux3c2-ux3c6ux3afux3bbux3c4ux3c1ux3bfux3c5}{%
+\paragraph{Κώδικας ελέγχου τάξης φίλτρου
+:}\label{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b5ux3bbux3adux3b3ux3c7ux3bfux3c5-ux3c4ux3acux3beux3b7ux3c2-ux3c6ux3afux3bbux3c4ux3c1ux3bfux3c5}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  b = ones(}\FloatTok{1}\NormalTok{,filterorder)/filterorder;}
+\NormalTok{  xV = filtfilt(b,}\FloatTok{1}\NormalTok{,X1);}
+\NormalTok{  LENGTH = length(X1);}
+\NormalTok{  T = [}\FloatTok{1}\NormalTok{:LENGTH];}
+\NormalTok{  if(FIR)}
+\NormalTok{    hold on;}
+\NormalTok{    plot(T, xV);}
+\NormalTok{  end}
+\end{Highlighting}
+\end{Shaded}
+
+Για επιπλέον έλεγχο της διαδικασίας δημιουργήσαμε διαγράμματα τα οποία
+εμφανίζουν τα ακρότατα πάνω στην αρχική χρονοσειρά ως καρφιά
+\emph{jacks}.
+
+\hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b5ux3beux3b1ux3b3ux3c9ux3b3ux3aeux3c2-ux3baux3b1ux3b9-ux3b5ux3bbux3adux3b3ux3c7ux3bfux3c5-ux3c4ux3bfux3c5-ux3c0ux3afux3bdux3b1ux3baux3b1-ux3b1ux3baux3c1ux3bfux3c4ux3acux3c4ux3c9ux3bd}{%
+\paragraph{Κώδικας εξαγωγής και ελέγχου του πίνακα ακροτάτων
+:}\label{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b5ux3beux3b1ux3b3ux3c9ux3b3ux3aeux3c2-ux3baux3b1ux3b9-ux3b5ux3bbux3adux3b3ux3c7ux3bfux3c5-ux3c4ux3bfux3c5-ux3c0ux3afux3bdux3b1ux3baux3b1-ux3b1ux3baux3c1ux3bfux3c4ux3acux3c4ux3c9ux3bd}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{% extract time-series}
+\NormalTok{  [locextM, ~] = extremes(X1, filterorder, nsam, }\FloatTok{0.0}\NormalTok{, timesep, }\FloatTok{0}\NormalTok{);}
+\NormalTok{  extreme_time_idx = locextM(:,}\FloatTok{1}\NormalTok{);}
+\NormalTok{  extrema_values = locextM(:,}\FloatTok{2}\NormalTok{);}
+\NormalTok{  minimum_or_maximum = locextM(:,}\FloatTok{3}\NormalTok{);}
+    
+\NormalTok{  if(EXTREMA_PLOT) }\CommentTok{% need to have BASIC_PLOT=true to better work}
+\NormalTok{    jacks = zeros(}\FloatTok{1}\NormalTok{, LENGTH);}
+\NormalTok{    jacks(extreme_time_idx) = }\FloatTok{40}\NormalTok{;}
+\NormalTok{    jacks(extreme_time_idx -}\FloatTok{1}\NormalTok{) = -}\FloatTok{40}\NormalTok{;}
+\NormalTok{    hold on;}
+\NormalTok{    plot(T, jacks);}
+\NormalTok{  end}
+\end{Highlighting}
+\end{Shaded}
+
+Πέρα από τους ελέγχους οι τελικές χρονοσειρές ακρoτάτων της βασικής
+χρονοσειράς ΟΚΝ δίνεται από τον παρακάτω κώδικα:
+
+\hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b5ux3beux3b1ux3b3ux3c9ux3b3ux3aeux3c2-ux3c4ux3c9ux3bd-ux3b6ux3b7ux3c4ux3bfux3cdux3bcux3b5ux3bdux3c9ux3bd-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3ceux3bd-ux3b1ux3c0ux3cc-ux3c4ux3b7ux3bd-ux3adux3beux3bfux3b4ux3bf-ux3c4ux3b7ux3c2-extremes.m}{%
+\paragraph{\texorpdfstring{Κώδικας εξαγωγής των ζητούμενων χρονοσειρών,
+από την έξοδο της \texttt{extremes.m}
+:}{Κώδικας εξαγωγής των ζητούμενων χρονοσειρών, από την έξοδο της extremes.m :}}\label{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b5ux3beux3b1ux3b3ux3c9ux3b3ux3aeux3c2-ux3c4ux3c9ux3bd-ux3b6ux3b7ux3c4ux3bfux3cdux3bcux3b5ux3bdux3c9ux3bd-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3ceux3bd-ux3b1ux3c0ux3cc-ux3c4ux3b7ux3bd-ux3adux3beux3bfux3b4ux3bf-ux3c4ux3b7ux3c2-extremes.m}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  AMA = X1(extreme_time_idx);}
+\NormalTok{  AMA = AMA(minimum_or_maximum == }\FloatTok{1}\NormalTok{);}
+\NormalTok{  AMI = X1(extreme_time_idx);}
+\NormalTok{  AMI = AMI(minimum_or_maximum == -}\FloatTok{1}\NormalTok{);}
+\NormalTok{  s = min(length(AMA), length(AMI));}
+\NormalTok{  AMD = abs(AMA(}\FloatTok{1}\NormalTok{:s) - AMI(}\FloatTok{1}\NormalTok{:s));}
+
+\NormalTok{  if(minimum_or_maximum(}\FloatTok{1}\NormalTok{) == }\FloatTok{1}\NormalTok{) }\CommentTok{% first comes the maximum}
+\NormalTok{    TMI = Ts * (extreme_time_idx(}\FloatTok{2}\NormalTok{:end) - extreme_time_idx(}\FloatTok{1}\NormalTok{:end-}\FloatTok{1}\NormalTok{));}
+\NormalTok{    TMA = Ts * (extreme_time_idx(}\FloatTok{3}\NormalTok{:end) - extreme_time_idx(}\FloatTok{2}\NormalTok{:end-}\FloatTok{1}\NormalTok{));}
+\NormalTok{  else }\CommentTok{% first comes the minimum}
+\NormalTok{    TMI = Ts * (extreme_time_idx(}\FloatTok{3}\NormalTok{:end) - extreme_time_idx(}\FloatTok{2}\NormalTok{:end-}\FloatTok{1}\NormalTok{));}
+\NormalTok{    TMA = Ts * (extreme_time_idx(}\FloatTok{2}\NormalTok{:end) - extreme_time_idx(}\FloatTok{1}\NormalTok{:end-}\FloatTok{1}\NormalTok{));}
+\NormalTok{  end}
+
+\NormalTok{  TBP = Ts * (extreme_time_idx .* (minimum_or_maximum + }\FloatTok{1}\NormalTok{) ) /}\FloatTok{2.0}\NormalTok{;}
+\NormalTok{  TBP = TBP(TBP > }\FloatTok{0}\NormalTok{);}
+\NormalTok{  TBP = TBP(}\FloatTok{2}\NormalTok{:end) - TBP(}\FloatTok{1}\NormalTok{:end-}\FloatTok{1}\NormalTok{);}
+
+\NormalTok{  if (EXTREMA_SERIES_PLOT)}
+\NormalTok{    f = figure();}
+\NormalTok{    extrema_series_plot(}\FloatTok{1}\NormalTok{,}\FloatTok{3}\NormalTok{,}\FloatTok{1}\NormalTok{, AMA, }\StringTok{'AMA'}\NormalTok{);}
+\NormalTok{    extrema_series_plot(}\FloatTok{1}\NormalTok{,}\FloatTok{3}\NormalTok{,}\FloatTok{2}\NormalTok{, AMI, }\StringTok{'AMI'}\NormalTok{);}
+\NormalTok{    extrema_series_plot(}\FloatTok{1}\NormalTok{,}\FloatTok{3}\NormalTok{,}\FloatTok{3}\NormalTok{, AMD, }\StringTok{'AMD'}\NormalTok{);}
+
+\NormalTok{    saveas(f, sprintf(}\StringTok{'assets/AM_plot_%s.png'}\NormalTok{, DST_NUM));}
+\NormalTok{    f = figure();}
+\NormalTok{    extrema_series_plot(}\FloatTok{1}\NormalTok{,}\FloatTok{3}\NormalTok{,}\FloatTok{1}\NormalTok{, TMA, }\StringTok{'TMA'}\NormalTok{);}
+\NormalTok{    extrema_series_plot(}\FloatTok{1}\NormalTok{,}\FloatTok{3}\NormalTok{,}\FloatTok{2}\NormalTok{, TMI, }\StringTok{'TMI'}\NormalTok{);}
+\NormalTok{    extrema_series_plot(}\FloatTok{1}\NormalTok{,}\FloatTok{3}\NormalTok{,}\FloatTok{3}\NormalTok{, TBP, }\StringTok{'TBP'}\NormalTok{);}
+\NormalTok{    saveas(f, sprintf(}\StringTok{'assets/TM_plot_%s.png'}\NormalTok{, DST_NUM));    }
+\NormalTok{  end}
+\end{Highlighting}
+\end{Shaded}
+
+Από αυτές τις χρονοσειρές ενδιαφερόμαστε πιο πολύ για την χρονοσειρά
+\texttt{AMA} και την χρονοσειρά \texttt{TMI}. Μετά από έλεγχους για
+ύπαρξη πληροφορίας όπως Portmanteu καταλήξαμε ότι αυτές οι δύο έχουν την
+περισσότερη πληροφορία και προσεγγίζονται λιγότερο από λευκό θόρυβο. Στα
+σχήματα {[}2{]} και {[}3{]} δίνονται τα διαγράμματα των χρονοσειρών
+πλάτους και χρονικών περιθωρίων.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/AM_plot_1st.png}
+\caption{Χρονοσειρές πλάτους}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/TM_plot_1st.png}
+\caption{Χρονοσειρές χρόνου}
+\end{figure}
+
+\hypertarget{ux3baux3c5ux3c1ux3afux3c9ux3c2-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7}{%
+\subsubsection{Κυρίως γραμμική
+ανάλυση}\label{ux3baux3c5ux3c1ux3afux3c9ux3c2-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7}}
+
+\hypertarget{ama}{%
+\paragraph{AMA}\label{ama}}
+
+Στο πρώτο μέρος της γραμμικής ανάλυσης θα αναφερθούμε στη χρονοσειρά AMA
+που εξάγαμε. Το πρώτο μέγεθος που υπολογίσαμε για αυτήν ήταν η τάση της.
+Αυτό το κάναμε χρησιμοποιώντας ένα πολυώνυμο. Το τελικό πολυώνυμο έδειξε
+ότι ο σταθερός όρος της τάσης είναι ίσος με \texttt{8.1121938} ενώ ο
+γραμμικός συντελεστής \texttt{0.2772935}. Οι υπόλοιποι 3 συντελεστές
+αυτού του πολυωνύμου βέβαια ακυρώνουν την γραμμική τάση μετά από λίγα
+χρονικά βήματα. Βέβαια για να απαλοίψουμε τη στοχαστική τάση
+χρησιμοποιήσαμε την απλή μέθοδο των διαφορών, αφού δεν υπήρχε και κάποια
+εποχικότητα.
+
+\hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b1ux3c0ux3b1ux3bbux3bfux3b9ux3c6ux3aeux3c2-ux3c4ux3acux3c3ux3b5ux3c9ux3bd}{%
+\paragraph{Κώδικας απαλοιφής
+τάσεων}\label{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b1ux3c0ux3b1ux3bbux3bfux3b9ux3c6ux3aeux3c2-ux3c4ux3acux3c3ux3b5ux3c9ux3bd}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{if(REMOVES_TREND)}
+\NormalTok{  [muyV, bV] = polynomialfit(yV, POLORDER);}
+  \CommentTok{% save coefficients to a file}
+\NormalTok{  save(sprintf(}\StringTok{'assets/polcoeff_%s_%s.txt'}\NormalTok{, name, DST_NUM), }\StringTok{'bV'}\NormalTok{, }\StringTok{'-ascii'}\NormalTok{);}
+\NormalTok{  yV_detr = yV - muyV;}
+\NormalTok{  if(REMOVES_TREND_PLOT)}
+\NormalTok{    f = figure();}
+\NormalTok{    subplot(}\FloatTok{1}\NormalTok{,}\FloatTok{2}\NormalTok{,}\FloatTok{1}\NormalTok{);}
+\NormalTok{    plot(}\FloatTok{1}\NormalTok{:length(yV), yV);}
+\NormalTok{    grid on;}
+\NormalTok{    title(name);}
+\NormalTok{    subplot(}\FloatTok{1}\NormalTok{,}\FloatTok{2}\NormalTok{,}\FloatTok{2}\NormalTok{);}
+\NormalTok{    plot(}\FloatTok{1}\NormalTok{:length(yV_detr), yV_detr);}
+\NormalTok{    grid on;}
+\NormalTok{    title(sprintf(}\StringTok{'%s_detr'}\NormalTok{, name));}
+\NormalTok{    saveas(f, sprintf(}\StringTok{'rm_trend_%s_%s.png'}\NormalTok{,name, DST_NUM));    }
+\NormalTok{  end}
+\NormalTok{  yV_detr = yV(}\FloatTok{2}\NormalTok{:end) - yV(}\FloatTok{1}\NormalTok{:end-}\FloatTok{1}\NormalTok{);  }
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+Μετά υπολογίσαμε και κάναμε τα γραφήματα της συνάρτησης αυτοσυσχέτισης
+και μερικής αυτοσυσχέτισης. Στα σχήματα {[}4{]} και {[}5{]} φαίνονται τα
+διαγράμματα αυτά. Όπως μπορούμε να διακρίνουμε υπάρχουν σημαντικές
+αυτοσυσχετίσεις μέχρι και τη δεύτερη αυτοσυσχέτιση. Το ίδιο δέιχνουν και
+οι μερικές αυτοσυσχετίσεις, με κάποιες τιμές να είναι οριακά στατιστικά
+μηδενικές. Για αυτό και περιμένουμε τα μοντέλα να έχουν καλή προσέγγιση
+για χαμηλό βαθμό AR ή/και MA.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/autocorrelation_AMA1.png}
+\caption{Συνάρτηση αυτοσυσχέτισης}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/partial_autocorrelations_AMA1.png}
+\caption{Συνάρτηση μερικής αυτοσυσχέτισης}
+\end{figure}
+
+\hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b3ux3b9ux3b1-ux3c4ux3bfux3bd-ux3c5ux3c0ux3bfux3bbux3bfux3b3ux3b9ux3c3ux3bcux3cc-ux3c4ux3c9ux3bd-ux3b1ux3c5ux3c4ux3bfux3c3ux3c5ux3c3ux3c7ux3b5ux3c4ux3afux3c3ux3b5ux3c9ux3bd}{%
+\paragraph{Κώδικας για τον υπολογισμό των
+αυτοσυσχετίσεων}\label{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b3ux3b9ux3b1-ux3c4ux3bfux3bd-ux3c5ux3c0ux3bfux3bbux3bfux3b3ux3b9ux3c3ux3bcux3cc-ux3c4ux3c9ux3bd-ux3b1ux3c5ux3c4ux3bfux3c3ux3c5ux3c3ux3c7ux3b5ux3c4ux3afux3c3ux3b5ux3c9ux3bd}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{if(AUTOCORR_PLOT)}
+\NormalTok{  autrocor_plot(yV_detr, name);}
+\NormalTok{  portmanteauLB(yV_detr, }\FloatTok{20}\NormalTok{, }\FloatTok{0.05}\NormalTok{, name);}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function autrocor_plot(yV, name)}
+\NormalTok{  f = figure;}
+\NormalTok{  autocorr(yV, }\FloatTok{20}\NormalTok{); }\CommentTok{% 95% confidence lvls}
+\NormalTok{  s = sprintf(}\StringTok{'autocorrelation of %s'}\NormalTok{, name);}
+\NormalTok{  title(s);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/autocorrelation_%s.%s'}\NormalTok{, name, }\StringTok{'png'}\NormalTok{));}
+  \CommentTok{% yVpac = acf2pacf(yVac, 1);}
+\NormalTok{  f = figure;}
+\NormalTok{  parcorr(yV, }\FloatTok{20}\NormalTok{);}
+\NormalTok{  s = sprintf(}\StringTok{'partial autocorrelations of %s'}\NormalTok{, name)}
+\NormalTok{  title(s);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/partial_autocorrelations_%s.%s'}\NormalTok{,name,}\StringTok{'png'}\NormalTok{));}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+Από τα παραπάνω καταλαβαίνουμε ότι αν χρησιμοποιήσουμε AR ή ARMA
+διαδικασίες για να εξηγήσουμε την συμπεριφορά της χρονοσειράς θα πρέπει
+το AR μέρος να έχει μέγιστο βαθμό περίπου 3. Προκειμένου να διαλέξουμε
+το κατάλληλο μοντέλο χρειάζεται πρώτα να πειραματιστούμε με έναν αριθμό
+υποψήφιων μοντέλων. Εφόσον αφαιρέσαμε την τάση και δεν βλέπουμε κάποιο
+άλλο είδος τάσης στις χρονοσειρές γνωρίζουμε ότι δεν έχει νόημα να
+χρησιμοποιήσουμε μοντέλα τύπου ARIMA με \(I \neq 0\). Τώρα έχουμε
+διαλέξει τον χώρο αναζήτησης του βέλτιστου γραμμικού μοντέλου, το μόνο
+που χρειαζόμαστε ακόμα είναι το τελικό κριτήριο για την επιλογή του. Το
+τελικό κριτήριο επιλογής είναι το κριτήριο πληροφορίας Akaike με βάση το
+σφάλμα NRMSE. Στα παρακάτω διαγράμματα δείχνουμε τα κριτήρια αυτά για τα
+υποψήφια μοντέλα. Επίσης παρακάτω δίνουμε και το κομμάτι του κώδικα το
+οποίο δημιουργεί τα κριτήρια αυτά.
+
+\begin{longtable}[]{@{}cc@{}}
+\toprule
+AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψήφια MA
+μοντέλα\tabularnewline
+\midrule
+\endhead
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/MA_AIC_AMA1.png}
+&
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/AR_AIC_AMA1.png}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_AIC_AMA1.png}
+\caption{AIC για τα υποψήφια ARMA μοντέλα}
+\end{figure}
+
+Αν και είπαμε πως το μοντέλο θα έχει μικρό βαθμό, ωστόσο
+συμπεριλαμβάνουμε και στα διαγράμματα μεγαλύτερους βαθμούς για να δούμε
+και να δείξουμε ακριβώς αυτό.
+
+\hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b3ux3b9ux3b1-ux3c4ux3b1-ar-ux3bcux3bfux3bdux3c4ux3adux3bbux3b1}{%
+\paragraph{Κώδικας για τα AR
+μοντέλα}\label{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b3ux3b9ux3b1-ux3c4ux3b1-ar-ux3bcux3bfux3bdux3c4ux3adux3bbux3b1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function ar_estimate(yV, name, T, MAX_ORDER_AR)}
+\NormalTok{  nlast = ceil(}\FloatTok{0.9}\NormalTok{ * length(yV));}
+\NormalTok{  NRMSE = zeros(MAX_ORDER_AR,}\FloatTok{1}\NormalTok{);}
+\NormalTok{  A = zeros(MAX_ORDER_AR,}\FloatTok{1}\NormalTok{);}
+\NormalTok{  for i = }\FloatTok{1}\NormalTok{: }\FloatTok{1}\NormalTok{: MAX_ORDER_AR}
+\NormalTok{    [n, ~, ~, ~, A(i), ~, ~] = fitARMA(yV(}\FloatTok{1}\NormalTok{:nlast), i, }\FloatTok{0}\NormalTok{, T);}
+\NormalTok{    NRMSE(i) = n(end);}
+\NormalTok{  end}
+\NormalTok{  f = figure;}
+\NormalTok{  plot(NRMSE);}
+\NormalTok{  grid on;}
+\NormalTok{  s = sprintf(}\StringTok{'NRMSE of %s for AR process'}\NormalTok{,  name);}
+\NormalTok{  title(s);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/AR_NRMSE_%s.%s'}\NormalTok{, name, }\StringTok{'png'}\NormalTok{));}
+
+\NormalTok{  f = figure;}
+\NormalTok{  plot(A);}
+\NormalTok{  grid on;}
+\NormalTok{  s = sprintf(}\StringTok{'Akaike criterion of %s for AR process'}\NormalTok{,  name);}
+\NormalTok{  title(s);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/AR_AIC_%s.%s'}\NormalTok{, name, }\StringTok{'png'}\NormalTok{));}
+  \CommentTok{% for best MA plot nrmse prediction error for T=1, T=2}
+\NormalTok{  [m best_p] = min(A(}\FloatTok{1}\NormalTok{:min(MAX_ORDER_AR,}\FloatTok{10}\NormalTok{)));}
+\NormalTok{  best_p = best_p(}\FloatTok{1}\NormalTok{)}
+\NormalTok{  f = predictARMAnrmse(yV, best_p, }\FloatTok{0}\NormalTok{, }\FloatTok{2}\NormalTok{, nlast, }\StringTok{'prediction error for best AR'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/AR_best_pred_%s.%s'}\NormalTok{, name, }\StringTok{'png'}\NormalTok{));}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b3ux3b9ux3b1-ux3c4ux3b1-ux3bcux3b1-ux3bcux3bfux3bdux3c4ux3adux3bbux3b1}{%
+\paragraph{Κώδικας για τα ΜΑ
+μοντέλα}\label{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b3ux3b9ux3b1-ux3c4ux3b1-ux3bcux3b1-ux3bcux3bfux3bdux3c4ux3adux3bbux3b1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function ma_estimate(yV, name, T, MAX_ORDER_MA)}
+\NormalTok{  nlast = ceil(}\FloatTok{0.9}\NormalTok{ * length(yV));}
+\NormalTok{  NRMSE = zeros(}\FloatTok{1}\NormalTok{, MAX_ORDER_MA);}
+\NormalTok{  A = zeros(}\FloatTok{1}\NormalTok{, MAX_ORDER_MA);}
+\NormalTok{  for j = }\FloatTok{1}\NormalTok{: }\FloatTok{1}\NormalTok{: MAX_ORDER_MA}
+\NormalTok{    [n, ~, ~, ~, A(j), ~, ~] = fitARMA(yV(}\FloatTok{1}\NormalTok{:nlast), }\FloatTok{0}\NormalTok{, j, T);}
+\NormalTok{    NRMSE(j) = n(end);}
+\NormalTok{  end}
+\NormalTok{  f = figure;}
+\NormalTok{  plot(NRMSE);}
+\NormalTok{  grid on;}
+\NormalTok{  s = sprintf(}\StringTok{'NRMSE of %s for MA process'}\NormalTok{, name);}
+\NormalTok{  title(s);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/MA_NRMSE_%s.%s'}\NormalTok{, name, }\StringTok{'png'}\NormalTok{));}
+  
+\NormalTok{  f = figure;}
+\NormalTok{  plot(A);}
+\NormalTok{  grid on;}
+\NormalTok{  s = sprintf(}\StringTok{'Akaike criterion of %s for MA process'}\NormalTok{, name);}
+\NormalTok{  title(s);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/MA_AIC_%s.%s'}\NormalTok{, name, }\StringTok{'png'}\NormalTok{));}
+  \CommentTok{% for best MA plot nrmse prediction error for T=1, T=2}
+\NormalTok{  [m best_q] = min(A(:));}
+\NormalTok{  best_q = best_q(}\FloatTok{1}\NormalTok{)}
+\NormalTok{  f = predictARMAnrmse(yV, }\FloatTok{0}\NormalTok{, best_q, }\FloatTok{2}\NormalTok{, nlast, }\StringTok{'prediction error for best MA'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/MA_best_pred_%s.%s'}\NormalTok{, name, }\StringTok{'png'}\NormalTok{));}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b3ux3b9ux3b1-ux3c4ux3b1-arma-ux3bcux3bfux3bdux3c4ux3adux3bbux3b1}{%
+\paragraph{Κώδικας για τα ARMA
+μοντέλα}\label{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b3ux3b9ux3b1-ux3c4ux3b1-arma-ux3bcux3bfux3bdux3c4ux3adux3bbux3b1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function arma_estimate(yV, name, T, MAX_ORDER_AR, MAX_ORDER_MA)}
+\NormalTok{  nlast = ceil(}\FloatTok{0.9}\NormalTok{ * length(yV));}
+\NormalTok{  NRMSE = zeros(MAX_ORDER_AR, MAX_ORDER_MA);}
+\NormalTok{  A = zeros(MAX_ORDER_AR, MAX_ORDER_MA);}
+\NormalTok{  for i = }\FloatTok{1}\NormalTok{: }\FloatTok{1}\NormalTok{ : MAX_ORDER_AR}
+\NormalTok{    for j = }\FloatTok{1}\NormalTok{: }\FloatTok{1}\NormalTok{ : MAX_ORDER_MA}
+\NormalTok{      [n, ~, ~, ~, A(i,j), ~, ~] = fitARMA(yV(}\FloatTok{1}\NormalTok{:nlast), i, j, T);}
+\NormalTok{      NRMSE(i,j) = n(end);}
+\NormalTok{    end}
+\NormalTok{  end}
+  \CommentTok{% plot nrmse for arma}
+\NormalTok{  f = figure;}
+\NormalTok{  grid on;}
+\NormalTok{  hold on;}
+\NormalTok{  set(gca,}\StringTok{'xtick'}\NormalTok{,}\FloatTok{1}\NormalTok{:MAX_ORDER_AR);}
+\NormalTok{  xlabel(}\StringTok{'order p'}\NormalTok{);}
+\NormalTok{  for j = }\FloatTok{1}\NormalTok{: }\FloatTok{1}\NormalTok{ : MAX_ORDER_MA}
+\NormalTok{    plot([}\FloatTok{1}\NormalTok{:MAX_ORDER_AR], NRMSE(:,j), }\StringTok{'DisplayName'}\NormalTok{, sprintf(}\StringTok{'(p,q) =(*,%d)'}\NormalTok{, j));}
+\NormalTok{  end}
+\NormalTok{  legend(}\StringTok{'show'}\NormalTok{);}
+\NormalTok{  s = sprintf(}\StringTok{'NRMSE of %s for ARMA process'}\NormalTok{, name);}
+\NormalTok{  title(s);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/ARMA_NRMSE_%s.%s'}\NormalTok{, name, }\StringTok{'png'}\NormalTok{));}
+  \CommentTok{% plot aic for arma}
+\NormalTok{  f = figure;}
+\NormalTok{  grid on;}
+\NormalTok{  hold on;}
+\NormalTok{  set(gca,}\StringTok{'xtick'}\NormalTok{,}\FloatTok{1}\NormalTok{:MAX_ORDER_AR);}
+\NormalTok{  xlabel(}\StringTok{'order p'}\NormalTok{);      }
+\NormalTok{  for j = }\FloatTok{1}\NormalTok{: }\FloatTok{1}\NormalTok{ : MAX_ORDER_MA}
+\NormalTok{    plot([}\FloatTok{1}\NormalTok{:MAX_ORDER_AR], A(:,j), }\StringTok{'DisplayName'}\NormalTok{, sprintf(}\StringTok{'(p,q) = (*,%d)'}\NormalTok{, j));}
+\NormalTok{  end}
+\NormalTok{  legend(}\StringTok{'show'}\NormalTok{);}
+\NormalTok{  s = sprintf(}\StringTok{'Akaike criterion of %s for ARMA process'}\NormalTok{, name);}
+\NormalTok{  title(s);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/ARMA_AIC_%s.%s'}\NormalTok{, name, }\StringTok{'png'}\NormalTok{));}
+  \CommentTok{% for best ARMA plot nrmse prediction error for T=1, T=2}
+\NormalTok{  B = A(}\FloatTok{1}\NormalTok{:min(}\FloatTok{10}\NormalTok{, MAX_ORDER_AR),}\FloatTok{1}\NormalTok{:min(}\FloatTok{3}\NormalTok{,MAX_ORDER_MA));}
+\NormalTok{  [m n] = min(B(:));}
+\NormalTok{  [best_p best_q] = ind2sub(size(B), n(}\FloatTok{1}\NormalTok{));}
+\NormalTok{  f = predictARMAnrmse(yV, best_p, best_q, }\FloatTok{2}\NormalTok{, nlast, }\StringTok{'prediction error for best ARMA'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/ARMA_best_pred_%s.%s'}\NormalTok{, name, }\StringTok{'png'}\NormalTok{));}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+Από τα σχήματα του AIC για τα υποψήφια μοντέλα, παρατηρούμε ότι το
+μοντέλο \texttt{AR(2)} παρουσιάζει τη μικρότερη τιμή του AIC. Αυτό
+σημαίνει ότι θα διαλέξουμε το μοντέλο \texttt{AR(2)} για να εξηγήσουμε
+τη συμπεριφορά αυτής της χρονοσειράς. Τέλος για αυτό το μοντέλο δίνουμε
+το διάγραμμα που παρουσιάζει κατά πόσο μπορεί να προβλέψει μελλοντικές
+τιμές της εισόδου.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_best_pred_AMA1.png}
+\caption{Προβλέψεις τιμών για το καλύτερο μοντέλο}
+\end{figure}
+
+Από τα σφάλματα NRMSE βλέπουμε ότι οι προβλέψεις είναι κακές τόσο για
+βήμα T=1 όσο και για T=2. Για αυτό και η πρόβλεψη με χρήση της μέσης
+τιμής δίνει καλύτερα αποτελέσματα.
+
+\hypertarget{tmi}{%
+\paragraph{TMI}\label{tmi}}
+
+Παρακάτω πραγματοποιούμε τα ίδια βήματα για τη χρονοσειρά \texttt{TMI}.
+Επειδή ο κώδικας είναι γραμμένος όλος σε συναρτήσεις σύμφωνα με τα
+πρότυπα του δομημένου προγραμματισμού, το μόνο που θα έπρεπε να
+αλλάξουμε είναι οι παραμέτροι με τους οποίους μελετάμε τη χρονοσειρά.
+Πρακτικά για να γίνει η γραμμική ανάλυση της χρονοσειράς \texttt{TMI}
+καλούμε:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{linear_analysis(TMI, }\StringTok{'TMI1'}\NormalTok{, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, ...}
+\NormalTok{                EXTREMA_PLOT, EXTREMA_SERIES_PLOT, REMOVES_TREND, ...}
+\NormalTok{                REMOVES_TREND_PLOT, AUTOCORR_PLOT, AKAIKE, DST_NUM);}
+\end{Highlighting}
+\end{Shaded}
+
+Το πολυώνυμο που προσσεγγίζει την χρονοσειρά για τη μετέπειτα αφάρεση
+της τάσης έχει δύο τελευταίους όρους ίσους με:
+
+\begin{itemize}
+\tightlist
+\item
+  γραμμικός: \(8.2051972\times 10^{-3}\)
+\item
+  σταθερός: \(0.32034691\)
+\end{itemize}
+
+Επίσης δε φαίνεται να έχει εποχικότητα για να χρειαστεί η μέθοδος των
+μεγάλων διαφορών. Βέβαια, πάλι χρησιμοποιούμε απλές διαφορές για να
+απαλοίψουμε και τη στοχαστική τάση.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/autocorrelation_TMI1.png}
+\caption{Συνάρτηση αυτοσυσχέτισης}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/partial_autocorrelations_TMI1.png}
+\caption{Συνάρτηση μερικής αυτοσυσχέτισης}
+\end{figure}
+
+Οι συναρτήσεις αυτοσυσχέτισης και μερικής αυτοσυσχέτισης δείχνουν ότι
+υπάρχει μία αρκετά ισχυρή σχέση της τωρινής τιμής της χρονοσειράς με
+πολλές προηγούμενες, ώστε αυτή η σχέση να θεωρηθεί σημαντική. Αυτό είναι
+προβληματικό για την αναλυσή μας τουλάχιστον στο γραμμικό κομμάτι, διότι
+η χρονοσειρά δεν έχει αρκετό πλήθος σημείων, ώστε να μπορέσουμε να
+εφαρμόσουμε τόσο μεγάλα μοντέλα. Παρόλα αυτά παρακάτω μελετάμε τη
+συμπεριφορά των μοντέλων που μας επιτρέπει το πλήθος σημείων της
+χρονοσειράς να δημιουργήσουμε.
+
+\begin{longtable}[]{@{}cc@{}}
+\toprule
+AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψήφια MA
+μοντέλα\tabularnewline
+\midrule
+\endhead
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/MA_AIC_TMI1.png}
+&
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/AR_AIC_TMI1.png}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_AIC_TMI1.png}
+\caption{AIC για τα υποψήφια ARMA μοντέλα}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_best_pred_TMI1.png}
+\caption{Προβλέψεις τιμών για το καλύτερο μοντέλο}
+\end{figure}
+
+H πρόβλεψη είναι καλύτερη από τη μέση τιμή για T=1 και χειρότερη στο
+T=2. Γενικά καταλήγουμε πως αυτή η μέθοδος μελέτης ακροτάτων για αυτή τη
+χρονοσειρά μπόρεσε να παράξει αποτελέσματα, αλλά όχι τόσο άξια για να
+πούμε ότι αντιπροσωπεύουν το μοντέλο. Αυτό βέβαια δε σημαίνει πως η
+μελέτη μας σταμάτησε εδώ. Στο δεύτερο κομμάτι της εργασίας θα
+προσπαθήσουμε να κάνουμε μία μη γραμμική ανάλυση της χρονοσειράς και να
+εξάγουμε αποτελέσματα για τη συμπεριφορά της.
+
+\hypertarget{ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-2ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}{%
+\subsection{Γραμμική ανάλυση 2ης
+χρονοσειράς}\label{ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-2ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}}
+
+Η δεύτερη χρονοσειρά όπως φαίνεται από το διαγραμμά της φαίνεται ότι
+έχει κάποια ανοδική τάση. Οπότε μάλλον ο ασθενής εδώ ξεγιελιέται και
+πρόκειται πραγματικά για ασθενή (αυτό θα φανεί και αργότερα, αλλά χωρίς
+επαρκή ανάλυση δεν θα μπορούσαμε να υποστηρίξουμε κάτι τέτοιο). Επίσης,
+σίγουρα δεν υπάρχει μόνο θόρυβος. Από αυτά εκτιμάμε ότι η χρονοσειρά
+έχει πληροφορία που χαρακτηρίζει τον ασθενή. Στο Σχήμα {[}12{]}
+φαίνονται σε χρονική σειρά οι 6000 τιμές του σήματος που λάβαμε από το
+δεύτερο πείραμα.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/basic_plot_2nd.png}
+\caption{Χρονοσειρά 2}
+\end{figure}
+
+Όπως φαίνεται σε αυτή τη χρονοσειρά ο ασθενής συνεχώς ξεγιελιέται και
+σπάνια (3 φορές) επανέρχεται, αλλά και πάλι όχι πλήρως. Δηλαδή το μάτι
+δεν παίρνει την ίδια θέση που είχε πριν. Στο υπόλοιπο της γραμμικής
+μελέτης αυτής της χρονοσειράς, χρησιμοποιούμε τα εργαλεία του μαθήματος
+και συγκρίνουμε τη μελέτη με αυτή της πρώτης.
+
+\hypertarget{ux3b5ux3beux3b1ux3b3ux3c9ux3b3ux3ae-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2-ux3bcux3b5ux3bbux3adux3c4ux3b7ux3c2-1}{%
+\subsubsection{Εξαγωγή χρονοσειράς
+μελέτης}\label{ux3b5ux3beux3b1ux3b3ux3c9ux3b3ux3ae-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2-ux3bcux3b5ux3bbux3adux3c4ux3b7ux3c2-1}}
+
+Με βάση τη συνάρτηση \texttt{extremes.m} που μας δόθηκε εξάγαμε και πάλι
+όλες τις χρονοσειρές των τοπικών ακροτάτων που μπορεί κανείς να τις δει
+στα Σχήματα {[}13{]} και {[}14{]}. Επίσης, δίνονται και τα ορίσματα της
+συνάρτησης \texttt{extremes} τα οποία εξάγαμε μετά από αρκετό
+πειραματισμό.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{filterorder = }\FloatTok{5}\NormalTok{;}
+\NormalTok{nsam = }\FloatTok{5}\NormalTok{;}
+\NormalTok{timesep = }\FloatTok{5}\NormalTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+Όπως και στην πρώτη χρονοσειρά, έτσι και εδώ ενδιαφερόμαστε περισσότερο
+για τις χρονοσειρές \texttt{AMA} και \texttt{TMI}. Μετά από ελέγχους
+ύπαρξης πληροφορίας Portmanteu καταλήγουμε και πάλι ότι αυτές οι δύο
+έχουν πληροφορία και δεν προσεγγίζονται μόνο από τον λευκό θόρυβο.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/AM_plot_2nd.png}
+\caption{Χρονοσειρές πλάτους}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/TM_plot_2nd.png}
+\caption{Χρονοσειρές χρόνου}
+\end{figure}
+
+\hypertarget{ux3baux3c5ux3c1ux3afux3c9ux3c2-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-1}{%
+\subsubsection{Κυρίως γραμμική
+ανάλυση}\label{ux3baux3c5ux3c1ux3afux3c9ux3c2-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-1}}
+
+\hypertarget{ama-1}{%
+\paragraph{AMA}\label{ama-1}}
+
+Στο πρώτο μέρος της γραμμικής ανάλυσης θα αναφερθούμε στη χρονοσειρά AMA
+που εξάγαμε. Το πρώτο μέγεθος που υπολογίσαμε για αυτήν ήταν η τάση της.
+Αυτό το κάναμε χρησιμοποιώντας πάλι ένα πολυώνυμο. Το τελικό πολυώνυμο
+έδειξε ότι η σταθερός όρος της τάσης είναι ίσος με
+\texttt{-7.7080776}ενώ ο γραμμικός συντελεστής της \texttt{0.33391515}.
+Οι υπόλοιποι 3 συντελεστές αυτού του πολυωνύμου ωστόσο δεν ακυρώνουν την
+γραμμική τάση μετά από λίγα χρονικά βήματα όπως στην πρώτη χρονοσειρά.
+Δηλαδή επιβεβαιώνουν την ύπαρξη ανοδικής τάσης.
+
+Μετά υπολογίσαμε και κάναμε τα γραφήματα της συνάρτησης αυτοσυσχέτισης
+και μερικής αυτοσυσχέτισης. Στα σχήματα {[}15{]} και {[}16{]} φαίνονται
+τα διαγράμματα αυτά.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/autocorrelation_AMA2.png}
+\caption{Συνάρτηση αυτοσυσχέτισης}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/partial_autocorrelations_AMA2.png}
+\caption{Συνάρτηση μερικής αυτοσυσχέτισης}
+\end{figure}
+
+Από τις αυτοσυσχετίσεις βλέπουμε ότι τα δεδομένα έχουν έμμεση συσχέτιση
+μέχρι και μεγάλες τιμές του \(\tau\). Ωστόσο, οι μερικές αυτοσυσχετίσεις
+δείχνουν ότι οι μακρινές (σε χρονικά βήματα) τιμές δεν είναι άμεσα
+συσχετιζόμενες με την τωρινή. Αυτή είναι και μία μεγάλη ομοιότητα μεταξύ
+αυτής της AMA χρονοσειράς και της πρώτης AMA χρονοσειράς. Η πρώτη
+φαινόταν να έχει πιο ισχυρές πρώτες μερικές αυτοσυσχετίσεις και
+αυτοσυσχετίσεις.
+
+Παρόλα αυτά τα γραμμικά μοντέλα μπορούν να πετύχουν τα παρακάτω. Το
+τελικό κριτήριο επιλογής αυτών είναι πάλι το AIC με βάση το σφάλμα
+NRMSE. Στα διαγράμματα {[}17{]} δείχνουμε τα κριτήρια αυτά για τα
+υποψήφια μοντέλα.
+
+\begin{longtable}[]{@{}cc@{}}
+\toprule
+AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψήφια MA
+μοντέλα\tabularnewline
+\midrule
+\endhead
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/MA_AIC_AMA2.png}
+&
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/AR_AIC_AMA2.png}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_AIC_TMI2.png}
+\caption{AIC για τα υποψήφια ARMA μοντέλα}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_best_pred_TMI2.png}
+\caption{Προβλέψεις τιμών για το καλύτερο μοντέλο}
+\end{figure}
+
+Παραδόξως όμως η πρόβλεψη είναι καλύτερη από ότι αν είχαμε πρόβλεψη
+χρησιμοποιώντας τη μέση τιμή ακόμα και στα δύο χρονικά βήματα. Αυτό
+δείχνει ότι το μοντέλο \texttt{ARMA(2,3)} προσεγγίζει σχετικά καλά την
+χρονοσειρά. Επίσης είναι καλύτερη από ότι η αντίστοιχη καλύτερη στην
+πρώρη χρονοσειρά.
+
+Ο κώδικας του αρχείου \texttt{LINEAR2.m} για την υλοποίηση της ανάλυσης
+της δεύτερης χρονοσειράς δίνεται παρακάτω:
+
+Ο κώδικας του αρχείου \texttt{LINEAR2.m}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{DST_NUM = }\StringTok{'2nd'}\NormalTok{;}
+\NormalTok{if(BASIC_PLOT)}
+\NormalTok{    f = figure();}
+\NormalTok{    plot(T, X2);}
+\NormalTok{    saveas(f, sprintf(}\StringTok{'assets/basic_plot_%s.png'}\NormalTok{, DST_NUM));}
+\NormalTok{    title(sprintf(}\StringTok{'%s time series'}\NormalTok{, DST_NUM));}
+\NormalTok{    xlabel(}\StringTok{'time-step'}\NormalTok{);}
+\NormalTok{    ylabel(}\StringTok{'eye-position'}\NormalTok{);       }
+\NormalTok{end}
+\CommentTok{% see if the signal has information}
+\CommentTok{% if voids and non-voids exist inside it}
+\CommentTok{% then there is information.}
+\CommentTok{% plot(T, log(abs(X1) + eps));}
+\CommentTok{% Y1 = log(abs(X1(2:end))) - log(abs(X1(1:LENGTH-1)));}
+\CommentTok{% plot(T(1:end-1), Y1)}
+
+\NormalTok{filterorder = }\FloatTok{5}\NormalTok{;}
+\CommentTok{% we tested 30, 20, 10, 5}
+\CommentTok{% 5 is much more promising...}
+\NormalTok{nsam = }\FloatTok{5}\NormalTok{;}
+\NormalTok{timesep = }\FloatTok{5}\NormalTok{;}
+\CommentTok{% get EXTREMA SERIES }
+\NormalTok{[AMA, AMI, AMD, TMA, TMI, TBP] = produce_time_series(X2, Ts, filterorder, nsam, timesep, EXTREMA_PLOT, EXTREMA_SERIES_PLOT, FIR, DST_NUM);}
+
+\CommentTok{% all linear analysis for AMA}
+\NormalTok{linear_analysis(AMA, }\StringTok{'AMA2'}\NormalTok{, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, ...}
+\NormalTok{                EXTREMA_PLOT, EXTREMA_SERIES_PLOT, REMOVES_TREND, REMOVES_TREND_PLOT, AUTOCORR_PLOT, AKAIKE, DST_NUM);}
+
+
+\CommentTok{% all linear analysis for TMI}
+\NormalTok{linear_analysis(TMI, }\StringTok{'TMI2'}\NormalTok{, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, ...}
+\NormalTok{                EXTREMA_PLOT, EXTREMA_SERIES_PLOT, REMOVES_TREND, REMOVES_TREND_PLOT, AUTOCORR_PLOT, AKAIKE, DST_NUM);}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{ux3bcux3b7-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-1ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}{%
+\subsection{Μη-γραμμική ανάλυση 1ης
+χρονοσειράς}\label{ux3bcux3b7-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-1ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}}
+
+Σε αυτό το σημείο της εργασίας, αναλύουμε με μη γραμμικές μεθόδους την
+πρώτη χρονοσειρά. Όπως έδειξε η προηγούμενη ανάλυση το μοντέλο δεν
+μπόρεσε να εξηγηθεί με βάση τα γραμμικά εργαλεία. Οπότε, προχωράμε στη
+μη γραμμική μελέτη αυτής.
+
+Στα πρώτα βήματα δε θα χρειαστεί να εξάγουμε κάποια άλλη χρονοσειρά μέσω
+της βασικής, ωστόσο θα πρέπει να βρούμε την υστέρηση και τη διάσταση
+εμβύθισης μέσω της μεθόδου των υστερήσεων. Για να έχουμε μια εποπτεία
+για τα μη γραμμικά μεγέθη της χρονοσειράς κάνουμε διαγράμματα διασποράς
+στις δύο και στις τρεις διαστάσεις. Τα διαγράμματα αυτά φαίνονται στα
+παρακάτω σχήματα:
+
+\begin{longtable}[]{@{}cc@{}}
+\toprule
+Διαγράμματα & Διασποράς\tabularnewline
+\midrule
+\endhead
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_1st_xM_1_2_3.png}
+&
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_1st_xM_1_2_4.png}\tabularnewline
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_1st_xM_1_2_5.png}
+&
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_1st_xM_1_2_6.png}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Τα διαγράμματα διασποράς δε μας δίνουν μία τόσο καθαρή εικόνα ή μας
+βοηθούν για την διερεύνηση κατάλληλων παραμέτρων ανακατασκευής του χώρου
+κατάστασης στη συγκεκριμένη χρονοσειρά. Για αυτό προχωρούμε στη χρήση
+του διαγράμματος συνάρτησης αμοιβαίας πληροφορίας.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/mutualinformation_1st.png}
+\caption{Διάγραμμα συνάρτησης αμοιβαίας πληροφορίας}
+\end{figure}
+
+Αν η χρονοσειρά μπορούσε να εξηγηθεί από μη-γραμμική μοντελοποίηση, τότε
+η συνάρτηση αμοιβαίας πληροφορίας θα έπρεπε να παρουσιάζει ένα τοπικό
+ελάχιστο. Παρόλα αυτά στο διάγραμμα δε διακρίνεται κάποιο τοπικό
+ελάχιστο, αλλά μόνο ότι η συνάρτηση είναι φθίνουσα. Για να σιγουρευτούμε
+περί αυτού και να δούμε αν μπορούμε να συνεχίσουμε την μη γραμμική
+ανάλυση κάνουμε και επιπλέον διαγράμματα 2 διαστάσεων για πιο μεγάλους
+χρόνους υστέρησης. Αυτά φαίνονται στα παρακάτω σχήματα:
+
+\begin{longtable}[]{@{}ccc@{}}
+\toprule
+Διαγράμματα & Διασποράς &\tabularnewline
+\midrule
+\endhead
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_1st_xM_1_2.png}
+&
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_1st_xM_1_3.png}
+&
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_1st_xM_1_4.png}\tabularnewline
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_1st_xM_1_5.png}
+&
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_1st_xM_1_6.png}
+&
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_1st_xM_1_7.png}\tabularnewline
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_1st_xM_1_8.png}
+&
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_1st_xM_1_9.png}
+&
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_1st_xM_1_10.png}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Από αυτά καταλαβαίνουμε πως η μη-γραμμική ανάλυση που θα
+πραγματοποιήσουμε στη συνέχεια, πολύ πιθανόν να αποτύχει. Για την
+επιλογή του \(\tau\) παίρνουμε την τιμή που η \(I(\tau)\) κάνει αγκώνα.
+Δηλαδή \(\tau=10\).
+
+Στη συνέχεια κάνουμε και άλλα διαγράμματα για να δείξουμε τη διάσταση
+εμβύθισης. Από ότι παρατηρούμε βέβαια δεν υπάρχει κάποιος ελκυστής ο
+οποίος να έχει κάποιο συγκεκριμένο σχήμα. Για να δούμε καλύτερα ότι
+υπάρχει ελκυστής και που ακριβώς είναι τοποθετημένος στα διαγράμματα
+χρησιμοποιούμε τη μέθοδο των ψευδών γειτόνων.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/false_nearest_calc_plot_1st.png}
+\caption{FNN}
+\end{figure}
+
+\begin{longtable}[]{@{}ccc@{}}
+\toprule
+Διαγράμματα & Διασποράς &\tabularnewline
+\midrule
+\endhead
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_1st_with_tau_xM_1_2.png}
+&
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_1st_with_tau_xM_1-3.png}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/scatter_1st_with_tau_xM_1_4.png}
+\caption{47}
+\end{figure}
+
+Τελικά, διαλέγουμε διάσταση εμβύθισης \(m=3\) χρησιμοποιώντας τη μέθοδο
+των υστερήσεων και όχι τους ψευδείς γείτονες. Αυτό γίνεται γιατί παρόλο
+που οι ψευδείς γείτονες απαιτούν \(m\geq 5\), όταν βάζουμε \(m>3\) στα
+διαγράμματα διασποράς τα σημεία απλώνονται περισσότερο στον χώρο. Για να
+επαληθεύσουμε την επιλογή μας πραγματοποιούμε και υπολογισμό της
+διάστασης συσχέτισης για διαφορετικές διαστάσεις εμβύθισης και κατάλληλη
+παράμετρο υστέρησης (για τώρα \(\tau=10\)). Η διάσταση συσχέτισης
+προκύπτει να είναι μία ευθεία για τις πρώτες 7 τιμές του \(m\) και μετά
+μία άλλη ευθεία για την οποία όμως υπάρχει μεγάλη ασάφεια για τις
+ακριβείς τιμές για την τιμή της \(v\). Δηλαδή στη δεύτερη ευθεία
+\(v = v\pm \delta , \delta \geq 0\). Η πρώτη ευθεία δείχνει την ύπαρξη
+χάους στη χρονοσειρά πάντα δεδομένου των \(tau\) και \(m\).
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/cor_dim_plot_1st.png}
+\caption{Διάσταση υστέρησης για διάφορα m και r}
+\end{figure}
+
+Το μόνο που μένει να κάνουμε ακόμα στο μοντέλο αυτής της χρονοσειράς
+είναι να δούμε την προβλεπτική του ικανότητα. Αυτή θα τη δούμε
+χρησιμοποιώντας κάποιο κατάλληλο τοπικό μοντέλο που βασίζεται σε
+κοντινότερους γείτονες. Η πρόβλεψη γίνεται για 1 έως και 10 βήματα
+μπροστά στο Σχήμα {[}23{]} χρησιμοποιώντας τους 3 κοντινότερους
+γείτονες. Ως σφάλμα πρόβλεψης χρησιμοποιούμε το NRMSE, ώστε να
+μπορέσουμε να συγκρίνουμε και με τα γραμμικά μοντέλα.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/local_model_fit_1st.png}
+\caption{Μη γραμμική πρόβλεψη}
+\end{figure}
+
+Αν και στην αρχή ήμασταν διστακτικοί για τα αποτελέσματα της μη
+γραμμικής ανάλυσης, τα αποτελέσματα δείχνουν να είναι σίγουρα καλύτερα
+από ότι η γραμμική ανάλυση αυτής της χρονοσειράς. Βέβαια, στην γραμμική
+περίπτωση ουσιαστικά αναλύαμε μία σειρά τοπικών ακροτάτων. Ενώ στην
+πρώτη η πρόβλεψη αποτύγχανε να βρει το πλάτος για τη σειρά και μπορούσε
+να βρει μόνο τα χρόνο εμφάνισης του ακρότατου για T=1 με αρκετά υψηλό
+σφάλμα, εδώ η πρόβλεψη μπορεί να βρει ουσιαστικά και τα δύο με
+τουλάχιστον υποτετραπλάσιο σφάλμα για T=1. Επίσης, η πρόβλεψη είναι
+καλύτερη από την χρήση μέσης τιμής για μέχρι και 6 βήματα. Ο ασθενής σε
+αυτή την περίπτωση φαίνεται να είναι ασθενής λόγω των μικρών τιμών της
+διάστασης υστέρησης σε σχέση με τη δεύτερη χρονοσειρά(θα δειχθεί
+παρακάτω) και το σύστημα είναι χαμηλής διάστασης και μικρής
+πολυπλοκότητας (\(m=3\), \(k=3\), \(q=1\)), ωστόσο το ότι δεν
+παρουσιάζει τοπικό ελάχιστο στη συνάρτηση αμοιβαίας πληροφορίας δείχνει
+???????.
+
+\hypertarget{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3bcux3b7-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3aeux3c2-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7ux3c2-ux3c4ux3b7ux3c2-1ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}{%
+\subsubsection{Ο κώδικας μη-γραμμικής ανάλυσης της 1ης
+χρονοσειράς}\label{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3bcux3b7-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3aeux3c2-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7ux3c2-ux3c4ux3b7ux3c2-1ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{TS_NUM = }\StringTok{'1st'}\NormalTok{; }\CommentTok{% '2nd'}
+\NormalTok{xV = X1;}
+
+\NormalTok{m_max = }\FloatTok{6}\NormalTok{; }\CommentTok{% this is precalculated by seeing the various scatter plots}
+
+\NormalTok{xM = embedDelays(xV, m_max, }\FloatTok{1}\NormalTok{);}
+\NormalTok{if(SCATTER_DIAGRAMS_PLOT)}
+\NormalTok{  f = plotd2d3(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{3}\NormalTok{),...}
+\NormalTok{               sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series'}\NormalTok{,...}
+\NormalTok{               TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_2_3.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{4}\NormalTok{),...}
+\NormalTok{               sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series'}\NormalTok{,...}
+\NormalTok{               TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_2_4.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{5}\NormalTok{),...}
+\NormalTok{               sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series'}\NormalTok{,...}
+\NormalTok{               TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_2_5.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3(xM,...}
+\NormalTok{               sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series'}\NormalTok{,...}
+\NormalTok{               TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_2_6.png'}\NormalTok{, TS_NUM));  }
+\NormalTok{end}
+\NormalTok{if(MORE_SCATTER_DIAGRAMS_PLOT)}
+\NormalTok{  xM2 = embedDelays(xV, }\FloatTok{10}\NormalTok{, }\FloatTok{1}\NormalTok{);}
+\NormalTok{  f = plotd2d3(xM2(:,}\FloatTok{1}\NormalTok{:}\FloatTok{2}\NormalTok{),...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 1'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 1'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_2.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{3}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 2'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 2'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_3.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{4}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 3'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 3'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_4.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{5}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 4'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 4'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_5.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{6}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 5'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 5'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_6.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{7}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 6'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 6'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_7.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{8}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 7'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 7'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_8.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{9}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 8'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 8'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_9.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{10}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 9'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 9'}\NormalTok{,TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_10.png'}\NormalTok{, TS_NUM));    }
+\NormalTok{end}
+
+
+\CommentTok{% find best tau by using mutual information criterion}
+\NormalTok{best_tau = }\FloatTok{10}\NormalTok{;}
+\NormalTok{if(FIND_BEST_TAU)}
+\NormalTok{  tmax = }\FloatTok{100}\NormalTok{;}
+\NormalTok{  [mutM,f] = mutualinformation(xV, tmax);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/mutualinformation_%s.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  best_tau = }\FloatTok{10}\NormalTok{; }\CommentTok{% there is no local minimum so we choose a}
+                 \CommentTok{% bending point}
+\NormalTok{end}
+\NormalTok{tau = best_tau;}
+
+\NormalTok{xM = embedDelays(xV, m_max, tau);}
+\NormalTok{if(SCATTER_DIAGRAMS_PLOT)}
+\NormalTok{  m = }\FloatTok{0}\NormalTok{;}
+\NormalTok{  f = plotd2d3(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{2}\NormalTok{),...}
+\NormalTok{               sprintf(}\StringTok{'scatter-diagrams (tau=%d) for %s time series'}\NormalTok{,...}
+\NormalTok{               tau, TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_with_tau_xM_1_2.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{3}\NormalTok{),...}
+\NormalTok{              sprintf(}\StringTok{'scatter-diagrams (tau=%d) for %s time series'}\NormalTok{,...}
+\NormalTok{              tau, TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_with_tau_xM_1-3.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM(:,}\FloatTok{1}\NormalTok{), xM(:,}\FloatTok{4}\NormalTok{)],...}
+\NormalTok{               sprintf(}\StringTok{'scatter-diagrams (tau=%d) for %s time series,lag=3'}\NormalTok{,...}
+\NormalTok{               tau, TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_with_tau_xM_1_4.png'}\NormalTok{, TS_NUM));    }
+\NormalTok{end}
+
+\NormalTok{if(FALSE_NEAREST_CALC_PLOT)}
+\NormalTok{  m_max = }\FloatTok{10}\NormalTok{;}
+\NormalTok{  [fnnM,mdistV,sddistV,f] = falsenearest(xV, tau, m_max, }\FloatTok{10}\NormalTok{, }\FloatTok{0}\NormalTok{,...}
+\NormalTok{                              sprintf(}\StringTok{'FNN for %s time-series'}\NormalTok{,...}
+\NormalTok{                              TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/false_nearest_calc_plot_%s.png'}\NormalTok{, TS_NUM));}
+\NormalTok{end}
+
+\CommentTok{% Noise is the same for every plot, so it is not corelated with the input time series}
+\CommentTok{% it is white noise because n --> +infty => Normalized distribution of noise.}
+\CommentTok{% Its deviation is the same through the sample time.}
+\NormalTok{if(DBSCAN_CLUSTERING)}
+\NormalTok{    epsilon=}\FloatTok{0.5}\NormalTok{;}
+\NormalTok{    MinPts=}\FloatTok{10}\NormalTok{;}
+\NormalTok{    IDX=DBSCAN(xM,epsilon,MinPts);}
+    \CommentTok{%% Plot Results}
+\NormalTok{    f = figure();}
+\NormalTok{    subplot(}\FloatTok{2}\NormalTok{,}\FloatTok{1}\NormalTok{,}\FloatTok{1}\NormalTok{);}
+\NormalTok{    PlotClusterinResult(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{3}\NormalTok{), IDX);}
+\NormalTok{    title([}\StringTok{'DBSCAN Clustering (m='} \FloatTok{3} \StringTok{', \textbackslash{}epsilon = '}\NormalTok{ num2str(epsilon) }\StringTok{', MinPts = '}\NormalTok{ num2str(MinPts) }\StringTok{')'}\NormalTok{]);}
+\NormalTok{    subplot(}\FloatTok{2}\NormalTok{,}\FloatTok{1}\NormalTok{,}\FloatTok{2}\NormalTok{);}
+\NormalTok{    PlotClusterinResult(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{4}\NormalTok{), IDX);}
+\NormalTok{    title([}\StringTok{'DBSCAN Clustering (m='} \FloatTok{4} \StringTok{', \textbackslash{}epsilon = '}\NormalTok{ num2str(epsilon) }\StringTok{', MinPts = '}\NormalTok{ num2str(MinPts) }\StringTok{')'}\NormalTok{]);}
+\NormalTok{    saveas(f, sprintf(}\StringTok{'assets/DBSCAN_%s.png'}\NormalTok{, TS_NUM));}
+\NormalTok{end}
+
+
+\NormalTok{best_m = }\FloatTok{3}\NormalTok{; }\CommentTok{% because when 4-th or 5-th dimension enter it causes catastrophy}
+
+\CommentTok{% calculate correlation dimension}
+\NormalTok{if(CALCULATE_CORRELATION_DIMENSION)}
+\NormalTok{  mmax = }\FloatTok{10}\NormalTok{;}
+\NormalTok{  f = correlationdimension(xV, tau, mmax,}\StringTok{' '}\NormalTok{);}
+  \CommentTok{% [cor_dim,~,f] = corr_dim(xV, mmax, tau, PLOT_CORR_DIM);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/cor_dim_plot_%s.png'}\NormalTok{, TS_NUM));}
+\NormalTok{end}
+
+
+\CommentTok{% train a local model}
+\NormalTok{if(TRAIN_LOCAL_MODEL)}
+\NormalTok{  k = }\FloatTok{3}\NormalTok{; }\CommentTok{% stands for k in k-nn}
+\NormalTok{  q = }\FloatTok{1}\NormalTok{;}
+\NormalTok{  Tmax = }\FloatTok{10}\NormalTok{;}
+\NormalTok{  [nrmseV,~,f] = localpredictnrmse(xV, TEST_SET_LENGTH, tau,...}
+\NormalTok{                                   best_m, Tmax, k, }\FloatTok{1}\NormalTok{,...}
+                                   \StringTok{'local-model-fit_1'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/local_model_fit_%s.png'}\NormalTok{, TS_NUM));}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{ux3bcux3b7-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-2ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}{%
+\subsection{Μη-γραμμική ανάλυση 2ης
+χρονοσειράς}\label{ux3bcux3b7-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-2ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}}
+
+Σε αυτό το σημείο της εργασίας, αναλύουμε με μη γραμμικές μεθόδους τη
+δεύτερη χρονοσειρά. Στη γραμμική περίπτωση της δεύτερης χρονοσειράς
+καταφέραμε να εξάγουμε με επιτυχία ένα γραμμικό μοντέλο, αλλά όχι αρκετά
+ικανό για να περιγράψει πλήρως τη συμπεριφορά της χρονοσειράς.
+
+Ούτε εδώ θα χρειαστεί να εξάγουμε κάποια άλλη χρονοσειρά μέσω της
+βασικής, ωστόσο θα πρέπει να βρούμε την υστέρηση και τη διάσταση
+εμβύθισης μέσω της μεθόδου των υστερήσεων. Όπως και στη μη γραμμική
+ανάλυση της πρώτης χρονοσειράς πρώτα κάνουμε τα διαγράμματα διασποράς.
+Αυτά φαίνονται στα παρακάτω σχήματα:
+
+\begin{longtable}[]{@{}cc@{}}
+\toprule
+Διαγράμματα & Διασποράς\tabularnewline
+\midrule
+\endhead
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_2nd_xM_1_2_3.png}
+&
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_2nd_xM_1_2_4.png}\tabularnewline
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_2nd_xM_1_2_5.png}
+&
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_2nd_xM_1_2_6.png}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Και εδώ τα διαγράμματα αυτά δε μας δίνουν μία τόσο καθαρή εικόνα ή μας
+βοηθούν για την διερεύνηση κατάλληλων παραμέτρων ανακατασκευής του χώρου
+κατάστασης στη συγκεκριμένη χρονοσειρά. Οπότε, δοκιμάζουμε να κάνουμε
+περισσότερα και να δούμε εάν από αυτά μπορούμε να εξάγουμε την υστέρηση
+\(\tau\).
+
+\begin{longtable}[]{@{}ccc@{}}
+\toprule
+Διαγράμματα & Διασποράς &\tabularnewline
+\midrule
+\endhead
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_2nd_xM_1_2.png}
+&
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_2nd_xM_1_3.png}
+&
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_2nd_xM_1_4.png}\tabularnewline
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_2nd_xM_1_5.png}
+&
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_2nd_xM_1_6.png}
+&
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_2nd_xM_1_7.png}\tabularnewline
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_2nd_xM_1_8.png}
+&
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_2nd_xM_1_9.png}
+&
+\includegraphics[width=0.3\textwidth,height=0.3\textwidth]{../assets/scatter_2nd_xM_1_10.png}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Επειδή δε φαίνεται να μπορέσουμε να καταλήξουμε κάπου και επειδή μπορεί
+η υστέρηση να είναι αρκετά μεγάλη σε τιμή δοκιμάζουμε να κάνουμε το
+διάγραμμα της συνάρτησης αμοιβαίας πληροφορίας. Αυτό φαίνεται στο σχήμα
+{[}24{]}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/mutualinformation_2nd.png}
+\caption{Διάγραμμα συνάρτησης αμοιβαίας πληροφορίας}
+\end{figure}
+
+Από το διάγραμμα της συνάρτησης αμοιβαίας πληροφορίας παρατηρούμε ότι το
+πρώτο τοπικό ελάχιστο είναι για υστέρηση \(\tau =20\). Οπότε, αυτή είναι
+και η υστέρηση που θα χρησιμοποιήσουμε παρακάτω. Σε αντίθεση με την
+πρώτη χρονοσειρά αυτή έχει τοπικό ελάχιστο στη συνάρτηση αμοιβαίας
+πληροφορίας. Επιπλέον, θα χρειαζόμασταν πάνω από 20 διαγράμματα
+διασποράς για να καταλήξουμε στο ίδιο αποτέλεσμα.
+
+Στη συνέχεια προχωράμε στην αναζήτηση της διάστασης εμβύθισης. Αρχικά
+για να τη βρούμε κάνουμε το διάγραμμα ψευδών γειτόνων. Αυτό φαίνεται στο
+σχήμα {[}25{]}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/false_nearest_calc_plot_1st.png}
+\caption{FNN}
+\end{figure}
+
+Σύμφωνα με το διάγραμμα ψευδών γειτόνων για \(m=4\) παρουσιάζεται η
+πρώτη τιμή με FNN μικρότερο του 0.1, για αυτό και θα έπρεπε να
+διαλέξουμε αυτό. Ωστόσο, δεν αφήνουμε την ανάλυση μόνο στο διάγραμμα
+FNN, αλλά κάνουμε και τα διαγράμματα διασποράς για διάφορες τιμές του
+\(m\) γύρω από το 4.
+
+\begin{longtable}[]{@{}cc@{}}
+\toprule
+Διαγράμματα & Διασποράς\tabularnewline
+\midrule
+\endhead
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_2nd_with_tau_xM_1_2.png}
+&
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_2nd_with_tau_xM_1-3.png}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/scatter_2nd_with_tau_xM_1_4.png}
+\caption{67}
+\end{figure}
+
+Από τα τελευταία αυτά διαγράμματα διασποράς, βλέπουμε ότι η τιμή \(m=3\)
+είναι καλύτερη, διότι ο ελκυστής για \(m=2\) ή/και \(m=4\) αρχίζει και
+καταστρέφεται. Το ίδιο επιβεβαιώνεται από τα διαγράμματα σφάλματος
+πρόβλεψης. Το σφάλμα πρόβλεψης δείχνει να έχει ένα τοπικό ελάχιστο για
+\(m=3\). Αυτό το διάγραμμα θα το δείξουμε στο τέλος της μη-γραμμικής
+ανάλυσης.
+
+Το επόμενο που κάναμε ήταν να δούμε τη διάσταση συσχέτισης. Όπως και
+πρωτύτερα κάνουμε τα σχετικά διαγράμματα με χρήση των πακέτων tisean.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/cor_dim_plot_2nd.png}
+\caption{Διάσταση συσχέτισης για διάφορα m και r}
+\end{figure}
+
+Από το διάγραμμα της διάστασης συσχέτισης, μπορούμε εύκολα να επιλέξουμε
+το \(m=3\) και να δούμε ότι εκεί παρουσιάζεται χάος και μικρό όριο
+σφάλματος. Επίσης, γίνεται κατανοητό ότι οι κλίσεις δε συγκλίνουν, αλλά
+αυξάνουν καθώς το \(m\) αυξάνει και επομένως η εκτίμηση του \(v\)
+αυξάνει με το \(m\). Αυτό συμβαίνει γιατί το παράθυρο χρόνου της
+ανακατασκευής γίνεται πολύ μεγάλο και οι αναδιπλώσεις του ελκυστή
+καταστρέφουν την κλιμάκωση για μεγάλα \(r\). Παρόλα αυτά για \(m=3\) το
+μοντέλο είναι χαοτικό διότι το διάστημα στο οποίο βρίσκεται μέσα η \(v\)
+δεν εμπεριέχει ακέραιο αριθμό.
+
+Το μόνο που μένει να κάνουμε ακόμα στο μοντέλο αυτής της χρονοσειράς
+είναι να δούμε την προβλεπτική του ικανότητα. Αυτή θα τη δούμε
+χρησιμοποιώντας κάποιο κατάλληλο τοπικό μοντέλο που βασίζεται σε
+κοντινότερους γείτονες. Η πρόβλεψη γίνεται για 1 έως και 10 βήματα
+μπροστά στο Σχήμα {[}28{]} χρησιμοποιώντας τους 3 κοντινότερους
+γείτονες. Ως σφάλμα πρόβλεψης χρησιμοποιούμε το NRMSE, ώστε να
+μπορέσουμε να συγκρίνουμε και με τα γραμμικά μοντέλα, όπως και με τη μη
+γραμμική ανάλυση της δεύτερης χρονοσειράς.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/local_model_fit_2nd.png}
+\caption{Μη γραμμική πρόβλεψη}
+\end{figure}
+
+Από ότι βλέπουμε τα αποτελέσματα πρόβλεψης είναι καλύτερα από ότι στη
+γραμμική ανάλυση. Αυτό συμβαίνει τόσο για T=1, όσο και για τα υπόλοιπα
+βήματα. Ωστόσο, οι μέθοδοι ανάλυσης ήταν αρκετά πιο ασαφής, διότι
+χρειάστηκε να χρησιμοποιήσουμε τη μέθοδο των υστερήσεων για τη μη
+γραμμική ανάλυση. Επιπλέον, αν και το αποτέλεσμα είναι ένα
+χαμηλο-διάστατο χαοτικό μοντέλο (ίδιο με το μη γραμμικό της πρώτης
+χρονοσειράς), είναι σίγουρα πιο πολύπλοκο από τα \texttt{AR(2)} και
+\texttt{ARMA(2,3)} που είχαμε στο γραμμικό κομμάτι της γραμμικής
+ανάλυσης της δεύτερης χρονοσειράς. Ωστόσο, η προβλεπτική ικανότητα μας
+οδηγεί να πούμε ότι το σύστημα μπορεί να μοντελοποιηθεί καλύτερα με ένα
+μη γραμμικό μοντέλο όπως αυτό και μάλιστα παρουσιάζει και χαοτική
+συμπεριφορά. Δυστυχώς, η προβλεπτική του ικανότητα είναι χειρότερη του
+πρώτου, αλλά είναι σημαντικό ότι παρουσιάζει μία ανοδική ευθεία στο
+διάγραμμα διάστασης συσχέτισης \(v(m)\) και επιπλέον η συνάρτηση
+αμοιβαίας πληροφορίας παρουσιάζει ελάχιστο. Αυτά τα δύο τελευταία μας
+κάνουν να χαρακτηρίσουμε αυτό το σύστημα πιο εύκολα μη-γραμμικό από ότι
+αυτό της πρώτης χρονοσειράς. Οπότε, από όλη την ανάλυση της δεύτερης
+χρονοσειράς μπορούμε να πούμε ότι είναι ένα αιτιοκρατικό σύστημα,
+χαμηλής διάστασης και μικρής πολυπλοκότητας.
+
+Επιπλέον η μη-γραμμική δυναμική του συστήματος αυτού φαίνεται να είναι
+ασθενέστερη από ότι του πρώτου. Αυτό φαίνεται από την προβλεπτική
+ικανότητά του, η οποία είναι υποδεέστερη του πρώτου. Επίσης, από τη
+διάσταση συσχέτισης και από το σχετικό άρθρο που δόθηκε μπορούμε να
+πούμε πως αυτή η χρονοσειρά παρουσιάζει μεγαλύτερες τιμές διάστασης
+συσχέτισης οπότε αφορά τον υγιή άνθρωπο σε αντίθεση με την υπόθεσή μας
+αρχικά.
+
+\hypertarget{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3bcux3b7-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3aeux3c2-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7ux3c2-ux3c4ux3b7ux3c2-2ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}{%
+\subsubsection{Ο κώδικας μη-γραμμικής ανάλυσης της 2ης
+χρονοσειράς}\label{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3bcux3b7-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3aeux3c2-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7ux3c2-ux3c4ux3b7ux3c2-2ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{TS_NUM = }\StringTok{'2nd'}\NormalTok{; }\CommentTok{% '2nd'}
+\NormalTok{xV = X2;}
+
+\NormalTok{m_max = }\FloatTok{5}\NormalTok{; }\CommentTok{% this is precalculated by seeing the various scatter plots}
+
+\NormalTok{xM = embedDelays(xV, m_max, }\FloatTok{2}\NormalTok{);}
+\NormalTok{if(SCATTER_DIAGRAMS_PLOT)}
+\NormalTok{  f = plotd2d3(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{3}\NormalTok{),...}
+\NormalTok{               sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series'}\NormalTok{,...}
+\NormalTok{               TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_2_3.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{4}\NormalTok{),...}
+\NormalTok{               sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series'}\NormalTok{,...}
+\NormalTok{               TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_2_4.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{5}\NormalTok{),...}
+\NormalTok{               sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series'}\NormalTok{,...}
+\NormalTok{               TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_2_5.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3(xM,...}
+\NormalTok{               sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series'}\NormalTok{,...}
+\NormalTok{               TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_2_6.png'}\NormalTok{, TS_NUM));  }
+\NormalTok{end}
+\NormalTok{if(MORE_SCATTER_DIAGRAMS_PLOT)}
+\NormalTok{  xM2 = embedDelays(xV, }\FloatTok{10}\NormalTok{, }\FloatTok{1}\NormalTok{);}
+\NormalTok{  f = plotd2d3(xM2(:,}\FloatTok{1}\NormalTok{:}\FloatTok{2}\NormalTok{),...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 1'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 1'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_2.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{3}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 2'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 2'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_3.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{4}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 3'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 3'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_4.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{5}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 4'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 4'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_5.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{6}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 5'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 5'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_6.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{7}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 6'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 6'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_7.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{8}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 7'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 7'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_8.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{9}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 8'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 8'}\NormalTok{, TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_9.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM2(:,}\FloatTok{1}\NormalTok{) xM2(:,}\FloatTok{10}\NormalTok{)],...}
+\NormalTok{              sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series tau = 9'}\NormalTok{,...}
+\NormalTok{              TS_NUM));}
+\NormalTok{  title(sprintf(}\StringTok{'Multi dimensional scatter-diagrams for %s time series τ = 9'}\NormalTok{,TS_NUM),...}
+        \StringTok{'Interpreter'}\NormalTok{,}\StringTok{'latex'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_xM_1_10.png'}\NormalTok{, TS_NUM));    }
+\NormalTok{end}
+
+\CommentTok{% find best tau by using mutual information criterion}
+\NormalTok{best_tau = }\FloatTok{20}\NormalTok{;}
+\NormalTok{if(FIND_BEST_TAU)}
+\NormalTok{  tmax = }\FloatTok{100}\NormalTok{;}
+\NormalTok{  [mutM,f] = mutualinformation(xV, tmax);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/mutualinformation_%s.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  best_tau = }\FloatTok{20}\NormalTok{; }\CommentTok{% there is the first local minimum}
+\NormalTok{end}
+\NormalTok{tau = best_tau;}
+
+
+\NormalTok{xM = embedDelays(xV, m_max, tau);}
+\NormalTok{if(SCATTER_DIAGRAMS_PLOT)}
+\NormalTok{  m = }\FloatTok{0}\NormalTok{;}
+\NormalTok{  f = plotd2d3(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{2}\NormalTok{), sprintf(}\StringTok{'scatter-diagrams (tau=%d) for %s time series'}\NormalTok{, tau, TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_with_tau_xM_1_2.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{3}\NormalTok{), sprintf(}\StringTok{'scatter-diagrams (tau=%d) for %s time series'}\NormalTok{, tau, TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_with_tau_xM_1-3.png'}\NormalTok{, TS_NUM));}
+\NormalTok{  f = plotd2d3([xM(:,}\FloatTok{1}\NormalTok{), xM(:,}\FloatTok{4}\NormalTok{)], sprintf(}\StringTok{'scatter-diagrams (tau=%d) for %s time series,lag=3'}\NormalTok{, tau, TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/scatter_%s_with_tau_xM_1_4.png'}\NormalTok{, TS_NUM));    }
+\NormalTok{end}
+
+\NormalTok{if(FALSE_NEAREST_CALC_PLOT)}
+\NormalTok{  m_max = }\FloatTok{20}\NormalTok{;}
+\NormalTok{  [fnnM,mdistV,sddistV,f] = falsenearest(xV, tau, m_max, }\FloatTok{10}\NormalTok{, }\FloatTok{0}\NormalTok{, sprintf(}\StringTok{'FNN for %s time-series'}\NormalTok{, TS_NUM));}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/false_nearest_calc_plot_%s.png'}\NormalTok{, TS_NUM));}
+\NormalTok{end}
+
+\NormalTok{if(DBSCAN_CLUSTERING)}
+\NormalTok{  epsilon=}\FloatTok{0.5}\NormalTok{;}
+\NormalTok{  MinPts=}\FloatTok{10}\NormalTok{;}
+\NormalTok{  IDX=DBSCAN(xM,epsilon,MinPts);}
+  \CommentTok{%% Plot Results}
+\NormalTok{  f = figure();}
+\NormalTok{  subplot(}\FloatTok{2}\NormalTok{,}\FloatTok{1}\NormalTok{,}\FloatTok{1}\NormalTok{);}
+\NormalTok{  PlotClusterinResult(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{3}\NormalTok{), IDX);}
+\NormalTok{  title([}\StringTok{'DBSCAN Clustering (m='}\NormalTok{, }\FloatTok{3}\NormalTok{,}\StringTok{', \textbackslash{}epsilon = '}\NormalTok{ num2str(epsilon) }\StringTok{', MinPts = '}\NormalTok{ num2str(MinPts) }\StringTok{')'}\NormalTok{]);}
+\NormalTok{  subplot(}\FloatTok{2}\NormalTok{,}\FloatTok{1}\NormalTok{,}\FloatTok{2}\NormalTok{);}
+\NormalTok{  PlotClusterinResult(xM(:,}\FloatTok{1}\NormalTok{:}\FloatTok{4}\NormalTok{), IDX);}
+\NormalTok{  title([}\StringTok{'DBSCAN Clustering (m='}\NormalTok{, }\FloatTok{4}\NormalTok{,}\StringTok{', \textbackslash{}epsilon = '}\NormalTok{ num2str(epsilon) }\StringTok{', MinPts = '}\NormalTok{ num2str(MinPts) }\StringTok{')'}\NormalTok{]);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/DBSCAN_%s.png'}\NormalTok{, TS_NUM));}
+\NormalTok{end}
+
+\NormalTok{best_m = }\FloatTok{3}\NormalTok{; }\CommentTok{% because false nearest says so (FNN is below 0.1)}
+
+
+\CommentTok{% calculate correlation dimension}
+\NormalTok{if(CALCULATE_CORRELATION_DIMENSION)}
+\NormalTok{  mmax = }\FloatTok{10}\NormalTok{;}
+\NormalTok{  f = correlationdimension(xV, tau, mmax,}\StringTok{' '}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/cor_dim_plot_%s.png'}\NormalTok{, TS_NUM));}
+\NormalTok{end}
+
+
+\CommentTok{% train a local model}
+\NormalTok{if(TRAIN_LOCAL_MODEL)}
+\NormalTok{  k = }\FloatTok{3}\NormalTok{; }\CommentTok{% stands for k in k-nn}
+\NormalTok{  q = }\FloatTok{1}\NormalTok{;}
+\NormalTok{  Tmax = }\FloatTok{10}\NormalTok{;}
+\NormalTok{  [nrmseV,~,f] = localpredictnrmse(xV, TEST_SET_LENGTH, tau, best_m, Tmax, k, }\FloatTok{1}\NormalTok{,}\StringTok{'local-model-fit_1'}\NormalTok{);}
+\NormalTok{  saveas(f, sprintf(}\StringTok{'assets/local_model_fit_%s.png'}\NormalTok{, TS_NUM));}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{ux3b4ux3bfux3bcux3ae-ux3c4ux3b7ux3c2-ux3b5ux3c1ux3b3ux3b1ux3c3ux3afux3b1ux3c2-ux3c4ux3c1ux3ccux3c0ux3bfux3c2-ux3c7ux3c1ux3aeux3c3ux3b7ux3c2}{%
+\subsection{Δομή της Εργασίας \& Τρόπος
+χρήσης}\label{ux3b4ux3bfux3bcux3ae-ux3c4ux3b7ux3c2-ux3b5ux3c1ux3b3ux3b1ux3c3ux3afux3b1ux3c2-ux3c4ux3c1ux3ccux3c0ux3bfux3c2-ux3c7ux3c1ux3aeux3c3ux3b7ux3c2}}
+
+Η εργασία απαρτίζεται από πολλά κομμάτια. Έχουμε το κομμάτι των
+δεδομένων που βρίσκεται στο φάκελο data και αφορά τις χρονοσειρές που
+δίνονται για αυτή την εργασία. Παράλληλα δίνουμε και ένα script το οποίο
+κατεβάζει τις χρονοσειρές. Το κομμάτι της γραπτής αναφοράς βρίσκεται
+στον φάκελο doc. Τα δεδομένα που εξάγουμε από τις χρονοσειρές βρίσκονται
+στο φάκελο assets. Όλα τα αρχεία κώδικα βρίσκονται στο φάκελο src.
+Επιπλέον υπάρχει ο φάκελος kdtree όπου έχει τις βιβλιοθήκες που
+χρειάζονται για τη μη γραμμική ανάλυση.
+
+Πιο συγκεκριμένα ο τρόπος με τον οποίο καλείται ο κώδικας στη matlab
+είναι ο εξής: 1. Ο χρήστης χρειάζεται απλά να ορίσει ως αρχική διαδρομή
+αρχείου τη διαδρομή αρχείου που βρίσκεται η εργασία. 2. Γράφει
+\texttt{main} στην κονσόλα.
+
+Το σκριπτάκι main φροντίζει να καλέσει όλα τα υπόλοιπα αρχεία, ώστε να
+γίνουν όλες οι αναλύσεις. Τέλος όλα τα αποτελέσματα θα γραφούν στον
+φάκελος assets, διαγράφοντας όλα τα προηγούμενα.
+
+\begin{figure}
+\centering
+\includegraphics{project_struct.png}
+\caption{100}
+\end{figure}
+
+\hypertarget{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3c4ux3bfux3c5-ux3b1ux3c1ux3c7ux3b5ux3afux3bfux3c5-main.m}{%
+\subsubsection{\texorpdfstring{Ο κώδικας του αρχείου
+\texttt{main.m}:}{Ο κώδικας του αρχείου main.m:}}\label{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3c4ux3bfux3c5-ux3b1ux3c1ux3c7ux3b5ux3afux3bfux3c5-main.m}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{addpath(}\StringTok{'src'}\NormalTok{);}
+\NormalTok{addpath(}\StringTok{'kdtree'}\NormalTok{);}
+\NormalTok{addpath(}\StringTok{'kdtree/src'}\NormalTok{);}
+\NormalTok{addpath(}\StringTok{'kdtree/lib'}\NormalTok{);}
+\NormalTok{system(}\StringTok{'rm assets/*'}\NormalTok{);}
+\NormalTok{clear all;}
+\NormalTok{close all;}
+
+\CommentTok{%%%%%%%%%%%%%%%% FLAGS %%%%%%%%%%%%%%%%}
+\NormalTok{BASIC_PLOT                      = true;}
+\NormalTok{FIR                             = true;}
+\NormalTok{EXTREMA_PLOT                    = true;}
+\NormalTok{EXTREMA_SERIES_PLOT             = true;}
+\NormalTok{REMOVES_TREND                   = true;}
+\NormalTok{REMOVES_TREND_PLOT              = true;}
+\NormalTok{AUTOCORR_PLOT                   = true;}
+\NormalTok{AKAIKE                          = true;}
+
+
+\NormalTok{SCATTER_DIAGRAMS_PLOT           = false;}
+\NormalTok{DBSCAN_CLUSTERING               = false;}
+\NormalTok{FALSE_NEAREST_CALC_PLOT         = true;}
+\NormalTok{FIND_BEST_TAU                   = true;}
+\NormalTok{CALCULATE_CORRELATION_DIMENSION = true;}
+\NormalTok{PLOT_CORR_DIM                   = true;}
+\NormalTok{TRAIN_LOCAL_MODEL               = true;}
+\CommentTok{%%%%%%%%%%%%%%%% Input time Series & globals %%%%%%%%%%%%%%%%}
+\NormalTok{LENGTH                          = }\FloatTok{6000}\NormalTok{;}
+\NormalTok{TEST_SET_LENGTH                 = }\FloatTok{500}\NormalTok{;}
+\NormalTok{POLORDER                        = }\FloatTok{4}\NormalTok{;}
+\NormalTok{MAX_ORDER_AR                    = }\FloatTok{20}\NormalTok{;}
+\NormalTok{MAX_ORDER_MA                    = }\FloatTok{3}\NormalTok{;}
+\NormalTok{fs                              = }\FloatTok{100}\NormalTok{; }\CommentTok{% Hz}
+\NormalTok{Ts                              = }\FloatTok{1.0}\NormalTok{ / fs; }\CommentTok{% seconds}
+
+\CommentTok{% read series}
+\NormalTok{fileID1 = fopen(}\StringTok{'data/dat6v1.dat'}\NormalTok{, }\StringTok{'r'}\NormalTok{);}
+\NormalTok{fileID2 = fopen(}\StringTok{'data/dat6v2.dat'}\NormalTok{, }\StringTok{'r'}\NormalTok{);}
+\NormalTok{X1 = cell2mat(textscan(fileID1, }\StringTok{'%f'}\NormalTok{));}
+\NormalTok{X2 = cell2mat(textscan(fileID2, }\StringTok{'%f'}\NormalTok{));}
+\NormalTok{T = [}\FloatTok{1}\NormalTok{:LENGTH];}
+
+
+\CommentTok{%%%%%%%%%%%%%%%% Time Series 1 %%%%%%%%%%%%%%%%}
+\NormalTok{LINEAR1}
+\NormalTok{NONLINEAR1}
+\CommentTok{%%%%%%%%%%%%%%%% Time Series 2 %%%%%%%%%%%%%%%%}
+\NormalTok{LINEAR2}
+\NormalTok{NONLINEAR2}
+
+
+\CommentTok{%%%%%%%%%%%%%%%% auto crop all images %%%%%%%%%}
+\CommentTok{% requires image magic}
+\BaseNTok{!mogrify -trim +repage assets/*.png}
+\end{Highlighting}
+\end{Shaded}
+
+\end{document}
