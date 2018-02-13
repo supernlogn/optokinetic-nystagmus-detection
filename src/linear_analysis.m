@@ -18,7 +18,7 @@ function linear_analyse(yV, name, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, EXTREMA_
       plot(1:length(yV_detr), yV_detr);
       grid on;
       title(sprintf('%s_detr', name));
-      saveas(f, sprintf('rm_trend_%s_%s.png',name, DST_NUM));
+      saveas(f, sprintf('assets/rm_trend_%s_%s.png',name, DST_NUM));
     end
     yV_detr = yV(2:end) - yV(1:end-1);
     % first differences, log returns: FAILED

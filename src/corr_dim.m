@@ -24,6 +24,7 @@ function [v,R, fg] = corr_dim(xV, mmax, tau, plot_enabled)
   if(plot_enabled)
     fg = figure();
     hold on;
+    grid on;
   end
   for m=1:1:mmax
     % calculate distance matrix
@@ -49,7 +50,7 @@ function [v,R, fg] = corr_dim(xV, mmax, tau, plot_enabled)
 
   if(plot_enabled)
     xlabel('log(r)');
-    ylabel('v=\\frac{dlog(C(r))}{dlog(r)}');
+    ylabel('$$v=\frac{dlog(C(r))}{dlog(r)}$$','Interpreter','latex');
     title('correlation dimension');
     legend('show');
   end

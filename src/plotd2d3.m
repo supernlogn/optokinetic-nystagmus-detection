@@ -25,7 +25,7 @@ if m>2
     xlabel('x(k+1)');
     ylabel('x(k+2)');
     zlabel(['x(k+', int2str(m), ')']);
-    title([tittxt]);
+    title(tittxt,'Interpreter','latex');
     % figure(figno+1)
     % clf
     % eval(['plot(xM(:,1), xM(:,2),''',symb,''')'])
@@ -44,6 +44,6 @@ else
     eval(['plot(xM(:,1), xM(:,2),''',symb,''')']);
     xlabel('x(k+1)');
     ylabel('x(k+2)');
-    title([tittxt]);
+    title(tittxt,'Interpreter','latex');
 end
 

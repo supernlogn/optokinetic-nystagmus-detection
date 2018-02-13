@@ -17,10 +17,12 @@ AUTOCORR_PLOT                   = true;
 AKAIKE                          = true;
 
 
-SCATTER_DIAGRAMS_PLOT           = false;
-DBSCAN_CLUSTERING               = false;
+SCATTER_DIAGRAMS_PLOT           = true;
+MORE_SCATTER_DIAGRAMS_PLOT      = true;
+DBSCAN_CLUSTERING               = true;
 FALSE_NEAREST_CALC_PLOT         = true;
 FIND_BEST_TAU                   = true;
+SCATTER_DIAGRAMS_PLOT           = true;
 CALCULATE_CORRELATION_DIMENSION = true;
 PLOT_CORR_DIM                   = true;
 TRAIN_LOCAL_MODEL               = true;
@@ -42,12 +44,13 @@ T = [1:LENGTH];
 
 
 %%%%%%%%%%%%%%%% Time Series 1 %%%%%%%%%%%%%%%%
-LINEAR1
-% NONLINEAR1
+% LINEAR1
+NONLINEAR1
+close all;
 %%%%%%%%%%%%%%%% Time Series 2 %%%%%%%%%%%%%%%%
 % LINEAR2
-% NONLINEAR2
-
+NONLINEAR2
+close all;
 
 %%%%%%%%%%%%%%%% auto crop all images %%%%%%%%%
 % requires image magic
