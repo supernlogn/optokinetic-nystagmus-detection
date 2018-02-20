@@ -1,0 +1,6 @@
+./src
+./doc
+./kdtree
+./link_to_get_assets.txt
+./main.m
+./report.pdf

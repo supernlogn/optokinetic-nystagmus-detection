@@ -1,3 +1,4 @@
+#!/bin/bash
 # script to create the documentation pdf
 rm report.md
 touch report.md
