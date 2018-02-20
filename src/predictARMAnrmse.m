@@ -81,7 +81,7 @@ preM = preM(n1+1:n,:);
 
 if ~isempty(tittxt)
 	figno = gcf;
-	f = figure(figno)
+	f = figure(figno);
 	clf
 	plot([1:Tmax]',nrmseV,'.-k')
 	hold on

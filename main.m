@@ -44,11 +44,11 @@ T = [1:LENGTH];
 
 
 %%%%%%%%%%%%%%%% Time Series 1 %%%%%%%%%%%%%%%%
-% LINEAR1
+LINEAR1
 NONLINEAR1
 close all;
 %%%%%%%%%%%%%%%% Time Series 2 %%%%%%%%%%%%%%%%
-% LINEAR2
+LINEAR2
 NONLINEAR2
 close all;
 

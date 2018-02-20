@@ -8,6 +8,8 @@ function [AMA, AMI, AMD, TMA, TMI, TBP]=produce_time_series(X1, Ts, filterorder,
   LENGTH = length(X1);
   T = [1:LENGTH];
   if(FIR)
+    f = figure();
+    plot(T, xV);
     hold on;
     plot(T, xV);
   end
@@ -22,8 +24,13 @@ function [AMA, AMI, AMD, TMA, TMI, TBP]=produce_time_series(X1, Ts, filterorder,
     jacks = zeros(1, LENGTH);
     jacks(extreme_time_idx) = 40;
     jacks(extreme_time_idx -1) = -40;
+    if(~FIR)
+      f = figure();
+    plot(T, xV);
     hold on;
+    end
     plot(T, jacks);
+    saveas(f, sprintf('assets/jacks_%s.png', DST_NUM));
   end
 
   AMA = X1(extreme_time_idx);

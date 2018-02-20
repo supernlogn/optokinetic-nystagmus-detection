@@ -100,7 +100,7 @@ end
 f = [];
 if ~isempty(tittxt)
 	figno = gcf;
-	f = figure(figno)
+	f = figure(figno);
 	clf
 	plot([1:Tmax]',nrmseV,'k')
 	hold on

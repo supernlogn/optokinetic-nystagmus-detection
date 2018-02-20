@@ -130,17 +130,110 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 οπτοκινητικός νυσταγμός (optokinetic nystagmus, OKN)
 \end{abstract}
 
+\hypertarget{ux3b4ux3bfux3bcux3ae-ux3c4ux3b7ux3c2-ux3b5ux3c1ux3b3ux3b1ux3c3ux3afux3b1ux3c2-ux3c4ux3c1ux3ccux3c0ux3bfux3c2-ux3c7ux3c1ux3aeux3c3ux3b7ux3c2}{%
+\subsection{Δομή της Εργασίας \& Τρόπος
+χρήσης}\label{ux3b4ux3bfux3bcux3ae-ux3c4ux3b7ux3c2-ux3b5ux3c1ux3b3ux3b1ux3c3ux3afux3b1ux3c2-ux3c4ux3c1ux3ccux3c0ux3bfux3c2-ux3c7ux3c1ux3aeux3c3ux3b7ux3c2}}
+
+Η εργασία απαρτίζεται από πολλά κομμάτια. Έχουμε το κομμάτι των
+δεδομένων που βρίσκεται στο φάκελο data και αφορά τις χρονοσειρές που
+δίνονται για αυτή την εργασία. Παράλληλα δίνουμε και ένα script το οποίο
+κατεβάζει τις χρονοσειρές. Το κομμάτι της γραπτής αναφοράς βρίσκεται
+στον φάκελο doc. Τα δεδομένα που εξάγουμε από τις χρονοσειρές βρίσκονται
+στο φάκελο assets. Όλα τα αρχεία κώδικα βρίσκονται στο φάκελο src.
+Επιπλέον υπάρχει ο φάκελος kdtree όπου έχει τις βιβλιοθήκες που
+χρειάζονται για τη μη γραμμική ανάλυση.
+
+Πιο συγκεκριμένα ο τρόπος με τον οποίο καλείται ο κώδικας στη matlab
+είναι ο εξής: 1. Ο χρήστης χρειάζεται απλά να ορίσει ως αρχική διαδρομή
+αρχείου τη διαδρομή αρχείου που βρίσκεται η εργασία. 2. Γράφει
+\texttt{main} στην κονσόλα.
+
+Το σκριπτάκι main φροντίζει να καλέσει όλα τα υπόλοιπα αρχεία, ώστε να
+γίνουν όλες οι αναλύσεις. Τέλος όλα τα αποτελέσματα θα γραφούν στον
+φάκελος assets, διαγράφοντας όλα τα προηγούμενα.
+
+\begin{figure}
+\centering
+\includegraphics{project_struct.png}
+\caption{100}
+\end{figure}
+
+\hypertarget{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3c4ux3bfux3c5-ux3b1ux3c1ux3c7ux3b5ux3afux3bfux3c5-main.m}{%
+\subsubsection{\texorpdfstring{Ο κώδικας του αρχείου
+\texttt{main.m}:}{Ο κώδικας του αρχείου main.m:}}\label{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3c4ux3bfux3c5-ux3b1ux3c1ux3c7ux3b5ux3afux3bfux3c5-main.m}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{addpath(}\StringTok{'src'}\NormalTok{);}
+\NormalTok{addpath(}\StringTok{'kdtree'}\NormalTok{);}
+\NormalTok{addpath(}\StringTok{'kdtree/src'}\NormalTok{);}
+\NormalTok{addpath(}\StringTok{'kdtree/lib'}\NormalTok{);}
+\NormalTok{system(}\StringTok{'rm assets/*'}\NormalTok{);}
+\NormalTok{clear all;}
+\NormalTok{close all;}
+
+\CommentTok{%%%%%%%%%%%%%%%% FLAGS %%%%%%%%%%%%%%%%}
+\NormalTok{BASIC_PLOT                      = true;}
+\NormalTok{FIR                             = true;}
+\NormalTok{EXTREMA_PLOT                    = true;}
+\NormalTok{EXTREMA_SERIES_PLOT             = true;}
+\NormalTok{REMOVES_TREND                   = true;}
+\NormalTok{REMOVES_TREND_PLOT              = true;}
+\NormalTok{AUTOCORR_PLOT                   = true;}
+\NormalTok{AKAIKE                          = true;}
+
+
+\NormalTok{SCATTER_DIAGRAMS_PLOT           = false;}
+\NormalTok{DBSCAN_CLUSTERING               = false;}
+\NormalTok{FALSE_NEAREST_CALC_PLOT         = true;}
+\NormalTok{FIND_BEST_TAU                   = true;}
+\NormalTok{CALCULATE_CORRELATION_DIMENSION = true;}
+\NormalTok{PLOT_CORR_DIM                   = true;}
+\NormalTok{TRAIN_LOCAL_MODEL               = true;}
+\CommentTok{%%%%%%%%%%%%%%%% Input time Series & globals %%%%%%%%%%%%%%%%}
+\NormalTok{LENGTH                          = }\FloatTok{6000}\NormalTok{;}
+\NormalTok{TEST_SET_LENGTH                 = }\FloatTok{500}\NormalTok{;}
+\NormalTok{POLORDER                        = }\FloatTok{4}\NormalTok{;}
+\NormalTok{MAX_ORDER_AR                    = }\FloatTok{20}\NormalTok{;}
+\NormalTok{MAX_ORDER_MA                    = }\FloatTok{3}\NormalTok{;}
+\NormalTok{fs                              = }\FloatTok{100}\NormalTok{; }\CommentTok{% Hz}
+\NormalTok{Ts                              = }\FloatTok{1.0}\NormalTok{ / fs; }\CommentTok{% seconds}
+
+\CommentTok{% read series}
+\NormalTok{fileID1 = fopen(}\StringTok{'data/dat6v1.dat'}\NormalTok{, }\StringTok{'r'}\NormalTok{);}
+\NormalTok{fileID2 = fopen(}\StringTok{'data/dat6v2.dat'}\NormalTok{, }\StringTok{'r'}\NormalTok{);}
+\NormalTok{X1 = cell2mat(textscan(fileID1, }\StringTok{'%f'}\NormalTok{));}
+\NormalTok{X2 = cell2mat(textscan(fileID2, }\StringTok{'%f'}\NormalTok{));}
+\NormalTok{T = [}\FloatTok{1}\NormalTok{:LENGTH];}
+
+
+\CommentTok{%%%%%%%%%%%%%%%% Time Series 1 %%%%%%%%%%%%%%%%}
+\NormalTok{LINEAR1}
+\NormalTok{close all;}
+\NormalTok{NONLINEAR1}
+\NormalTok{close all;}
+\CommentTok{%%%%%%%%%%%%%%%% Time Series 2 %%%%%%%%%%%%%%%%}
+\NormalTok{LINEAR2}
+\NormalTok{close all;}
+\NormalTok{NONLINEAR2}
+\NormalTok{close all;}
+
+\CommentTok{%%%%%%%%%%%%%%%% auto crop all images %%%%%%%%%}
+\CommentTok{% requires image magic}
+\BaseNTok{!mogrify -trim +repage assets/*.png}
+\end{Highlighting}
+\end{Shaded}
+
 \hypertarget{ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-1ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}{%
 \subsection{Γραμμική ανάλυση 1ης
 χρονοσειράς}\label{ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-1ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}}
 
-Η πρώτη χρονοσειρά που μας δίνεται όπως φαίνεται από το διαγραμμά της,
-δε φαίνεται να κρύβει κάποια τάση π.χ. ανοδική. Οπότε, μάλλον ο ασθενής
-είναι υγιής (αυτό θα φανεί και αργότερα, αλλά χωρίς επαρκή ανάλυση δεν
-θα μπορούσαμε να υποστηρίξουμε κάτι τέτοιο). Επίσης, δε φαίνεται να
-είναι μόνο θόρυβος. Από αυτά εκτιμάμε ότι η χρονοσειρά εμπεριέχει
-πληροφορία για τον ασθενή. Στο Σχήμα {[}1{]} φαίνονται σε χρονική σειρά
-οι 6000 τιμές του σήματος που λάβαμε από το πρώτο πείραμα.
+Η πρώτη χρονοσειρά που μας δίνεται όπως φαίνεται από το διάγραμμά της,
+δε φαίνεται να κρύβει κάποια τάση π.χ. ανοδική. Ίσως, μόνο από αυτό θα
+μπορούσαμε εκ των προτέρων να εξάγουμε την κατάσταση του ατόμου. Επίσης,
+δε φαίνεται να είναι μόνο θόρυβος. Από αυτά εκτιμάμε ότι η χρονοσειρά
+εμπεριέχει πληροφορία για τον ασθενή. Στο Σχήμα {[}2{]} φαίνονται σε
+χρονική σειρά οι 6000 τιμές του σήματος που λάβαμε από το πρώτο πείραμα.
 
 \begin{figure}
 \centering
@@ -152,7 +245,7 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 μάτι ξεγιελιέται αρκετά, ενώ λίγο μετά επανέρχεται. Για τις άλλες
 χρονικές στιγμές δε θα μπορούσαμε να πούμε κάτι ξεκάθαρο. Για αυτό και
 θα προχωρήσουμε στην ανάλυση του πειράματος με τα εργαλεία που έχουμε
-διδαχθεί στο μάθημα. Αρχικά θα πρέπει να παρουσιάσουμε.
+διδαχθεί στο μάθημα.
 
 \hypertarget{ux3b5ux3beux3b1ux3b3ux3c9ux3b3ux3ae-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2-ux3bcux3b5ux3bbux3adux3c4ux3b7ux3c2}{%
 \subsubsection{Εξαγωγή χρονοσειράς
@@ -179,6 +272,8 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 \NormalTok{  LENGTH = length(X1);}
 \NormalTok{  T = [}\FloatTok{1}\NormalTok{:LENGTH];}
 \NormalTok{  if(FIR)}
+\NormalTok{    f = figure();}
+\NormalTok{    plot(T, xV);}
 \NormalTok{    hold on;}
 \NormalTok{    plot(T, xV);}
 \NormalTok{  end}
@@ -187,7 +282,13 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 
 Για επιπλέον έλεγχο της διαδικασίας δημιουργήσαμε διαγράμματα τα οποία
 εμφανίζουν τα ακρότατα πάνω στην αρχική χρονοσειρά ως καρφιά
-\emph{jacks}.
+\emph{jacks}. Αυτά φαίνονται και στο σχήμα {[}3{]}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/jacks_1st.png}
+\caption{Μελέτη του φίλτου πριν την εξαγωγή των σειρών ακροτάτων}
+\end{figure}
 
 \hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b5ux3beux3b1ux3b3ux3c9ux3b3ux3aeux3c2-ux3baux3b1ux3b9-ux3b5ux3bbux3adux3b3ux3c7ux3bfux3c5-ux3c4ux3bfux3c5-ux3c0ux3afux3bdux3b1ux3baux3b1-ux3b1ux3baux3c1ux3bfux3c4ux3acux3c4ux3c9ux3bd}{%
 \paragraph{Κώδικας εξαγωγής και ελέγχου του πίνακα ακροτάτων
@@ -201,17 +302,33 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 \NormalTok{  extrema_values = locextM(:,}\FloatTok{2}\NormalTok{);}
 \NormalTok{  minimum_or_maximum = locextM(:,}\FloatTok{3}\NormalTok{);}
     
-\NormalTok{  if(EXTREMA_PLOT) }\CommentTok{% need to have BASIC_PLOT=true to better work}
+\NormalTok{  if(EXTREMA_PLOT)}
 \NormalTok{    jacks = zeros(}\FloatTok{1}\NormalTok{, LENGTH);}
 \NormalTok{    jacks(extreme_time_idx) = }\FloatTok{40}\NormalTok{;}
 \NormalTok{    jacks(extreme_time_idx -}\FloatTok{1}\NormalTok{) = -}\FloatTok{40}\NormalTok{;}
-\NormalTok{    hold on;}
+\NormalTok{    if(~FIR)}
+\NormalTok{      f = figure();}
+\NormalTok{      plot(T, xV);}
+\NormalTok{      hold on;}
+\NormalTok{    end}
 \NormalTok{    plot(T, jacks);}
+\NormalTok{    saveas(f, sprintf(}\StringTok{'assets/jacks_%s.png'}\NormalTok{, DST_NUM));}
 \NormalTok{  end}
 \end{Highlighting}
 \end{Shaded}
 
-Πέρα από τους ελέγχους οι τελικές χρονοσειρές ακρoτάτων της βασικής
+Οι σταθερές στις οποίες καταλήξαμε για την εξαγωγή των ακροτάτων στην
+πρώτη χρονοσειρά είναι οι εξής:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{filterorder = }\FloatTok{10}\NormalTok{;}
+\NormalTok{nsam = }\FloatTok{5}\NormalTok{;}
+\NormalTok{timesep = }\FloatTok{5}\NormalTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+Πέρα από τους ελέγχους, οι τελικές χρονοσειρές ακρoτάτων της βασικής
 χρονοσειράς ΟΚΝ δίνεται από τον παρακάτω κώδικα:
 
 \hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b5ux3beux3b1ux3b3ux3c9ux3b3ux3aeux3c2-ux3c4ux3c9ux3bd-ux3b6ux3b7ux3c4ux3bfux3cdux3bcux3b5ux3bdux3c9ux3bd-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3ceux3bd-ux3b1ux3c0ux3cc-ux3c4ux3b7ux3bd-ux3adux3beux3bfux3b4ux3bf-ux3c4ux3b7ux3c2-extremes.m}{%
@@ -258,10 +375,10 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 
 Από αυτές τις χρονοσειρές ενδιαφερόμαστε πιο πολύ για την χρονοσειρά
 \texttt{AMA} και την χρονοσειρά \texttt{TMI}. Μετά από έλεγχους για
-ύπαρξη πληροφορίας όπως Portmanteu καταλήξαμε ότι αυτές οι δύο έχουν την
-περισσότερη πληροφορία και προσεγγίζονται λιγότερο από λευκό θόρυβο. Στα
-σχήματα {[}2{]} και {[}3{]} δίνονται τα διαγράμματα των χρονοσειρών
-πλάτους και χρονικών περιθωρίων.
+ύπαρξη πληροφορίας όπως Portmanteu (βλ.παρακάτω) καταλήξαμε ότι αυτές οι
+δύο έχουν την περισσότερη πληροφορία και προσεγγίζονται λιγότερο από
+λευκό θόρυβο. Στα σχήματα {[}4{]} και {[}5{]} δίνονται τα διαγράμματα
+των χρονοσειρών πλάτους και χρονικών περιθωρίων.
 
 \begin{figure}
 \centering
@@ -284,13 +401,15 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 
 Στο πρώτο μέρος της γραμμικής ανάλυσης θα αναφερθούμε στη χρονοσειρά AMA
 που εξάγαμε. Το πρώτο μέγεθος που υπολογίσαμε για αυτήν ήταν η τάση της.
-Αυτό το κάναμε χρησιμοποιώντας ένα πολυώνυμο. Το τελικό πολυώνυμο έδειξε
-ότι ο σταθερός όρος της τάσης είναι ίσος με \texttt{8.1121938} ενώ ο
-γραμμικός συντελεστής \texttt{0.2772935}. Οι υπόλοιποι 3 συντελεστές
-αυτού του πολυωνύμου βέβαια ακυρώνουν την γραμμική τάση μετά από λίγα
-χρονικά βήματα. Βέβαια για να απαλοίψουμε τη στοχαστική τάση
-χρησιμοποιήσαμε την απλή μέθοδο των διαφορών, αφού δεν υπήρχε και κάποια
-εποχικότητα.
+Αυτό το κάναμε χρησιμοποιώντας ένα πολυώνυμο πέμπτου βαθμού. Το τελικό
+πολυώνυμο έδειξε ότι ο σταθερός όρος της τάσης είναι ίσος με
+\texttt{8.1121938} ενώ ο γραμμικός συντελεστής \texttt{0.2772935}. Οι
+υπόλοιποι 3 συντελεστές αυτού του πολυωνύμου βέβαια ακυρώνουν την
+γραμμική τάση μετά από λίγα χρονικά βήματα. Βέβαια, για να απαλείψουμε
+τη στοχαστική τάση χρησιμοποιήσαμε την απλή μέθοδο των διαφορών και όχι
+το πολυώνυμο για να ακυρώσουμε και τη στοχαστική τάση. Επίσης, βλέπουμε
+ότι αφού δεν υπήρχε και κάποια εποχικότητα δεν χρειάστηκε να λάβουμε
+επιπλέον διαφορές ή με διαφορετική απόσταση μεταξύ των δειγμάτων.
 
 \hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b1ux3c0ux3b1ux3bbux3bfux3b9ux3c6ux3aeux3c2-ux3c4ux3acux3c3ux3b5ux3c9ux3bd}{%
 \paragraph{Κώδικας απαλοιφής
@@ -321,12 +440,13 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 \end{Shaded}
 
 Μετά υπολογίσαμε και κάναμε τα γραφήματα της συνάρτησης αυτοσυσχέτισης
-και μερικής αυτοσυσχέτισης. Στα σχήματα {[}4{]} και {[}5{]} φαίνονται τα
-διαγράμματα αυτά. Όπως μπορούμε να διακρίνουμε υπάρχουν σημαντικές
-αυτοσυσχετίσεις μέχρι και τη δεύτερη αυτοσυσχέτιση. Το ίδιο δέιχνουν και
-οι μερικές αυτοσυσχετίσεις, με κάποιες τιμές να είναι οριακά στατιστικά
-μηδενικές. Για αυτό και περιμένουμε τα μοντέλα να έχουν καλή προσέγγιση
-για χαμηλό βαθμό AR ή/και MA.
+και μερικής αυτοσυσχέτισης. Σε αυτά έχει προστεθεί και ο στατιστικός
+έλεγχος ανεξαρτησίας Portmanteau. Στα σχήματα {[}6{]} και {[}7{]}
+φαίνονται τα διαγράμματα αυτά. Όπως μπορούμε να διακρίνουμε υπάρχουν
+σημαντικές αυτοσυσχετίσεις μέχρι και τη δεύτερη αυτοσυσχέτιση. Το ίδιο
+δέιχνουν και οι μερικές αυτοσυσχετίσεις, με κάποιες τιμές να είναι
+οριακά στατιστικά μηδενικές. Για αυτό και περιμένουμε τα μοντέλα να
+έχουν καλή προσέγγιση για χαμηλό βαθμό AR ή/και MA.
 
 \begin{figure}
 \centering
@@ -350,11 +470,9 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 \NormalTok{  autrocor_plot(yV_detr, name);}
 \NormalTok{  portmanteauLB(yV_detr, }\FloatTok{20}\NormalTok{, }\FloatTok{0.05}\NormalTok{, name);}
 \NormalTok{end}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{Shaded}
-\begin{Highlighting}[]
+\NormalTok{...}
+
 \NormalTok{function autrocor_plot(yV, name)}
 \NormalTok{  f = figure;}
 \NormalTok{  autocorr(yV, }\FloatTok{20}\NormalTok{); }\CommentTok{% 95% confidence lvls}
@@ -397,15 +515,8 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 \bottomrule
 \end{longtable}
 
-\begin{figure}
-\centering
-\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_AIC_AMA1.png}
-\caption{AIC για τα υποψήφια ARMA μοντέλα}
-\end{figure}
-
-Αν και είπαμε πως το μοντέλο θα έχει μικρό βαθμό, ωστόσο
-συμπεριλαμβάνουμε και στα διαγράμματα μεγαλύτερους βαθμούς για να δούμε
-και να δείξουμε ακριβώς αυτό.
+\hypertarget{aic-ux3b3ux3b9ux3b1-ux3c4ux3b1-ux3c5ux3c0ux3bfux3c8ux3aeux3c6ux3b9ux3b1-arma-ux3bcux3bfux3bdux3c4ux3adux3bbux3b1}{%
+\subsection{\texorpdfstring{\protect\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_AIC_AMA1.png}}{AIC για τα υποψήφια ARMA μοντέλα}}\label{aic-ux3b3ux3b9ux3b1-ux3c4ux3b1-ux3c5ux3c0ux3bfux3c8ux3aeux3c6ux3b9ux3b1-arma-ux3bcux3bfux3bdux3c4ux3adux3bbux3b1}}
 
 \hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b3ux3b9ux3b1-ux3c4ux3b1-ar-ux3bcux3bfux3bdux3c4ux3adux3bbux3b1}{%
 \paragraph{Κώδικας για τα AR
@@ -535,14 +646,11 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 μοντέλο \texttt{AR(2)} παρουσιάζει τη μικρότερη τιμή του AIC. Αυτό
 σημαίνει ότι θα διαλέξουμε το μοντέλο \texttt{AR(2)} για να εξηγήσουμε
 τη συμπεριφορά αυτής της χρονοσειράς. Τέλος για αυτό το μοντέλο δίνουμε
-το διάγραμμα που παρουσιάζει κατά πόσο μπορεί να προβλέψει μελλοντικές
-τιμές της εισόδου.
+το διάγραμμα στο σχήμα {[}9{]} που παρουσιάζει κατά πόσο μπορεί να
+προβλέψει μελλοντικές τιμές της εισόδου.
 
-\begin{figure}
-\centering
-\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_best_pred_AMA1.png}
-\caption{Προβλέψεις τιμών για το καλύτερο μοντέλο}
-\end{figure}
+\hypertarget{ux3c0ux3c1ux3bfux3b2ux3bbux3adux3c8ux3b5ux3b9ux3c2-ux3c4ux3b9ux3bcux3ceux3bd-ux3b3ux3b9ux3b1-ux3c4ux3bf-ux3baux3b1ux3bbux3cdux3c4ux3b5ux3c1ux3bf-ux3bcux3bfux3bdux3c4ux3adux3bbux3bf}{%
+\subsection{\texorpdfstring{\protect\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_best_pred_AMA1.png}}{Προβλέψεις τιμών για το καλύτερο μοντέλο}}\label{ux3c0ux3c1ux3bfux3b2ux3bbux3adux3c8ux3b5ux3b9ux3c2-ux3c4ux3b9ux3bcux3ceux3bd-ux3b3ux3b9ux3b1-ux3c4ux3bf-ux3baux3b1ux3bbux3cdux3c4ux3b5ux3c1ux3bf-ux3bcux3bfux3bdux3c4ux3adux3bbux3bf}}
 
 Από τα σφάλματα NRMSE βλέπουμε ότι οι προβλέψεις είναι κακές τόσο για
 βήμα T=1 όσο και για T=2. Για αυτό και η πρόβλεψη με χρήση της μέσης
@@ -566,7 +674,7 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 \end{Highlighting}
 \end{Shaded}
 
-Το πολυώνυμο που προσσεγγίζει την χρονοσειρά για τη μετέπειτα αφάρεση
+Το πολυώνυμο που προσσεγγίζει την χρονοσειρά για τη μετέπειτα αφαίρεση
 της τάσης έχει δύο τελευταίους όρους ίσους με:
 
 \begin{itemize}
@@ -577,7 +685,7 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
   σταθερός: \(0.32034691\)
 \end{itemize}
 
-Επίσης δε φαίνεται να έχει εποχικότητα για να χρειαστεί η μέθοδος των
+Επίσης δεν φαίνεται να έχει εποχικότητα για να χρειαστεί η μέθοδος των
 μεγάλων διαφορών. Βέβαια, πάλι χρησιμοποιούμε απλές διαφορές για να
 απαλοίψουμε και τη στοχαστική τάση.
 
@@ -593,14 +701,15 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 \caption{Συνάρτηση μερικής αυτοσυσχέτισης}
 \end{figure}
 
-Οι συναρτήσεις αυτοσυσχέτισης και μερικής αυτοσυσχέτισης δείχνουν ότι
-υπάρχει μία αρκετά ισχυρή σχέση της τωρινής τιμής της χρονοσειράς με
-πολλές προηγούμενες, ώστε αυτή η σχέση να θεωρηθεί σημαντική. Αυτό είναι
-προβληματικό για την αναλυσή μας τουλάχιστον στο γραμμικό κομμάτι, διότι
-η χρονοσειρά δεν έχει αρκετό πλήθος σημείων, ώστε να μπορέσουμε να
-εφαρμόσουμε τόσο μεγάλα μοντέλα. Παρόλα αυτά παρακάτω μελετάμε τη
-συμπεριφορά των μοντέλων που μας επιτρέπει το πλήθος σημείων της
-χρονοσειράς να δημιουργήσουμε.
+Οι συναρτήσεις αυτοσυσχέτισης και μερικής αυτοσυσχέτισης στα σχήματα
+{[}10{]}, {[}11{]} δείχνουν ότι υπάρχει μία αρκετά ισχυρή σχέση της
+τωρινής τιμής της χρονοσειράς με πολλές προηγούμενες, ώστε αυτή η σχέση
+να θεωρηθεί σημαντική. Αυτό είναι προβληματικό για την αναλυσή μας
+τουλάχιστον στο γραμμικό κομμάτι, διότι η χρονοσειρά δεν έχει αρκετό
+πλήθος σημείων, ώστε να μπορέσουμε να εφαρμόσουμε τόσο μεγάλα μοντέλα.
+Παρόλα αυτά παρακάτω μελετάμε τη συμπεριφορά των μοντέλων που μας
+επιτρέπει το πλήθος σημείων της χρονοσειράς να δημιουργήσουμε, βάσει της
+εφαρμογής του κριτηρίου AIC.
 
 \begin{longtable}[]{@{}cc@{}}
 \toprule
@@ -639,13 +748,13 @@ T=2. Γενικά καταλήγουμε πως αυτή η μέθοδος με�
 χρονοσειράς}\label{ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-2ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}}
 
 Η δεύτερη χρονοσειρά όπως φαίνεται από το διαγραμμά της φαίνεται ότι
-έχει κάποια ανοδική τάση. Οπότε μάλλον ο ασθενής εδώ ξεγιελιέται και
-πρόκειται πραγματικά για ασθενή (αυτό θα φανεί και αργότερα, αλλά χωρίς
-επαρκή ανάλυση δεν θα μπορούσαμε να υποστηρίξουμε κάτι τέτοιο). Επίσης,
-σίγουρα δεν υπάρχει μόνο θόρυβος. Από αυτά εκτιμάμε ότι η χρονοσειρά
-έχει πληροφορία που χαρακτηρίζει τον ασθενή. Στο Σχήμα {[}12{]}
-φαίνονται σε χρονική σειρά οι 6000 τιμές του σήματος που λάβαμε από το
-δεύτερο πείραμα.
+έχει κάποια ανοδική τάση. Οπότε μάλλον το άτομο εδώ μπορεί και ακολουθεί
+την γραμμή και πρόκειται πραγματικά για υγιές άτομο (αυτό θα φανεί και
+αργότερα, αλλά χωρίς επαρκή ανάλυση δεν θα μπορούσαμε να υποστηρίξουμε
+κάτι τέτοιο). Επίσης, σίγουρα δεν υπάρχει μόνο θόρυβος. Από αυτά
+εκτιμάμε ότι η χρονοσειρά έχει πληροφορία που χαρακτηρίζει τον ασθενή.
+Στο Σχήμα {[}14{]} φαίνονται σε χρονική σειρά οι 6000 τιμές του σήματος
+που λάβαμε από το δεύτερο πείραμα.
 
 \begin{figure}
 \centering
@@ -653,11 +762,10 @@ T=2. Γενικά καταλήγουμε πως αυτή η μέθοδος με�
 \caption{Χρονοσειρά 2}
 \end{figure}
 
-Όπως φαίνεται σε αυτή τη χρονοσειρά ο ασθενής συνεχώς ξεγιελιέται και
-σπάνια (3 φορές) επανέρχεται, αλλά και πάλι όχι πλήρως. Δηλαδή το μάτι
-δεν παίρνει την ίδια θέση που είχε πριν. Στο υπόλοιπο της γραμμικής
-μελέτης αυτής της χρονοσειράς, χρησιμοποιούμε τα εργαλεία του μαθήματος
-και συγκρίνουμε τη μελέτη με αυτή της πρώτης.
+Στη μελέτη αυτής της γραμμικής μελέτης αυτής της χρονοσειράς,
+χρησιμοποιούμε τα εργαλεία του μαθήματος και συγκρίνουμε τη μελέτη με
+αυτή της πρώτης. Επίσης παραλείπουμε εξηγήσεις οι οποίες είναι ίδιες με
+την πρώτη.
 
 \hypertarget{ux3b5ux3beux3b1ux3b3ux3c9ux3b3ux3ae-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2-ux3bcux3b5ux3bbux3adux3c4ux3b7ux3c2-1}{%
 \subsubsection{Εξαγωγή χρονοσειράς
@@ -665,7 +773,7 @@ T=2. Γενικά καταλήγουμε πως αυτή η μέθοδος με�
 
 Με βάση τη συνάρτηση \texttt{extremes.m} που μας δόθηκε εξάγαμε και πάλι
 όλες τις χρονοσειρές των τοπικών ακροτάτων που μπορεί κανείς να τις δει
-στα Σχήματα {[}13{]} και {[}14{]}. Επίσης, δίνονται και τα ορίσματα της
+στα Σχήματα {[}15{]} και {[}16{]}. Επίσης, δίνονται και τα ορίσματα της
 συνάρτησης \texttt{extremes} τα οποία εξάγαμε μετά από αρκετό
 πειραματισμό.
 
@@ -711,7 +819,7 @@ T=2. Γενικά καταλήγουμε πως αυτή η μέθοδος με�
 Δηλαδή επιβεβαιώνουν την ύπαρξη ανοδικής τάσης.
 
 Μετά υπολογίσαμε και κάναμε τα γραφήματα της συνάρτησης αυτοσυσχέτισης
-και μερικής αυτοσυσχέτισης. Στα σχήματα {[}15{]} και {[}16{]} φαίνονται
+και μερικής αυτοσυσχέτισης. Στα σχήματα {[}17{]} και {[}18{]} φαίνονται
 τα διαγράμματα αυτά.
 
 \begin{figure}
@@ -736,7 +844,7 @@ T=2. Γενικά καταλήγουμε πως αυτή η μέθοδος με�
 
 Παρόλα αυτά τα γραμμικά μοντέλα μπορούν να πετύχουν τα παρακάτω. Το
 τελικό κριτήριο επιλογής αυτών είναι πάλι το AIC με βάση το σφάλμα
-NRMSE. Στα διαγράμματα {[}17{]} δείχνουμε τα κριτήρια αυτά για τα
+NRMSE. Στα διαγράμματα {[}19{]} δείχνουμε τα κριτήρια αυτά για τα
 υποψήφια μοντέλα.
 
 \begin{longtable}[]{@{}cc@{}}
@@ -753,9 +861,88 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 
 \begin{figure}
 \centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_AIC_AMA2.png}
+\caption{AIC για τα υποψήφια ARMA μοντέλα}
+\end{figure}
+
+Από τα σχήματα του AIC για τα υποψήφια μοντέλα, παρατηρούμε ότι το
+μοντέλο \texttt{AR(14)} παρουσιάζει τη μικρότερη τιμή του AIC, αλλά για
+το πλήθος των δεδομένων ελέγχου 14 παράμετροι είναι αδύνατο να
+ελεγχθούν. Επιπλέον είναι πολλές παράμετροι για να χρησιμοποιήσουμε σε
+ένα γραμμικό μοντέλο και αυτός δεν είναι ο σκοπός της μελέτης με το
+κριτήριο Akaike. Αυτό σημαίνει ότι θα διαλέξουμε το μοντέλο
+\texttt{AR(2)} για να εξηγήσουμε τη συμπεριφορά αυτής της χρονοσειράς.
+Αυτό είναι ακριβώς το μοντέλο που χρησιμοποιήσαμε και στην πρώτη
+χρονοσειρά. Τέλος, για αυτό το μοντέλο δίνουμε το διάγραμμα που
+παρουσιάζει κατά πόσο μπορεί να προβλέψει μελλοντικές τιμές της εισόδου.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/AR_best_pred_AMA2.png}
+\caption{Προβλέψεις τιμών για το καλύτερο μοντέλο}
+\end{figure}
+
+Από τα σφάλματα NRMSE βλέπουμε ότι οι προβλέψεις είναι καλύτερες για
+βήμα T=1 από ότι για T=2. Για T=1 προτιμούμε το μοντέλο \texttt{AR(2)}
+ενώ για T\textgreater{}2 προτιμούμε τη μέση τιμή. Οι επιδόσεις του σε
+αυτή τη χρονοσειρά είναι σαφώς ανώτερες αυτές της πρώτης.
+
+\hypertarget{tmi-1}{%
+\paragraph{TMI}\label{tmi-1}}
+
+Η ανάλυση αυτής της εξαγόμενης χρονοσειράς γίνεται όπως και στην
+αντίστοιχη της πρώτης. Ωστόσο, πάλι δε θα παρουσιαστεί ο κώδικας γιατί
+όπως έχει υπωθεί είναι ο ίδιος για όλα τα κομμάτια με διαφορά στις
+παραμέτρους, γιατί γράφτηκε σύμφωνα με τα πρότυπα του δομημένου
+προγραμματισμού.
+
+Το πολυώνυμο που προσεγγίζει την χρονοσειρά για τη μετέπειτα αφαίρεση
+της τάσης έχει δύο τελευταίους όρους ίσους με: - γραμμικός:
+\(4.6583853\times 10^{-5}\) - σταθερός: \(0.131\)
+
+Επίσης, δε φαίνεται να έχει εποχικότητα για να χρειαστεί η μέθοδος των
+διαφορών. Τα διαγράμματα που προκύπτουν είναι τα εξής:
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/autocorrelation_TMI2.png}
+\caption{Συνάρτηση αυτοσυσχέτισης}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/partial_autocorrelations_TMI2.png}
+\caption{Συνάρτηση μερικής αυτοσυσχέτισης}
+\end{figure}
+
+Οι συσχετίσεις για αρκετές παρελθοντικές τιμές είναι ισχυρές σύμφωνα με
+τη συνάρτηση αυτοσυσχέτισης, όπως και οι μερικές αυτοσυσχετίσεις. Αυτό
+είναι παρόμοιο με την TMI της πρώτης χρονοσειράς. Μόνο που στην TMI της
+πρώτης χρονοσειράς πολλές μερικές αυτοσυσχετίσεις ήταν στο όριο να
+θεωρηθούν στατιστικά ασήμαντες. Το μοντέλο που περιγράφει αυτή τη
+χρονοσειρά καλύτερα φαίνεται παρακάτω στα σχήματα, όπως φαίνονται και τα
+κριτήρια με τα οποία το εξάγαμε.
+
+\begin{longtable}[]{@{}cc@{}}
+\toprule
+AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψήφια MA
+μοντέλα\tabularnewline
+\midrule
+\endhead
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/MA_AIC_TMI2.png}
+&
+\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/AR_AIC_TMI2.png}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{figure}
+\centering
 \includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_AIC_TMI2.png}
 \caption{AIC για τα υποψήφια ARMA μοντέλα}
 \end{figure}
+
+Από ότι βλέπουμε το καλύτερο μοντέλο που είναι και αρκετά απλό για να το
+εξετάσουμε σε ένα σετ ελέγχου είναι το \texttt{ARMA(2,3)}.
 
 \begin{figure}
 \centering
@@ -766,8 +953,8 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 Παραδόξως όμως η πρόβλεψη είναι καλύτερη από ότι αν είχαμε πρόβλεψη
 χρησιμοποιώντας τη μέση τιμή ακόμα και στα δύο χρονικά βήματα. Αυτό
 δείχνει ότι το μοντέλο \texttt{ARMA(2,3)} προσεγγίζει σχετικά καλά την
-χρονοσειρά. Επίσης είναι καλύτερη από ότι η αντίστοιχη καλύτερη στην
-πρώρη χρονοσειρά.
+χρονοσειρά. Επίσης, είναι καλύτερη από ότι η αντίστοιχη καλύτερη στην
+πρώτη χρονοσειρά.
 
 Ο κώδικας του αρχείου \texttt{LINEAR2.m} για την υλοποίηση της ανάλυσης
 της δεύτερης χρονοσειράς δίνεται παρακάτω:
@@ -940,7 +1127,7 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 είναι να δούμε την προβλεπτική του ικανότητα. Αυτή θα τη δούμε
 χρησιμοποιώντας κάποιο κατάλληλο τοπικό μοντέλο που βασίζεται σε
 κοντινότερους γείτονες. Η πρόβλεψη γίνεται για 1 έως και 10 βήματα
-μπροστά στο Σχήμα {[}23{]} χρησιμοποιώντας τους 3 κοντινότερους
+μπροστά στο Σχήμα {[}25{]} χρησιμοποιώντας τους 3 κοντινότερους
 γείτονες. Ως σφάλμα πρόβλεψης χρησιμοποιούμε το NRMSE, ώστε να
 μπορέσουμε να συγκρίνουμε και με τα γραμμικά μοντέλα.
 
@@ -1195,7 +1382,7 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 Επειδή δε φαίνεται να μπορέσουμε να καταλήξουμε κάπου και επειδή μπορεί
 η υστέρηση να είναι αρκετά μεγάλη σε τιμή δοκιμάζουμε να κάνουμε το
 διάγραμμα της συνάρτησης αμοιβαίας πληροφορίας. Αυτό φαίνεται στο σχήμα
-{[}24{]}.
+{[}26{]}.
 
 \begin{figure}
 \centering
@@ -1212,7 +1399,7 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 
 Στη συνέχεια προχωράμε στην αναζήτηση της διάστασης εμβύθισης. Αρχικά
 για να τη βρούμε κάνουμε το διάγραμμα ψευδών γειτόνων. Αυτό φαίνεται στο
-σχήμα {[}25{]}.
+σχήμα {[}27{]}.
 
 \begin{figure}
 \centering
@@ -1273,7 +1460,7 @@ FNN, αλλά κάνουμε και τα διαγράμματα διασπορά
 είναι να δούμε την προβλεπτική του ικανότητα. Αυτή θα τη δούμε
 χρησιμοποιώντας κάποιο κατάλληλο τοπικό μοντέλο που βασίζεται σε
 κοντινότερους γείτονες. Η πρόβλεψη γίνεται για 1 έως και 10 βήματα
-μπροστά στο Σχήμα {[}28{]} χρησιμοποιώντας τους 3 κοντινότερους
+μπροστά στο σχήμα {[}30{]} χρησιμοποιώντας τους 3 κοντινότερους
 γείτονες. Ως σφάλμα πρόβλεψης χρησιμοποιούμε το NRMSE, ώστε να
 μπορέσουμε να συγκρίνουμε και με τα γραμμικά μοντέλα, όπως και με τη μη
 γραμμική ανάλυση της δεύτερης χρονοσειράς.
@@ -1462,97 +1649,6 @@ FNN, αλλά κάνουμε και τα διαγράμματα διασπορά
 \NormalTok{  [nrmseV,~,f] = localpredictnrmse(xV, TEST_SET_LENGTH, tau, best_m, Tmax, k, }\FloatTok{1}\NormalTok{,}\StringTok{'local-model-fit_1'}\NormalTok{);}
 \NormalTok{  saveas(f, sprintf(}\StringTok{'assets/local_model_fit_%s.png'}\NormalTok{, TS_NUM));}
 \NormalTok{end}
-\end{Highlighting}
-\end{Shaded}
-
-\hypertarget{ux3b4ux3bfux3bcux3ae-ux3c4ux3b7ux3c2-ux3b5ux3c1ux3b3ux3b1ux3c3ux3afux3b1ux3c2-ux3c4ux3c1ux3ccux3c0ux3bfux3c2-ux3c7ux3c1ux3aeux3c3ux3b7ux3c2}{%
-\subsection{Δομή της Εργασίας \& Τρόπος
-χρήσης}\label{ux3b4ux3bfux3bcux3ae-ux3c4ux3b7ux3c2-ux3b5ux3c1ux3b3ux3b1ux3c3ux3afux3b1ux3c2-ux3c4ux3c1ux3ccux3c0ux3bfux3c2-ux3c7ux3c1ux3aeux3c3ux3b7ux3c2}}
-
-Η εργασία απαρτίζεται από πολλά κομμάτια. Έχουμε το κομμάτι των
-δεδομένων που βρίσκεται στο φάκελο data και αφορά τις χρονοσειρές που
-δίνονται για αυτή την εργασία. Παράλληλα δίνουμε και ένα script το οποίο
-κατεβάζει τις χρονοσειρές. Το κομμάτι της γραπτής αναφοράς βρίσκεται
-στον φάκελο doc. Τα δεδομένα που εξάγουμε από τις χρονοσειρές βρίσκονται
-στο φάκελο assets. Όλα τα αρχεία κώδικα βρίσκονται στο φάκελο src.
-Επιπλέον υπάρχει ο φάκελος kdtree όπου έχει τις βιβλιοθήκες που
-χρειάζονται για τη μη γραμμική ανάλυση.
-
-Πιο συγκεκριμένα ο τρόπος με τον οποίο καλείται ο κώδικας στη matlab
-είναι ο εξής: 1. Ο χρήστης χρειάζεται απλά να ορίσει ως αρχική διαδρομή
-αρχείου τη διαδρομή αρχείου που βρίσκεται η εργασία. 2. Γράφει
-\texttt{main} στην κονσόλα.
-
-Το σκριπτάκι main φροντίζει να καλέσει όλα τα υπόλοιπα αρχεία, ώστε να
-γίνουν όλες οι αναλύσεις. Τέλος όλα τα αποτελέσματα θα γραφούν στον
-φάκελος assets, διαγράφοντας όλα τα προηγούμενα.
-
-\begin{figure}
-\centering
-\includegraphics{project_struct.png}
-\caption{100}
-\end{figure}
-
-\hypertarget{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3c4ux3bfux3c5-ux3b1ux3c1ux3c7ux3b5ux3afux3bfux3c5-main.m}{%
-\subsubsection{\texorpdfstring{Ο κώδικας του αρχείου
-\texttt{main.m}:}{Ο κώδικας του αρχείου main.m:}}\label{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3c4ux3bfux3c5-ux3b1ux3c1ux3c7ux3b5ux3afux3bfux3c5-main.m}}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{addpath(}\StringTok{'src'}\NormalTok{);}
-\NormalTok{addpath(}\StringTok{'kdtree'}\NormalTok{);}
-\NormalTok{addpath(}\StringTok{'kdtree/src'}\NormalTok{);}
-\NormalTok{addpath(}\StringTok{'kdtree/lib'}\NormalTok{);}
-\NormalTok{system(}\StringTok{'rm assets/*'}\NormalTok{);}
-\NormalTok{clear all;}
-\NormalTok{close all;}
-
-\CommentTok{%%%%%%%%%%%%%%%% FLAGS %%%%%%%%%%%%%%%%}
-\NormalTok{BASIC_PLOT                      = true;}
-\NormalTok{FIR                             = true;}
-\NormalTok{EXTREMA_PLOT                    = true;}
-\NormalTok{EXTREMA_SERIES_PLOT             = true;}
-\NormalTok{REMOVES_TREND                   = true;}
-\NormalTok{REMOVES_TREND_PLOT              = true;}
-\NormalTok{AUTOCORR_PLOT                   = true;}
-\NormalTok{AKAIKE                          = true;}
-
-
-\NormalTok{SCATTER_DIAGRAMS_PLOT           = false;}
-\NormalTok{DBSCAN_CLUSTERING               = false;}
-\NormalTok{FALSE_NEAREST_CALC_PLOT         = true;}
-\NormalTok{FIND_BEST_TAU                   = true;}
-\NormalTok{CALCULATE_CORRELATION_DIMENSION = true;}
-\NormalTok{PLOT_CORR_DIM                   = true;}
-\NormalTok{TRAIN_LOCAL_MODEL               = true;}
-\CommentTok{%%%%%%%%%%%%%%%% Input time Series & globals %%%%%%%%%%%%%%%%}
-\NormalTok{LENGTH                          = }\FloatTok{6000}\NormalTok{;}
-\NormalTok{TEST_SET_LENGTH                 = }\FloatTok{500}\NormalTok{;}
-\NormalTok{POLORDER                        = }\FloatTok{4}\NormalTok{;}
-\NormalTok{MAX_ORDER_AR                    = }\FloatTok{20}\NormalTok{;}
-\NormalTok{MAX_ORDER_MA                    = }\FloatTok{3}\NormalTok{;}
-\NormalTok{fs                              = }\FloatTok{100}\NormalTok{; }\CommentTok{% Hz}
-\NormalTok{Ts                              = }\FloatTok{1.0}\NormalTok{ / fs; }\CommentTok{% seconds}
-
-\CommentTok{% read series}
-\NormalTok{fileID1 = fopen(}\StringTok{'data/dat6v1.dat'}\NormalTok{, }\StringTok{'r'}\NormalTok{);}
-\NormalTok{fileID2 = fopen(}\StringTok{'data/dat6v2.dat'}\NormalTok{, }\StringTok{'r'}\NormalTok{);}
-\NormalTok{X1 = cell2mat(textscan(fileID1, }\StringTok{'%f'}\NormalTok{));}
-\NormalTok{X2 = cell2mat(textscan(fileID2, }\StringTok{'%f'}\NormalTok{));}
-\NormalTok{T = [}\FloatTok{1}\NormalTok{:LENGTH];}
-
-
-\CommentTok{%%%%%%%%%%%%%%%% Time Series 1 %%%%%%%%%%%%%%%%}
-\NormalTok{LINEAR1}
-\NormalTok{NONLINEAR1}
-\CommentTok{%%%%%%%%%%%%%%%% Time Series 2 %%%%%%%%%%%%%%%%}
-\NormalTok{LINEAR2}
-\NormalTok{NONLINEAR2}
-
-
-\CommentTok{%%%%%%%%%%%%%%%% auto crop all images %%%%%%%%%}
-\CommentTok{% requires image magic}
-\BaseNTok{!mogrify -trim +repage assets/*.png}
 \end{Highlighting}
 \end{Shaded}
 

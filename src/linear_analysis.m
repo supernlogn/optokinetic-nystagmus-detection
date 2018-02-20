@@ -10,15 +10,15 @@ function linear_analyse(yV, name, MAX_ORDER_AR, MAX_ORDER_MA, POLORDER, EXTREMA_
     yV_detr = yV - muyV;
     if(REMOVES_TREND_PLOT)
       f = figure();
-      subplot(1,2,1);
+      subplot(1, 2, 1);
       plot(1:length(yV), yV);
       grid on;
       title(name);
-      subplot(1,2,2);
+      subplot(1, 2, 2);
       plot(1:length(yV_detr), yV_detr);
       grid on;
       title(sprintf('%s_detr', name));
-      saveas(f, sprintf('assets/rm_trend_%s_%s.png',name, DST_NUM));
+      saveas(f, sprintf('assets/rm_trend_%s_%s.png', name, DST_NUM));
     end
     yV_detr = yV(2:end) - yV(1:end-1);
     % first differences, log returns: FAILED
@@ -67,8 +67,8 @@ end
 
 function ar_estimate(yV, name, T, MAX_ORDER_AR)
   nlast = ceil(0.9 * length(yV));
-  NRMSE = zeros(MAX_ORDER_AR,1);
-  A = zeros(MAX_ORDER_AR,1);
+  NRMSE = zeros(MAX_ORDER_AR, 1);
+  A = zeros(MAX_ORDER_AR, 1);
   for i = 1: 1: MAX_ORDER_AR
     [n, ~, ~, ~, A(i), ~, ~] = fitARMA(yV(1:nlast), i, 0, T);
     NRMSE(i) = n(end);
@@ -82,6 +82,7 @@ function ar_estimate(yV, name, T, MAX_ORDER_AR)
 
   f = figure;
   plot(A);
+  set(gca, 'xtick', 1:MAX_ORDER_AR);
   grid on;
   s = sprintf('Akaike criterion of %s for AR process',  name);
   title(s);
@@ -110,6 +111,7 @@ function ma_estimate(yV, name, T, MAX_ORDER_MA)
   
   f = figure;
   plot(A);
+  set(gca, 'xtick', 1:MAX_ORDER_MA);
   grid on;
   s = sprintf('Akaike criterion of %s for MA process', name);
   title(s);
@@ -135,7 +137,7 @@ function arma_estimate(yV, name, T, MAX_ORDER_AR, MAX_ORDER_MA)
   f = figure;
   grid on;
   hold on;
-  set(gca,'xtick',1:MAX_ORDER_AR);
+  set(gca, 'xtick', 1:MAX_ORDER_AR);
   xlabel('order p');
   for j = 1: 1 : MAX_ORDER_MA
     plot([1:MAX_ORDER_AR], NRMSE(:,j), 'DisplayName', sprintf('(p,q) =(*,%d)', j));
@@ -148,17 +150,17 @@ function arma_estimate(yV, name, T, MAX_ORDER_AR, MAX_ORDER_MA)
   f = figure;
   grid on;
   hold on;
-  set(gca,'xtick',1:MAX_ORDER_AR);
+  set(gca, 'xtick', 1:MAX_ORDER_AR);
   xlabel('order p');      
   for j = 1: 1 : MAX_ORDER_MA
-    plot([1:MAX_ORDER_AR], A(:,j), 'DisplayName', sprintf('(p,q) = (*,%d)', j));
+    plot([1:MAX_ORDER_AR], A(:, j), 'DisplayName', sprintf('(p,q) = (*,%d)', j));
   end
   legend('show');
   s = sprintf('Akaike criterion of %s for ARMA process', name);
   title(s);
   saveas(f, sprintf('assets/ARMA_AIC_%s.%s', name, 'png'));
   % for best ARMA plot nrmse prediction error for T=1, T=2
-  B = A(1:min(10, MAX_ORDER_AR),1:min(3,MAX_ORDER_MA));
+  B = A(1:min(10, MAX_ORDER_AR),1:min(3, MAX_ORDER_MA));
   [m n] = min(B(:));
   [best_p best_q] = ind2sub(size(B), n(1));
   f = predictARMAnrmse(yV, best_p, best_q, 2, nlast, 'prediction error for best ARMA');
