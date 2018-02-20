@@ -6,5 +6,6 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
     cp -R $line Ioannis_Athanasiadis_7848_Spyridon_Antoniadis_8030/
 done < deliverable_list.txt
 
+cp data/download_data.sh Ioannis_Athanasiadis_7848_Spyridon_Antoniadis_8030/data
 zip Ioannis_Athanasiadis_7848_Spyridon_Antoniadis_8030.zip -r Ioannis_Athanasiadis_7848_Spyridon_Antoniadis_8030
 rm -rd Ioannis_Athanasiadis_7848_Spyridon_Antoniadis_8030

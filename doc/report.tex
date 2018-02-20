@@ -107,7 +107,7 @@
 \def\fps@figure{htbp}
 \makeatother
 
-\renewcommand{\abstractname}{Εισαγωγή}
+\renewcommand{\abstractname}{Εισαγωγή} \renewcommand{\figurename}{Σχήμα}
 
 \title{Υπολογιστική Εργασία στις Χρονοσειρές\thanks{Υπολογιστική Εργασία στις Χρονοσειρές THMMY ΑΠΘ.}}
 \author{Ιωάννης Αθανασιάδης 7848 \and Σπυρίδων Αντωνιάδης 8030}
@@ -151,12 +151,6 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 Το σκριπτάκι main φροντίζει να καλέσει όλα τα υπόλοιπα αρχεία, ώστε να
 γίνουν όλες οι αναλύσεις. Τέλος όλα τα αποτελέσματα θα γραφούν στον
 φάκελος assets, διαγράφοντας όλα τα προηγούμενα.
-
-\begin{figure}
-\centering
-\includegraphics{project_struct.png}
-\caption{100}
-\end{figure}
 
 \hypertarget{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3c4ux3bfux3c5-ux3b1ux3c1ux3c7ux3b5ux3afux3bfux3c5-main.m}{%
 \subsubsection{\texorpdfstring{Ο κώδικας του αρχείου
@@ -224,6 +218,12 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 \end{Highlighting}
 \end{Shaded}
 
+\begin{figure}
+\centering
+\includegraphics[width=0.85\textwidth,height=0.85\textwidth]{project_struct.png}
+\caption{Η εξάρτηση των αρχείων του πηγαίου κώδικα της εργασίας}
+\end{figure}
+
 \hypertarget{ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-1ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}{%
 \subsection{Γραμμική ανάλυση 1ης
 χρονοσειράς}\label{ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-1ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}}
@@ -283,12 +283,6 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 Για επιπλέον έλεγχο της διαδικασίας δημιουργήσαμε διαγράμματα τα οποία
 εμφανίζουν τα ακρότατα πάνω στην αρχική χρονοσειρά ως καρφιά
 \emph{jacks}. Αυτά φαίνονται και στο σχήμα {[}3{]}.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/jacks_1st.png}
-\caption{Μελέτη του φίλτου πριν την εξαγωγή των σειρών ακροτάτων}
-\end{figure}
 
 \hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b5ux3beux3b1ux3b3ux3c9ux3b3ux3aeux3c2-ux3baux3b1ux3b9-ux3b5ux3bbux3adux3b3ux3c7ux3bfux3c5-ux3c4ux3bfux3c5-ux3c0ux3afux3bdux3b1ux3baux3b1-ux3b1ux3baux3c1ux3bfux3c4ux3acux3c4ux3c9ux3bd}{%
 \paragraph{Κώδικας εξαγωγής και ελέγχου του πίνακα ακροτάτων
@@ -382,6 +376,12 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 
 \begin{figure}
 \centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/jacks_1st.png}
+\caption{Μελέτη του φίλτου πριν την εξαγωγή των σειρών ακροτάτων}
+\end{figure}
+
+\begin{figure}
+\centering
 \includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/AM_plot_1st.png}
 \caption{Χρονοσειρές πλάτους}
 \end{figure}
@@ -389,7 +389,7 @@ Surgery, Haukeland University Hospital, Bergen, Νορβηγία. Το πείρ�
 \begin{figure}
 \centering
 \includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/TM_plot_1st.png}
-\caption{Χρονοσειρές χρόνου}
+\caption{Χρονοσειρές χρόνου εμφάνισης μεγίστων}
 \end{figure}
 
 \hypertarget{ux3baux3c5ux3c1ux3afux3c9ux3c2-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7}{%
@@ -515,8 +515,33 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 \bottomrule
 \end{longtable}
 
-\hypertarget{aic-ux3b3ux3b9ux3b1-ux3c4ux3b1-ux3c5ux3c0ux3bfux3c8ux3aeux3c6ux3b9ux3b1-arma-ux3bcux3bfux3bdux3c4ux3adux3bbux3b1}{%
-\subsection{\texorpdfstring{\protect\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_AIC_AMA1.png}}{AIC για τα υποψήφια ARMA μοντέλα}}\label{aic-ux3b3ux3b9ux3b1-ux3c4ux3b1-ux3c5ux3c0ux3bfux3c8ux3aeux3c6ux3b9ux3b1-arma-ux3bcux3bfux3bdux3c4ux3adux3bbux3b1}}
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_AIC_AMA1.png}
+\caption{AIC για τα υποψήφια μοντέλα}
+\end{figure}
+
+~
+
+~
+
+~
+
+~
+
+~
+
+~
+
+~
+
+~
+
+~
+
+~
+
+~
 
 \hypertarget{ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3b3ux3b9ux3b1-ux3c4ux3b1-ar-ux3bcux3bfux3bdux3c4ux3adux3bbux3b1}{%
 \paragraph{Κώδικας για τα AR
@@ -649,12 +674,17 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 το διάγραμμα στο σχήμα {[}9{]} που παρουσιάζει κατά πόσο μπορεί να
 προβλέψει μελλοντικές τιμές της εισόδου.
 
-\hypertarget{ux3c0ux3c1ux3bfux3b2ux3bbux3adux3c8ux3b5ux3b9ux3c2-ux3c4ux3b9ux3bcux3ceux3bd-ux3b3ux3b9ux3b1-ux3c4ux3bf-ux3baux3b1ux3bbux3cdux3c4ux3b5ux3c1ux3bf-ux3bcux3bfux3bdux3c4ux3adux3bbux3bf}{%
-\subsection{\texorpdfstring{\protect\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_best_pred_AMA1.png}}{Προβλέψεις τιμών για το καλύτερο μοντέλο}}\label{ux3c0ux3c1ux3bfux3b2ux3bbux3adux3c8ux3b5ux3b9ux3c2-ux3c4ux3b9ux3bcux3ceux3bd-ux3b3ux3b9ux3b1-ux3c4ux3bf-ux3baux3b1ux3bbux3cdux3c4ux3b5ux3c1ux3bf-ux3bcux3bfux3bdux3c4ux3adux3bbux3bf}}
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/AR_best_pred_AMA1.png}
+\caption{Προβλέψεις τιμών για το καλύτερο μοντέλο}
+\end{figure}
 
 Από τα σφάλματα NRMSE βλέπουμε ότι οι προβλέψεις είναι κακές τόσο για
 βήμα T=1 όσο και για T=2. Για αυτό και η πρόβλεψη με χρήση της μέσης
 τιμής δίνει καλύτερα αποτελέσματα.
+
+~
 
 \hypertarget{tmi}{%
 \paragraph{TMI}\label{tmi}}
@@ -726,7 +756,7 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 \begin{figure}
 \centering
 \includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_AIC_TMI1.png}
-\caption{AIC για τα υποψήφια ARMA μοντέλα}
+\caption{AIC για τα υποψήφια μοντέλα}
 \end{figure}
 
 \begin{figure}
@@ -799,7 +829,7 @@ T=2. Γενικά καταλήγουμε πως αυτή η μέθοδος με�
 \begin{figure}
 \centering
 \includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/TM_plot_2nd.png}
-\caption{Χρονοσειρές χρόνου}
+\caption{Χρονοσειρές χρόνου χρόνου εμφάνισης μεγίστων}
 \end{figure}
 
 \hypertarget{ux3baux3c5ux3c1ux3afux3c9ux3c2-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3ae-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7-1}{%
@@ -862,7 +892,7 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 \begin{figure}
 \centering
 \includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_AIC_AMA2.png}
-\caption{AIC για τα υποψήφια ARMA μοντέλα}
+\caption{AIC για τα υποψήφια μοντέλα}
 \end{figure}
 
 Από τα σχήματα του AIC για τα υποψήφια μοντέλα, παρατηρούμε ότι το
@@ -938,7 +968,7 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 \begin{figure}
 \centering
 \includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/ARMA_AIC_TMI2.png}
-\caption{AIC για τα υποψήφια ARMA μοντέλα}
+\caption{AIC για τα υποψήφια μοντέλα}
 \end{figure}
 
 Από ότι βλέπουμε το καλύτερο μοντέλο που είναι και αρκετά απλό για να το
@@ -956,10 +986,14 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 χρονοσειρά. Επίσης, είναι καλύτερη από ότι η αντίστοιχη καλύτερη στην
 πρώτη χρονοσειρά.
 
+~
+
 Ο κώδικας του αρχείου \texttt{LINEAR2.m} για την υλοποίηση της ανάλυσης
 της δεύτερης χρονοσειράς δίνεται παρακάτω:
 
-Ο κώδικας του αρχείου \texttt{LINEAR2.m}:
+\hypertarget{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3c4ux3bfux3c5-ux3b1ux3c1ux3c7ux3b5ux3afux3bfux3c5-linear2.m}{%
+\paragraph{\texorpdfstring{Ο κώδικας του αρχείου
+\texttt{LINEAR2.m}:}{Ο κώδικας του αρχείου LINEAR2.m:}}\label{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3c4ux3bfux3c5-ux3b1ux3c1ux3c7ux3b5ux3afux3bfux3c5-linear2.m}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1083,7 +1117,7 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 
 \begin{figure}
 \centering
-\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/false_nearest_calc_plot_1st.png}
+\includegraphics[width=0.6\textwidth,height=0.5\textwidth]{../assets/false_nearest_calc_plot_1st.png}
 \caption{FNN}
 \end{figure}
 
@@ -1092,16 +1126,16 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 Διαγράμματα & Διασποράς &\tabularnewline
 \midrule
 \endhead
-\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_1st_with_tau_xM_1_2.png}
+\includegraphics[width=0.5\textwidth,height=0.55\textwidth]{../assets/scatter_1st_with_tau_xM_1_2.png}
 &
-\includegraphics[width=0.45\textwidth,height=0.45\textwidth]{../assets/scatter_1st_with_tau_xM_1-3.png}\tabularnewline
+\includegraphics[width=0.5\textwidth,height=0.55\textwidth]{../assets/scatter_1st_with_tau_xM_1-3.png}\tabularnewline
 \bottomrule
 \end{longtable}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/scatter_1st_with_tau_xM_1_4.png}
-\caption{47}
+\includegraphics[width=0.55\textwidth,height=0.55\textwidth]{../assets/scatter_1st_with_tau_xM_1_4.png}
+\caption{Διάγραμμα διασποράς για υστέρηση τ=4}
 \end{figure}
 
 Τελικά, διαλέγουμε διάσταση εμβύθισης \(m=3\) χρησιμοποιώντας τη μέθοδο
@@ -1127,7 +1161,7 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 είναι να δούμε την προβλεπτική του ικανότητα. Αυτή θα τη δούμε
 χρησιμοποιώντας κάποιο κατάλληλο τοπικό μοντέλο που βασίζεται σε
 κοντινότερους γείτονες. Η πρόβλεψη γίνεται για 1 έως και 10 βήματα
-μπροστά στο Σχήμα {[}25{]} χρησιμοποιώντας τους 3 κοντινότερους
+μπροστά στο Σχήμα {[}29{]} χρησιμοποιώντας τους 3 κοντινότερους
 γείτονες. Ως σφάλμα πρόβλεψης χρησιμοποιούμε το NRMSE, ώστε να
 μπορέσουμε να συγκρίνουμε και με τα γραμμικά μοντέλα.
 
@@ -1145,13 +1179,23 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 να βρει μόνο τα χρόνο εμφάνισης του ακρότατου για T=1 με αρκετά υψηλό
 σφάλμα, εδώ η πρόβλεψη μπορεί να βρει ουσιαστικά και τα δύο με
 τουλάχιστον υποτετραπλάσιο σφάλμα για T=1. Επίσης, η πρόβλεψη είναι
-καλύτερη από την χρήση μέσης τιμής για μέχρι και 6 βήματα. Ο ασθενής σε
+καλύτερη από την χρήση μέσης τιμής για μέχρι και 6 βήματα. To άτομο σε
 αυτή την περίπτωση φαίνεται να είναι ασθενής λόγω των μικρών τιμών της
 διάστασης υστέρησης σε σχέση με τη δεύτερη χρονοσειρά(θα δειχθεί
 παρακάτω) και το σύστημα είναι χαμηλής διάστασης και μικρής
-πολυπλοκότητας (\(m=3\), \(k=3\), \(q=1\)), ωστόσο το ότι δεν
-παρουσιάζει τοπικό ελάχιστο στη συνάρτηση αμοιβαίας πληροφορίας δείχνει
-???????.
+πολυπλοκότητας (\(m=3\), \(k=3\), \(q=1\)).
+
+~
+
+~
+
+~
+
+~
+
+~
+
+~
 
 \hypertarget{ux3bf-ux3baux3ceux3b4ux3b9ux3baux3b1ux3c2-ux3bcux3b7-ux3b3ux3c1ux3b1ux3bcux3bcux3b9ux3baux3aeux3c2-ux3b1ux3bdux3acux3bbux3c5ux3c3ux3b7ux3c2-ux3c4ux3b7ux3c2-1ux3b7ux3c2-ux3c7ux3c1ux3bfux3bdux3bfux3c3ux3b5ux3b9ux3c1ux3acux3c2}{%
 \subsubsection{Ο κώδικας μη-γραμμικής ανάλυσης της 1ης
@@ -1382,7 +1426,7 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 Επειδή δε φαίνεται να μπορέσουμε να καταλήξουμε κάπου και επειδή μπορεί
 η υστέρηση να είναι αρκετά μεγάλη σε τιμή δοκιμάζουμε να κάνουμε το
 διάγραμμα της συνάρτησης αμοιβαίας πληροφορίας. Αυτό φαίνεται στο σχήμα
-{[}26{]}.
+{[}30{]}.
 
 \begin{figure}
 \centering
@@ -1399,7 +1443,7 @@ AIC για τα υποψήφια AR μοντέλα & AIC για τα υποψή�
 
 Στη συνέχεια προχωράμε στην αναζήτηση της διάστασης εμβύθισης. Αρχικά
 για να τη βρούμε κάνουμε το διάγραμμα ψευδών γειτόνων. Αυτό φαίνεται στο
-σχήμα {[}27{]}.
+σχήμα {[}31{]}.
 
 \begin{figure}
 \centering
@@ -1427,7 +1471,7 @@ FNN, αλλά κάνουμε και τα διαγράμματα διασπορά
 \begin{figure}
 \centering
 \includegraphics[width=0.75\textwidth,height=0.75\textwidth]{../assets/scatter_2nd_with_tau_xM_1_4.png}
-\caption{67}
+\caption{Διάγραμμα διασποράς για υστέρηση τ=4}
 \end{figure}
 
 Από τα τελευταία αυτά διαγράμματα διασποράς, βλέπουμε ότι η τιμή \(m=3\)
@@ -1460,7 +1504,7 @@ FNN, αλλά κάνουμε και τα διαγράμματα διασπορά
 είναι να δούμε την προβλεπτική του ικανότητα. Αυτή θα τη δούμε
 χρησιμοποιώντας κάποιο κατάλληλο τοπικό μοντέλο που βασίζεται σε
 κοντινότερους γείτονες. Η πρόβλεψη γίνεται για 1 έως και 10 βήματα
-μπροστά στο σχήμα {[}30{]} χρησιμοποιώντας τους 3 κοντινότερους
+μπροστά στο σχήμα {[}34{]} χρησιμοποιώντας τους 3 κοντινότερους
 γείτονες. Ως σφάλμα πρόβλεψης χρησιμοποιούμε το NRMSE, ώστε να
 μπορέσουμε να συγκρίνουμε και με τα γραμμικά μοντέλα, όπως και με τη μη
 γραμμική ανάλυση της δεύτερης χρονοσειράς.

@@ -18,4 +18,5 @@ biblio-style: apsr
 endnote: no
 header-includes:
   \renewcommand{\abstractname}{Εισαγωγή}
+  \renewcommand{\figurename}{Σχήμα}
 ---

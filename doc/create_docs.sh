@@ -11,3 +11,4 @@ cat nonlinear_2.md >> report.md
 pandoc report.md -f markdown -s -o report.tex --pdf-engine=xelatex --variable mainfont="CMU Serif" --variable sansfont="CMU Sans Serif"
 pandoc report.md -f markdown -s -o report.pdf --pdf-engine=xelatex --variable mainfont="CMU Serif" --variable sansfont="CMU Sans Serif"
 # rm report.md
+mv report.pdf ../
